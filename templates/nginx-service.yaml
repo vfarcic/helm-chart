@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "shipa.fullname" . }}-ingress-nginx
+  labels:
+    app: {{ template "shipa.name" . }}
+    chart: {{ template "shipa.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+    app.kubernetes.io/name: {{ template "shipa.fullname" . }}-ingress-nginx
+    app.kubernetes.io/part-of: {{ template "shipa.fullname" . }}-ingress-nginx
+spec:
+  type: LoadBalancer
+  {{- if .Values.service.nginx.loadBalancerIP }}
+  loadBalancerIP: "{{ .Values.service.nginx.loadBalancerIP }}"
+  {{- end }}
+  selector:
+    app.kubernetes.io/name: {{ template "shipa.fullname" . }}-ingress-nginx
+    app.kubernetes.io/part-of: {{ template "shipa.fullname" . }}-ingress-nginx
+  ports:
+    - port: 22
+      name: guardian
+      targetPort: 22
+      protocol: TCP
+    - port: 5000
+      name: registry
+      targetPort: 5000
+      protocol: TCP
+    - port: 8080
+      name: shipa
+      targetPort: 8080
+      protocol: TCP
+    - port: 9090
+      name: prometheus
+      targetPort: 9090
+      protocol: TCP
+    - port: 9091
+      name: pushgateway
+      targetPort: 9091
+      protocol: TCP

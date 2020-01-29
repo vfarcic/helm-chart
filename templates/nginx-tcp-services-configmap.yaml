@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "shipa.fullname" . }}-nginx-tcp-services
+data:
+  22: "default/{{ include "shipa.fullname" . }}-guardian:22"
+  5000: "default/{{ include "shipa.fullname" . }}-docker-registry:5000"
+  8080: "default/{{ include "shipa.fullname" . }}-api:8080"
+  9090: "default/{{ include "shipa.fullname" . }}-metrics:9090"
+  9091: "default/{{ include "shipa.fullname" . }}-metrics:9091"

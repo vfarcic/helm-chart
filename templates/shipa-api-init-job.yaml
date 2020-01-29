@@ -1,0 +1,58 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-init-job-{{ .Release.Revision }}"
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": "hook-succeeded,before-hook-creation"
+  labels:
+    chart: {{ template "shipa.chart" . }}
+    app: {{ template "shipa.name" . }}
+spec:
+  backoffLimit: 5
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-init-job-{{ .Release.Revision }}"
+      labels:
+        app: {{ template "shipa.name" . }}
+        chart: {{ template "shipa.chart" . }}
+    spec:
+      {{- if .Values.rbac.enabled }}
+      serviceAccountName: {{ template "shipa.fullname" . }}
+      {{- else }}
+      serviceAccountName: default
+      {{- end }}
+      restartPolicy: Never
+      containers:
+        - name: migrations
+          image: {{ .Values.cli.image }}
+          command:
+            - /init/init-job.sh
+          imagePullPolicy: {{ .Values.cli.pullPolicy }}
+          env:
+            - name: SHIPA_ENDPOINT
+              value: "{{ .Release.Name }}-api:{{ .Values.service.port }}"
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-api-init-secret
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-api-init-secret
+                  key: password
+            - name: TRAEFIK_SERVICE
+              value: {{ template "shipa.fullname" . }}-traefik
+            - name: NGINX_SERVICE
+              value: {{ template "shipa.fullname" . }}-ingress-nginx
+            - name: DASHBOARD_IMAGE
+              value: {{ .Values.dashboard.image }}
+          volumeMounts:
+            - name: init
+              mountPath: /init
+      volumes:
+        - name: init
+          configMap:
+            defaultMode: 0755
+            name: {{ template "shipa.fullname" . }}-api-init-config

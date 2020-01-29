@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "shipa.fullname" . }}-traefik
+  labels:
+    app: {{ template "shipa.name" . }}
+    chart: {{ template "shipa.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+spec:
+  type: LoadBalancer
+{{- if .Values.service.traefik.loadBalancerIP }}
+  loadBalancerIP: "{{ .Values.service.traefik.loadBalancerIP }}"
+{{- end }}
+  selector:
+    name: traefik
+  ports:
+    - port: 80
+      name: http
+      targetPort: 80
+      protocol: TCP
+    - port: 443
+      name: https
+      targetPort: 443
+      protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "shipa.fullname" . }}-traefik-internal
+  labels:
+    app: {{ template "shipa.name" . }}
+    chart: {{ template "shipa.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+spec:
+  type: ClusterIP
+  selector:
+    name: traefik
+  ports:
+    - port: 9095
+      name: traefik
+      targetPort: 9095
+      protocol: TCP

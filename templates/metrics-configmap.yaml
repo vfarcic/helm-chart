@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "shipa.fullname" . }}-metrics-config
+  labels:
+    app: {{ template "shipa.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  prometheus.yml: |-
+    global:
+      scrape_interval: 10s
+
+    scrape_configs:
+      - job_name: "pushgateway"
+        honor_labels: true
+        scheme: http
+        static_configs:
+          - targets: ['127.0.0.1:9093']
+            labels:
+              source: pushgateway
+
+      - job_name: "traefik"
+        honor_labels: true
+        scheme: http
+        static_configs:
+          - targets: ['{{ template "shipa.fullname" . }}-traefik-internal.default:9095']

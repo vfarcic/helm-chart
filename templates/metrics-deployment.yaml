@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "shipa.fullname" . }}-metrics
+  labels:
+    name: {{ include "shipa.fullname" . }}-metrics
+spec:
+  selector:
+    matchLabels:
+      name: {{ include "shipa.fullname" . }}-metrics
+  template:
+    metadata:
+      labels:
+        name: {{ include "shipa.fullname" . }}-metrics
+    spec:
+      containers:
+        - name: metrics
+          image: "shipasoftware/metrics:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: prometheus
+              containerPort: 9090
+              protocol: TCP
+            - name: pushgateway
+              containerPort: 9091
+              protocol: TCP
+          env:
+            - name: MONGODB_ADDR
+              value: {{ include "shipa.fullname" . }}-mongodb-replicaset
+            - name: MONGODB_PORT
+              value: "27017"
+          volumeMounts:
+            - name: "{{ template "shipa.fullname" . }}-metrics-config"
+              mountPath: /etc/prometheus/
+      volumes:
+        - name: {{ template "shipa.fullname" . }}-metrics-config
+          configMap:
+            name: {{ template "shipa.fullname" . }}-metrics-config
+            items:
+                - key: prometheus.yml
+                  path: prometheus.yml

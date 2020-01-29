@@ -1,0 +1,99 @@
+# Default values for shipa.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+auth:
+  adminUser: admin@shipa.io
+  #adminPassword: shipa2020
+
+shipaApi:
+  image: gcr.io/shipa-1000/shipad:helm-chart
+  pullPolicy: Always
+
+dashboard:
+  image: shipasoftware/dashboard:latest
+
+guardian:
+  image: gcr.io/shipa-1000/guardian:helm-chart
+  pullPolicy: Always
+  persistence:
+    enabled: true
+    accessMode: 'ReadWriteOnce'
+    size: 10Gi
+
+cli:
+  image: gcr.io/shipa-1000/shipa-client:helm-chart
+  pullPolicy: Always
+
+
+# --------------------------------------------------------------------------
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+rbac:
+  enabled: true
+
+service:
+  port: 8080
+  traefik:
+    enable: true
+#    loadBalancerIP: 104.154.157.13
+  nginx:
+    enabled: true
+#    loadBalancerIP: 35.202.88.71
+
+mongodb-replicaset:
+  replicaSetName: rs0
+  replicas: 1
+  port: 27017
+  auth:
+    enabled: false
+  installImage:
+    name: k8s.gcr.io/mongodb-install
+    tag: 0.6
+    pullPolicy: IfNotPresent
+  image:
+    name: mongo
+    tag: latest
+    pullPolicy: IfNotPresent
+  persistentVolume:
+    enabled: false
+  tls:
+    enabled: false
+  configmap:
+
+
+docker-registry:
+  tlsSecretName: shipa-certificates
+  configData:
+    version: 0.1
+    log:
+      fields:
+        service: registry
+    storage:
+      cache:
+        blobdescriptor: inmemory
+    http:
+      addr: :5000
+      headers:
+        X-Content-Type-Options: [nosniff]
+    health:
+      storagedriver:
+        enabled: true
+        interval: 10s
+        threshold: 3
+    auth:
+      token:
+        realm: http://shipa-api.default:8080/docker-auth
+        service: shipa-registry
+        issuer: shipa-token-issuer
+        rootcertbundle: /etc/ssl/docker/ca.pem

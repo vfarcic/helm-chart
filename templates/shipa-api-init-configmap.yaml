@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "shipa.fullname" . }}-api-init-config
+  labels:
+    {{- include "shipa.labels" . | nindent 4 }}
+data:
+  common.sh: |
+{{ .Files.Get "init/common.sh" | indent 4 }}
+  create-root-user.sh: |
+{{ .Files.Get "init/create-root-user.sh" | indent 4 }}
+  init-job.sh: |
+{{ .Files.Get "init/init-job.sh" | indent 4 }}
+  bootstrap.sh: |
+{{ .Files.Get "init/bootstrap.sh" | indent 4 }}
+  gencerts.sh: |
+{{ .Files.Get "init/gencerts.sh" | indent 4 }}
+  csr-docker-cluster.json: |
+{{ .Files.Get "init/csr-docker-cluster.json" | indent 4 }}
+  csr-docker-registry.json: |
+{{ .Files.Get "init/csr-docker-registry.json" | indent 4 }}
+  csr-shipa-ca.json: |
+{{ .Files.Get "init/csr-shipa-ca.json" | indent 4 }}

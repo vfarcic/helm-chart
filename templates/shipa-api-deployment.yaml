@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "shipa.fullname" . }}-api
+  labels:
+    {{- include "shipa.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "shipa.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "shipa.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.rbac.enabled }}
+      serviceAccountName: {{ template "shipa.fullname" . }}
+      {{- else }}
+      serviceAccountName: default
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: bootstrap
+          image: {{ .Values.cli.image }}
+          command:
+            - /init/bootstrap.sh
+          imagePullPolicy: {{ .Values.cli.pullPolicy }}
+          volumeMounts:
+            - name: init
+              mountPath: /init
+            - name: shipa-conf
+              mountPath: /etc/shipa-default/
+            - name: config-dir
+              mountPath: /etc/shipa/
+          env:
+            - name: TRAEFIK_SERVICE
+              value: {{ template "shipa.fullname" . }}-traefik
+            - name: NGINX_SERVICE
+              value: {{ template "shipa.fullname" . }}-ingress-nginx
+            - name: REGISTRY_SERVICE
+              value: {{ template "shipa.fullname" . }}-docker-registry
+        - name: init
+          image: {{ .Values.shipaApi.image }}
+          command:
+            - /init/create-root-user.sh
+          imagePullPolicy: {{ .Values.shipaApi.pullPolicy }}
+          volumeMounts:
+            - name: init
+              mountPath: /init
+            - name: config-dir
+              mountPath: /etc/shipa/
+            - name: certificates
+              mountPath: /certs/
+          env:
+          - name: USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-api-init-secret
+                key: username
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-api-init-secret
+                key: password
+          - name: TRAEFIK_SERVICE
+            value: {{ template "shipa.fullname" . }}-traefik
+          - name: NGINX_SERVICE
+            value: {{ template "shipa.fullname" . }}-ingress-nginx
+          - name: GUARDIAN_SERVICE
+            value: {{ template "shipa.fullname" . }}-guardian
+      containers:
+        - name: shipa
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: {{ .Values.shipaApi.image }}
+          imagePullPolicy: {{ .Values.shipaApi.pullPolicy }}
+          env:
+            - name: METRICS_PASSWORD
+              value: "bingo"
+          ports:
+            - name: shipa
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.port }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.port }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config-dir
+              mountPath: /etc/shipa/
+            - name: certificates
+              mountPath: /certs/
+      volumes:
+        - name: config-dir
+          emptyDir: {}
+        - name: shipa-conf
+          configMap:
+            name: {{ template "shipa.fullname" . }}-api-config
+            items:
+              - key: shipa.conf
+                path: shipa.conf
+        - name: certificates
+          secret:
+            secretName: shipa-certificates
+        - name: init
+          configMap:
+            defaultMode: 0755
+            name: {{ template "shipa.fullname" . }}-api-init-config

@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "shipa.fullname" . }}-traefik-config
+  labels:
+    app: {{ template "shipa.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  traefik.toml: |-
+    defaultEntryPoints = ["http"]
+    accessLogsFile = "/dev/stdout"
+    debug = true
+    [metrics]
+      [metrics.prometheus]
+        entryPoint = "traefik"
+        buckets = [0.1,0.3,0.7,1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0]
+
+    [entryPoints]
+      [entryPoints.http]
+      address = ":80"
+      [entryPoints.https]
+      address = ":443"
+        [entryPoints.https.tls]
+          insecureSkipVerify = true
+      [entryPoints.traefik]
+      address = ":9095"
+
+    [acme]
+    email = "{{ .Values.auth.adminUser }}"
+    storage = "acme/account/tls"
+    onHostRule = true
+    entryPoint = "https"
+      [acme.httpChallenge]
+      entryPoint = "http"
+
+    [etcd]
+    endpoint = "{{ template "shipa.name" . }}-etcd:2379"
+    watch = true
+    prefix = "/traefik"
+    useAPIv3 = true

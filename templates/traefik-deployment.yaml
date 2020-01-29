@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "shipa.fullname" . }}-traefik
+  labels:
+    app: {{ template "shipa.fullname" . }}-traefik
+spec:
+  selector:
+    matchLabels:
+      name: traefik
+  template:
+    metadata:
+      labels:
+        name: traefik
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-traefik
+          image: "traefik:v1.7.18-alpine"
+          command:
+            - traefik
+            - --configfile=/etc/traefik/traefik.toml
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+            - name: traefik
+              containerPort: 9095
+              protocol: TCP
+          volumeMounts:
+            - name: certificates
+              mountPath: /certs/
+            - name: "{{ template "shipa.fullname" . }}-traefik-config"
+              mountPath: /etc/traefik/
+      volumes:
+        - name: certificates
+          secret:
+            secretName: shipa-certificates
+        - name: {{ template "shipa.fullname" . }}-traefik-config
+          configMap:
+            name: {{ template "shipa.fullname" . }}-traefik-config
+            items:
+              - key: traefik.toml
+                path: traefik.toml

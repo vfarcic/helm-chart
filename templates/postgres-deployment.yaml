@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "shipa.fullname" . }}-postgres
+  labels:
+    name: {{ include "shipa.fullname" . }}-postgres
+spec:
+  selector:
+    matchLabels:
+      name: {{ include "shipa.fullname" . }}-postgres
+  template:
+    metadata:
+      labels:
+        name: {{ include "shipa.fullname" . }}-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: postgres
+              containerPort: 5432
+              protocol: TCP

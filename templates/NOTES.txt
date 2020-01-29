@@ -1,0 +1,13 @@
+1. Configured default user:
+
+Username: {{ .Values.auth.adminUser }}
+Password: {{ .Values.auth.adminPassword }}
+
+2. Set default target for shipa-client:
+
+export SHIPA_HOST=$(kubectl get svc {{ .Release.Name }}-ingress-nginx  -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+shipa target-add {{ .Release.Name }} http://$SHIPA_HOST:8080 -s
+
+shipa login {{ .Values.auth.adminUser }}
+shipa node-list
+shipa app-list

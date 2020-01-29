@@ -1,0 +1,15 @@
+{
+  "CN": "Shipa docker cluster",
+  "hosts": [
+    "SHIPA_PUBLIC_IP"
+  ],
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "O": "Shipa"
+    }
+  ]
+}

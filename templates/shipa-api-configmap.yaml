@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "shipa.fullname" . }}-api-config
+  labels:
+    app: {{ template "shipa.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  shipa.conf: |-
+    listen: "0.0.0.0:{{ .Values.service.port}}"
+    host: http://SHIPA_PUBLIC_IP:{{ .Values.service.port}}
+    shipa-server-ip: SHIPA_PUBLIC_IP
+    use-tls: false
+    repo-manager: guardian
+    database:
+      url: {{ .Release.Name }}-mongodb-replicaset:27017
+      name: shipa
+    auth:
+      token-expire-days: 2
+      hash-cost: 4
+      user-registration: true
+    provisioner: kubernetes
+    platforms:
+      build-pool: theonepool
+    docker:
+      bb:
+        socket: /var/run/docker.sock
+        metrics-password: $METRICS_PASSWORD
+      cluster:
+        storage: mongodb
+        mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
+        mongo-database: cluster
+      collection: docker
+      registry: SHIPA_PUBLIC_IP:5000
+      registry-scheme: https
+      registry-auth:
+        username: bingo
+        password: bingo
+      registry-token-signer:
+        key-file: /certs/ca-key.pem
+        cert-file: /certs/ca.pem
+      repository-namespace: shipa
+      router: traefik
+      deploy-cmd: /var/lib/shipa/deploy
+      run-cmd:
+        bin: /var/lib/shipa/start
+        port: "8888"
+      tls:
+        root-path: /certs
+      auto-scale:
+        enabled: true
+        run-interval: $DOCKER_AUTOSCALE_RUN_INTERVAL
+    routers:
+      traefik:
+        type: traefik
+        domain: TRAEFIK_IP.nip.io
+        kv:
+          prefix: traefik
+          store-type: etcdv3
+          endpoint: {{ .Release.Name }}-etcd:2379
+    queue:
+      mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
+      mongo-database: queuedb
+    quota:
+      units-per-app: 4
+      apps-per-user: 8
+    log:
+      disable-syslog: true
+      use-stderr: true
+    git:
+      api-server: http://{{ template "shipa.fullname" . }}-guardian:8000
+    clair:
+      server: http://{{ template "shipa.fullname" . }}-clair:6060
+      disable: false
+    debug: true

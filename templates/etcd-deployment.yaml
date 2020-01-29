@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-etcd
+  labels:
+    name: etcd
+spec:
+  selector:
+    matchLabels:
+      name: etcd
+  template:
+    metadata:
+      labels:
+        name: etcd
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-etcd
+          image: "quay.io/coreos/etcd:v3.3.17"
+          command: ['/usr/local/bin/etcd',
+                    '--debug',
+                    '--listen-client-urls', 'http://0.0.0.0:2379',
+                    '--data-dir=/var/etcd/data',
+                    '--advertise-client-urls', 'http://0.0.0.0:2379']
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 2379
+              protocol: TCP
+          env:
+            - name: ETCDCTL_API
+              value: "3"
