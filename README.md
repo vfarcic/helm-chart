@@ -24,8 +24,18 @@ There is no hardcoded password for admin user so `--set=auth.adminPassword=....`
 # Installation
 
 ```bash
+
+helm version
+
+#  Version 2 of helm uses Tiller to create workloads and thus requires two additional steps: 
+# run this commond only if you use Helm 2
+helm init
+kubectl create clusterrolebinding kube-system-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default
+
 git clone https://github.com/shipa-corp/helm-chart
 cd helm-chart
+
+kubectl apply -f limits.yaml
 
 # to successfully deploy shipa resources like DaemonSets to run busybody/netdata, pods to build platforms and so on
 # we should label nodes (at least one)
@@ -34,5 +44,5 @@ kubectl label $(kubectl get nodes -o name) "shipa.io/pool=theonepool" --overwrit
 helm dep up 
 
 # Please don't change "shipa" chart name for now
-helm install shipa . --timeout=15m --set=auth.adminPassword=shipa2020
+helm install . --name=shipa --timeout=1000 --set=auth.adminPassword=shipa2020
 ```
