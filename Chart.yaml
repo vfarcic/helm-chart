@@ -4,10 +4,3 @@ description:  A Helm chart for Kubernetes to install Shipa
 type: application
 version: 0.1.0
 appVersion: 1.0.29
-dependencies:
-  - name: docker-registry
-    version: 1.9.1
-    repository: https://kubernetes-charts.storage.googleapis.com
-  - name: mongodb-replicaset
-    version: 3.11.3
-    repository: https://kubernetes-charts.storage.googleapis.com

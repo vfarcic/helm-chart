@@ -1,0 +1,7 @@
+dependencies:
+  - name: docker-registry
+    version: 1.9.1
+    repository: https://kubernetes-charts.storage.googleapis.com
+  - name: mongodb-replicaset
+    version: 3.11.3
+    repository: https://kubernetes-charts.storage.googleapis.com
