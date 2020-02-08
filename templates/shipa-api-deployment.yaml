@@ -2,8 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "shipa.fullname" . }}-api
-  labels:
-    {{- include "shipa.labels" . | nindent 4 }}
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -40,6 +39,10 @@ spec:
               value: {{ template "shipa.fullname" . }}-ingress-nginx
             - name: REGISTRY_SERVICE
               value: {{ template "shipa.fullname" . }}-docker-registry
+            - name: TRAEFIK_SERVICE_TYPE
+              value: {{ .Values.service.traefik.serviceType }}
+            - name: NGINX_SERVICE_TYPE
+              value: {{ .Values.service.nginx.serviceType }}
         - name: init
           image: {{ .Values.shipaApi.image }}
           command:
@@ -56,12 +59,12 @@ spec:
           - name: USERNAME
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-api-init-secret
+                name: {{ template "shipa.fullname" . }}-api-init-secret
                 key: username
           - name: PASSWORD
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-api-init-secret
+                name: {{ template "shipa.fullname" . }}-api-init-secret
                 key: password
           - name: TRAEFIK_SERVICE
             value: {{ template "shipa.fullname" . }}-traefik
@@ -69,6 +72,14 @@ spec:
             value: {{ template "shipa.fullname" . }}-ingress-nginx
           - name: GUARDIAN_SERVICE
             value: {{ template "shipa.fullname" . }}-guardian
+          - name: TRAEFIK_SERVICE_TYPE
+            value: {{ .Values.service.traefik.serviceType }}
+          - name: NGINX_SERVICE_TYPE
+            value: {{ .Values.service.nginx.serviceType }}
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
       containers:
         - name: shipa
           securityContext:

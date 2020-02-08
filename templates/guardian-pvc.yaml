@@ -3,11 +3,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ template "shipa.fullname" . }}-guardian-pvc
-  labels:
-    app: {{ template "shipa.fullname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   accessModes:
     - {{ .Values.guardian.persistence.accessMode | quote }}

@@ -2,12 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: "{{ .Release.Name }}-init-job-{{ .Release.Revision }}"
-  annotations:
-    "helm.sh/hook": post-install
-    "helm.sh/hook-delete-policy": "hook-succeeded,before-hook-creation"
-  labels:
-    chart: {{ template "shipa.chart" . }}
-    app: {{ template "shipa.name" . }}
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   backoffLimit: 5
   template:
@@ -17,6 +12,7 @@ spec:
         app: {{ template "shipa.name" . }}
         chart: {{ template "shipa.chart" . }}
     spec:
+      terminationGracePeriodSeconds: 3
       {{- if .Values.rbac.enabled }}
       serviceAccountName: {{ template "shipa.fullname" . }}
       {{- else }}
@@ -46,8 +42,16 @@ spec:
               value: {{ template "shipa.fullname" . }}-traefik
             - name: NGINX_SERVICE
               value: {{ template "shipa.fullname" . }}-ingress-nginx
+            - name: TRAEFIK_SERVICE_TYPE
+              value: {{ .Values.service.traefik.serviceType }}
+            - name: NGINX_SERVICE_TYPE
+              value: {{ .Values.service.nginx.serviceType }}
             - name: DASHBOARD_IMAGE
               value: {{ .Values.dashboard.image }}
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           volumeMounts:
             - name: init
               mountPath: /init

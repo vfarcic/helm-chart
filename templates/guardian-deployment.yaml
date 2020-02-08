@@ -2,22 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "shipa.fullname" . }}-guardian
-  labels:
-    name: guardian
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: guardian
+      name: {{ include "shipa.fullname" . }}-guardian
   template:
     metadata:
       labels:
-        name: guardian
+        name: {{ include "shipa.fullname" . }}-guardian
     spec:
       terminationGracePeriodSeconds: 3
       containers:
-        - name: {{ include "shipa.fullname" . }}-guardian
-          image: {{ .Values.guardian.image | quote }}
+        - name: guardian
+          image: {{ .Values.guardian.image }}
           imagePullPolicy: Always
           ports:
             - name: web
@@ -32,7 +31,7 @@ spec:
             - name: MONGODB_PORT
               value: "27017"
             - name: SHIPA_HOST
-              value: "http://{{ include "shipa.fullname" . }}-api.default:8080"
+              value: "http://{{ include "shipa.fullname" . }}-api.{{ .Release.Namespace }}:8080"
             - name: SHIPA_USER
               value: {{ required "Admin username required" .Values.auth.adminUser }}
           volumeMounts:

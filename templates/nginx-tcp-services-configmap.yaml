@@ -2,9 +2,10 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: {{ include "shipa.fullname" . }}-nginx-tcp-services
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 data:
-  22: "default/{{ include "shipa.fullname" . }}-guardian:22"
-  5000: "default/{{ include "shipa.fullname" . }}-docker-registry:5000"
-  8080: "default/{{ include "shipa.fullname" . }}-api:8080"
-  9090: "default/{{ include "shipa.fullname" . }}-metrics:9090"
-  9091: "default/{{ include "shipa.fullname" . }}-metrics:9091"
+  22: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-guardian:22"
+  5000: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-docker-registry:5000"
+  8080: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-api:8080"
+  9090: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-metrics:9090"
+  9091: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-metrics:9091"

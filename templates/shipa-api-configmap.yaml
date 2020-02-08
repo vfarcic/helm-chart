@@ -2,11 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ template "shipa.fullname" . }}-api-config
-  labels:
-    app: {{ template "shipa.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 data:
   shipa.conf: |-
     listen: "0.0.0.0:{{ .Values.service.port}}"
@@ -59,7 +55,7 @@ data:
         kv:
           prefix: traefik
           store-type: etcdv3
-          endpoint: {{ .Release.Name }}-etcd:2379
+          endpoint: {{ template "shipa.fullname" . }}-etcd:2379
     queue:
       mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
       mongo-database: queuedb
@@ -74,4 +70,6 @@ data:
     clair:
       server: http://{{ template "shipa.fullname" . }}-clair:6060
       disable: false
+    kubernetes:
+      use-pool-namespaces: false
     debug: true

@@ -7,9 +7,28 @@ auth:
   adminUser: admin@shipa.io
   #adminPassword: shipa2020
 
+#production: false
+
 shipaApi:
   image: gcr.io/shipa-1000/shipad:helm-chart
   pullPolicy: Always
+
+service:
+  port: 8080
+  traefik:
+    enable: true
+#    serviceType: ClusterIP
+    serviceType: LoadBalancer
+#    clusterIP: 10.100.188.11
+  #    loadBalancerIP: 104.154.157.13
+  nginx:
+    enabled: true
+    serviceType: LoadBalancer
+#    serviceType: ClusterIP
+#    clusterIP: 10.100.188.10
+#    loadBalancerIP: 35.202.88.71
+
+disableMigrations: true
 
 dashboard:
   image: shipasoftware/dashboard:latest
@@ -42,14 +61,6 @@ serviceAccount:
 rbac:
   enabled: true
 
-service:
-  port: 8080
-  traefik:
-    enable: true
-#    loadBalancerIP: 104.154.157.13
-  nginx:
-    enabled: true
-#    loadBalancerIP: 35.202.88.71
 
 mongodb-replicaset:
   replicaSetName: rs0

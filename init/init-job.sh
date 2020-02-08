@@ -7,7 +7,7 @@ set_public_ips
 echo "Waiting for shipa api"
 
 until $(curl --output /dev/null --silent http://$SHIPA_ENDPOINT); do
-    printf '.'
+    echo "."
     sleep 2
 done
 
@@ -26,8 +26,24 @@ TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
 CACERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 ADDR=$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
 
-$SHIPA_CLIENT cluster-add theonepool kubernetes --pool=theonepool --cacert=$CACERT --addr=$ADDR --custom="token=$TOKEN"
+$SHIPA_CLIENT cluster-add theonepool kubernetes --pool=theonepool \
+  --cacert=$CACERT \
+  --addr=$ADDR \
+  --custom="token=$TOKEN" \
+  --custom="namespace=$POD_NAMESPACE"
 $SHIPA_CLIENT role-add NodeContainer pool
+$SHIPA_CLIENT role-add ShipaUser global
+$SHIPA_CLIENT role-permission-add ShipaUser pool.create
+$SHIPA_CLIENT role-permission-add ShipaUser team.create
+$SHIPA_CLIENT role-add TeamAdmin team
+$SHIPA_CLIENT role-permission-add TeamAdmin team
+$SHIPA_CLIENT role-permission-add TeamAdmin app
+$SHIPA_CLIENT role-add PoolAdmin pool
+$SHIPA_CLIENT role-permission-add PoolAdmin pool
+$SHIPA_CLIENT role-permission-add PoolAdmin node
+$SHIPA_CLIENT role-default-add --team-create TeamAdmin
+$SHIPA_CLIENT role-default-add --pool-add PoolAdmin
+$SHIPA_CLIENT role-default-add --user-create ShipaUser
 $SHIPA_CLIENT role-permission-add NodeContainer app.metrics.write
 $SHIPA_CLIENT role-permission-add NodeContainer app.update.log
 $SHIPA_CLIENT role-permission-add NodeContainer pool.metrics.write

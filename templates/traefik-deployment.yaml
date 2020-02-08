@@ -2,19 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "shipa.fullname" . }}-traefik
-  labels:
-    app: {{ template "shipa.fullname" . }}-traefik
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      name: traefik
+      name: {{ template "shipa.fullname" . }}-traefik
   template:
     metadata:
       labels:
-        name: traefik
+        name: {{ template "shipa.fullname" . }}-traefik
     spec:
       containers:
-        - name: {{ .Release.Name }}-traefik
+        - name: traefik
           image: "traefik:v1.7.18-alpine"
           command:
             - traefik

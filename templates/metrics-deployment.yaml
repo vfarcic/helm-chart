@@ -2,8 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "shipa.fullname" . }}-metrics
-  labels:
-    name: {{ include "shipa.fullname" . }}-metrics
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:

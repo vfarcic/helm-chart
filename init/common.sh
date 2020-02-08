@@ -4,10 +4,9 @@ wait_public_ip() {
     SERVICE_TYPE=$1;
     SERVICE_NAME=$2;
 
-    if [ "${SERVICE_TYPE:-}" == "NodePort" ]; then
-      NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services $SERVICE_NAME)
-      NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
-      echo $NODE_IP:$NODE_PORT
+    if [ "${SERVICE_TYPE:-}" == "ClusterIP" ]; then
+      ClusterIP=$(kubectl get svc $SERVICE_NAME -o jsonpath="{.spec.clusterIP}")
+      echo $ClusterIP
     else
       external_ip=""
       while [ -z $external_ip ]; do
@@ -20,11 +19,11 @@ wait_public_ip() {
 
 set_public_ips() {
   echo "Waiting for traefik to be ready"
-  TRAEFIK_ADDRESS=$(wait_public_ip LoadBalancer $TRAEFIK_SERVICE)
+  TRAEFIK_ADDRESS=$(wait_public_ip $TRAEFIK_SERVICE_TYPE $TRAEFIK_SERVICE)
   echo "shipa address: $TRAEFIK_ADDRESS"
 
   echo "Waiting for nginx ingress to be ready"
-  NGINX_ADDRESS=$(wait_public_ip LoadBalancer $NGINX_SERVICE)
+  NGINX_ADDRESS=$(wait_public_ip $NGINX_SERVICE_TYPE $NGINX_SERVICE)
   echo "shipa address: $NGINX_ADDRESS"
 }
 

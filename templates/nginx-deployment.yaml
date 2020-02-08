@@ -1,34 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "shipa.fullname" . }}-nginx-ingress-controller
-  labels:
-    app.kubernetes.io/name: {{ template "shipa.fullname" . }}-ingress-nginx
-    app.kubernetes.io/part-of: {{ template "shipa.fullname" . }}-ingress-nginx
+  name: {{ include "shipa.fullname" . }}-nginx-ingress
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "shipa.fullname" . }}-ingress-nginx
-      app.kubernetes.io/part-of: {{ template "shipa.fullname" . }}-ingress-nginx
+      name: {{ include "shipa.fullname" . }}-nginx-ingress
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "shipa.fullname" . }}-ingress-nginx
-        app.kubernetes.io/part-of: {{ include "shipa.fullname" . }}-ingress-nginx
-      annotations:
-        prometheus.io/port: "10254"
-        prometheus.io/scrape: "true"
+        name: {{ include "shipa.fullname" . }}-nginx-ingress
     spec:
-      # wait up to five minutes for the drain of connections
-      terminationGracePeriodSeconds: 300
+      # wait up to 30 seconds for the drain of connections
+      terminationGracePeriodSeconds: 30
       serviceAccountName: {{ include "shipa.fullname" . }}-nginx-ingress-serviceaccount
       containers:
         - name: nginx-ingress-controller
           image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:master
           args:
             - /nginx-ingress-controller
-            - --election-id={{ template "shipa.fullname" . }}-ingress-controller-leader
+            - --election-id={{ template "shipa.fullname" . }}-leader
             - --configmap=$(POD_NAMESPACE)/{{ include "shipa.fullname" . }}-nginx-config
             - --tcp-services-configmap=$(POD_NAMESPACE)/{{ include "shipa.fullname" . }}-nginx-tcp-services
             - --publish-service=$(POD_NAMESPACE)/{{ include "shipa.fullname" . }}-ingress-nginx

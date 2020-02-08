@@ -2,9 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
   name: {{ template "shipa.fullname" . }}-nginx-ingress-clusterrole
-  labels:
-    app.kubernetes.io/name: {{ template "shipa.fullname" . }}-ingress-nginx
-    app.kubernetes.io/part-of: {{ template "shipa.fullname" . }}-ingress-nginx
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""
@@ -60,9 +58,7 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: Role
 metadata:
   name: {{ template "shipa.fullname" . }}-nginx-ingress-role
-  labels:
-    app.kubernetes.io/name: {{ template "shipa.fullname" . }}-ingress-nginx
-    app.kubernetes.io/part-of: {{ template "shipa.fullname" . }}-ingress-nginx
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""
@@ -78,11 +74,7 @@ rules:
     resources:
       - configmaps
     resourceNames:
-      # Defaults to "<election-id>-<ingress-class>"
-      # Here: "<ingress-controller-leader>-<nginx>"
-      # This has to be adapted if you change either parameter
-      # when launching the nginx-ingress-controller.
-      - "{{ template "shipa.fullname" . }}-ingress-controller-leader-nginx"
+      - "{{ template "shipa.fullname" . }}-leader-nginx"
     verbs:
       - get
       - update
@@ -104,9 +96,7 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
 metadata:
   name: {{ template "shipa.fullname" . }}-nginx-ingress-role-nisa-binding
-  labels:
-    app.kubernetes.io/name: {{ template "shipa.fullname" . }}-ingress-nginx
-    app.kubernetes.io/part-of: {{ template "shipa.fullname" . }}-ingress-nginx
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -114,16 +104,14 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: {{ template "shipa.fullname" . }}-nginx-ingress-serviceaccount
-    namespace: default
+    namespace: {{ .Release.Namespace }}
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
   name: {{ template "shipa.fullname" . }}-nginx-ingress-clusterrole-nisa-binding
-  labels:
-    app.kubernetes.io/name: {{ template "shipa.fullname" . }}-ingress-nginx
-    app.kubernetes.io/part-of: {{ template "shipa.fullname" . }}-ingress-nginx
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -131,4 +119,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: {{ template "shipa.fullname" . }}-nginx-ingress-serviceaccount
-    namespace: default
+    namespace: {{ .Release.Namespace }}

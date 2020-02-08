@@ -3,14 +3,17 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: {{ template "shipa.fullname" . }}
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ template "shipa.fullname" . }}
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""
+      - services
       - extensions
       - rbac.authorization.k8s.io
       - apiextensions.k8s.io
@@ -24,6 +27,7 @@ kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ template "shipa.fullname" . }}
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

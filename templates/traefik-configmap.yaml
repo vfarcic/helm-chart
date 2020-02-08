@@ -2,11 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ template "shipa.fullname" . }}-traefik-config
-  labels:
-    app: {{ template "shipa.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 data:
   traefik.toml: |-
     defaultEntryPoints = ["http"]
@@ -36,7 +32,7 @@ data:
       entryPoint = "http"
 
     [etcd]
-    endpoint = "{{ template "shipa.name" . }}-etcd:2379"
+    endpoint = "{{ template "shipa.fullname" . }}-etcd:2379"
     watch = true
     prefix = "/traefik"
     useAPIv3 = true

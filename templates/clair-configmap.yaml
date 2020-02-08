@@ -2,11 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ template "shipa.fullname" . }}-clair-config
-  labels:
-    app: {{ template "shipa.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 data:
   config.yaml: |-
     # Copyright 2015 clair authors
@@ -31,7 +27,7 @@ data:
         options:
           # PostgreSQL Connection string
           # https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING
-          source: host={{ template "shipa.fullname" . }}-postgres.default port=5432 user=postgres sslmode=disable statement_timeout=60000
+          source: host={{ template "shipa.fullname" . }}-postgres.{{ .Release.Namespace }} port=5432 user=postgres sslmode=disable statement_timeout=60000
 
           # Number of elements kept in the cache
           # Values unlikely to change (e.g. namespaces) are cached in order to save prevent needless roundtrips to the database.

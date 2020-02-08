@@ -1,20 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-etcd
-  labels:
-    name: etcd
+  name: {{ include "shipa.fullname" . }}-etcd
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      name: etcd
+      name: {{ include "shipa.fullname" . }}-etcd
   template:
     metadata:
       labels:
-        name: etcd
+        name: {{ include "shipa.fullname" . }}-etcd
     spec:
       containers:
-        - name: {{ .Release.Name }}-etcd
+        - name: etcd
           image: "quay.io/coreos/etcd:v3.3.17"
           command: ['/usr/local/bin/etcd',
                     '--debug',

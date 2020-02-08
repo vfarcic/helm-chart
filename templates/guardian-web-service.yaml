@@ -2,10 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "shipa.fullname" . }}-guardian
-  labels:
-    name: guardian
+  labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
+  selector:
+    name: {{ include "shipa.fullname" . }}-guardian
   ports:
     - port: 8000
       targetPort: 8000
@@ -15,5 +16,3 @@ spec:
       targetPort: 22
       protocol: TCP
       name: ssh
-  selector:
-    name: guardian
