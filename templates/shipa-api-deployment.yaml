@@ -43,6 +43,8 @@ spec:
               value: {{ .Values.service.traefik.serviceType }}
             - name: NGINX_SERVICE_TYPE
               value: {{ .Values.service.nginx.serviceType }}
+            - name: SHIPA_PORT
+              value: {{ .Values.shipaApi.port | quote }}
         - name: init
           image: {{ .Values.shipaApi.image }}
           command:
@@ -88,19 +90,27 @@ spec:
           imagePullPolicy: {{ .Values.shipaApi.pullPolicy }}
           env:
             - name: METRICS_PASSWORD
-              value: "bingo"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-secret
+                  key: metrics-password
+            - name: DOCKER_REGISTRY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-secret
+                  key: docker-registry-password
           ports:
             - name: shipa
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.shipaApi.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: {{ .Values.service.port }}
+              port: {{ .Values.shipaApi.port }}
           readinessProbe:
             httpGet:
               path: /
-              port: {{ .Values.service.port }}
+              port: {{ .Values.shipaApi.port }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:

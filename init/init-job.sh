@@ -1,9 +1,5 @@
 #!/bin/sh
 
-. /init/common.sh
-
-set_public_ips
-
 echo "Waiting for shipa api"
 
 until $(curl --output /dev/null --silent http://$SHIPA_ENDPOINT); do
@@ -68,8 +64,7 @@ $SHIPA_CLIENT node-container-add netdata \
         -v /etc/passwd:/host/etc/passwd:ro \
         -v /etc/group:/host/etc/group:ro \
         -v /proc:/host/proc:ro \
-        -v /sys:/host/sys:ro \
-        --env METRICS_PASSWORD=bingo
+        -v /sys:/host/sys:ro
 
 $SHIPA_CLIENT node-container-upgrade netdata -y --pool=theonepool
 
@@ -78,10 +73,10 @@ $SHIPA_CLIENT platform-add python
 $SHIPA_CLIENT app-create dashboard python \
     --pool=theonepool \
     --team=admin \
-    -e METRICS_HOST=http://$NGINX_ADDRESS:9090 \
-    -e METRICS_PASSWORD=bingo \
-    -e TRAEFIK_DASHBOARD_PASSWORD=bingo \
-    -e TRAEFIK_DASHBOARD_HOST=http://$TRAEFIK_ADDRESS:9095
+    -e METRICS_HOST=http://$METRICS_SERVICE:9090 \
+    -e METRICS_PASSWORD="$METRICS_PASSWORD" \
+    -e TRAEFIK_DASHBOARD_PASSWORD="" \
+    -e TRAEFIK_DASHBOARD_HOST=http://$TRAEFIK_INTERNAL_SERVICE:9095
 
 $SHIPA_CLIENT app-deploy -a dashboard -i $DASHBOARD_IMAGE
 

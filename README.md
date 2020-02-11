@@ -39,10 +39,12 @@ kubectl apply -f limits.yaml
 
 # to successfully deploy shipa resources like DaemonSets to run busybody/netdata, pods to build platforms and so on
 # we should label nodes (at least one)
-kubectl label $(kubectl get nodes -o name) "shipa.io/pool=theonepool" --overwrite
+kubectl label $(kubectl get nodes -o name | head -n 2) "shipa.io/pool=theonepool" --overwrite
 
 helm dep up 
 
 # Please don't change "shipa" chart name for now
 helm install . --name=shipa --timeout=1000 --set=auth.adminPassword=shipa2020
+--set=defaultPool=theonepool
+
 ```

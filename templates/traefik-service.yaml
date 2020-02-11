@@ -14,12 +14,12 @@ spec:
   clusterIP: "{{ .Values.service.traefik.clusterIP }}"
   {{- end }}
   ports:
-    - port: 80
+    - port: {{ .Values.service.traefik.httpPort }}
       name: http
-      targetPort: 80
+      targetPort: {{ .Values.service.traefik.httpPort }}
       protocol: TCP
-    - port: 443
+    - port: {{ .Values.service.traefik.httpsPort }}
       name: https
-      targetPort: 443
+      targetPort: {{ .Values.service.traefik.httpsPort }}
       protocol: TCP
 

@@ -31,7 +31,7 @@ spec:
             - name: MONGODB_PORT
               value: "27017"
             - name: SHIPA_HOST
-              value: "http://{{ include "shipa.fullname" . }}-api.{{ .Release.Namespace }}:8080"
+              value: "http://{{ include "shipa.fullname" . }}-api.{{ .Release.Namespace }}:{{ .Values.shipaApi.port }}"
             - name: SHIPA_USER
               value: {{ required "Admin username required" .Values.auth.adminUser }}
           volumeMounts:

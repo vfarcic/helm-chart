@@ -14,23 +14,15 @@ spec:
   selector:
     name: {{ template "shipa.fullname" . }}-nginx-ingress
   ports:
-    - port: 22
+    - port: {{ .Values.guardian.sshPort }}
       name: guardian
-      targetPort: 22
+      targetPort: {{ .Values.guardian.sshPort }}
       protocol: TCP
-    - port: 5000
+    - port: {{ ( index .Values "docker-registry").service.port }}
       name: registry
-      targetPort: 5000
+      targetPort: {{ ( index .Values "docker-registry").service.port }}
       protocol: TCP
-    - port: 8080
+    - port: {{ .Values.shipaApi.port }}
       name: shipa
-      targetPort: 8080
-      protocol: TCP
-    - port: 9090
-      name: prometheus
-      targetPort: 9090
-      protocol: TCP
-    - port: 9091
-      name: pushgateway
-      targetPort: 9091
+      targetPort: {{ .Values.shipaApi.port }}
       protocol: TCP

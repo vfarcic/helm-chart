@@ -12,8 +12,6 @@ data:
 {{ .Files.Get "init/init-job.sh" | indent 4 }}
   bootstrap.sh: |
 {{ .Files.Get "init/bootstrap.sh" | indent 4 }}
-  gencerts.sh: |
-{{ .Files.Get "init/gencerts.sh" | indent 4 }}
   csr-docker-cluster.json: |
 {{ .Files.Get "init/csr-docker-cluster.json" | indent 4 }}
   csr-docker-registry.json: |

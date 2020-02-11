@@ -14,8 +14,14 @@ spec:
     spec:
       containers:
         - name: metrics
-          image: "shipasoftware/metrics:latest"
-          imagePullPolicy: IfNotPresent
+          image: {{ .Values.metrics.image }}
+          imagePullPolicy: {{ .Values.metrics.pullPolicy }}
+          env:
+            - name: METRICS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-secret
+                  key: metrics-password
           ports:
             - name: prometheus
               containerPort: 9090
@@ -23,11 +29,6 @@ spec:
             - name: pushgateway
               containerPort: 9091
               protocol: TCP
-          env:
-            - name: MONGODB_ADDR
-              value: {{ include "shipa.fullname" . }}-mongodb-replicaset
-            - name: MONGODB_PORT
-              value: "27017"
           volumeMounts:
             - name: "{{ template "shipa.fullname" . }}-metrics-config"
               mountPath: /etc/prometheus/

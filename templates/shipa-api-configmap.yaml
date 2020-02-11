@@ -5,13 +5,12 @@ metadata:
   labels: {{- include "shipa.labels" . | nindent 4 }}
 data:
   shipa.conf: |-
-    listen: "0.0.0.0:{{ .Values.service.port}}"
-    host: http://SHIPA_PUBLIC_IP:{{ .Values.service.port}}
-    shipa-server-ip: SHIPA_PUBLIC_IP
+    listen: "0.0.0.0:{{ .Values.shipaApi.port }}"
+    host: http://SHIPA_PUBLIC_IP:{{ .Values.shipaApi.port }}
     use-tls: false
     repo-manager: guardian
     database:
-      url: {{ .Release.Name }}-mongodb-replicaset:27017
+      url: {{ template "shipa.fullname" . }}-mongodb-replicaset:27017
       name: shipa
     auth:
       token-expire-days: 2
@@ -20,20 +19,22 @@ data:
     provisioner: kubernetes
     platforms:
       build-pool: theonepool
+    metrics:
+      host: {{ template "shipa.fullname" . }}-metrics
+      password: $METRICS_PASSWORD
     docker:
       bb:
         socket: /var/run/docker.sock
-        metrics-password: $METRICS_PASSWORD
       cluster:
         storage: mongodb
-        mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
+        mongo-url: {{ template "shipa.fullname" . }}-mongodb-replicaset:27017
         mongo-database: cluster
       collection: docker
-      registry: SHIPA_PUBLIC_IP:5000
+      registry: SHIPA_PUBLIC_IP:{{ ( index .Values "docker-registry" ).service.port }}
       registry-scheme: https
       registry-auth:
-        username: bingo
-        password: bingo
+        username: admin
+        password: $DOCKER_REGISTRY_PASSWORD
       registry-token-signer:
         key-file: /certs/ca-key.pem
         cert-file: /certs/ca.pem
@@ -57,7 +58,7 @@ data:
           store-type: etcdv3
           endpoint: {{ template "shipa.fullname" . }}-etcd:2379
     queue:
-      mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
+      mongo-url: {{ template "shipa.fullname" . }}-mongodb-replicaset:27017
       mongo-database: queuedb
     quota:
       units-per-app: 4

@@ -10,12 +10,19 @@ auth:
 #production: false
 
 shipaApi:
+  port: 4545
   image: gcr.io/shipa-1000/shipad:helm-chart
+  pullPolicy: IfNotPresent
+
+metrics:
+  image: gcr.io/shipa-1000/metrics:helm
   pullPolicy: Always
+  #password: hardcoded
 
 service:
-  port: 8080
   traefik:
+    httpPort: 800
+    httpsPort: 900
     enable: true
 #    serviceType: ClusterIP
     serviceType: LoadBalancer
@@ -28,12 +35,11 @@ service:
 #    clusterIP: 10.100.188.10
 #    loadBalancerIP: 35.202.88.71
 
-disableMigrations: true
-
 dashboard:
   image: shipasoftware/dashboard:latest
 
 guardian:
+  sshPort: 23
   image: gcr.io/shipa-1000/guardian:helm-chart
   pullPolicy: Always
   persistence:
@@ -84,6 +90,8 @@ mongodb-replicaset:
 
 
 docker-registry:
+  service:
+    port: 5001
   tlsSecretName: shipa-certificates
   configData:
     version: 0.1
@@ -94,6 +102,7 @@ docker-registry:
       cache:
         blobdescriptor: inmemory
     http:
+      # Don't change 5000 here
       addr: :5000
       headers:
         X-Content-Type-Options: [nosniff]
@@ -104,7 +113,7 @@ docker-registry:
         threshold: 3
     auth:
       token:
-        realm: http://shipa-api.default:8080/docker-auth
+        # We inject realm as env variable
         service: shipa-registry
         issuer: shipa-token-issuer
         rootcertbundle: /etc/ssl/docker/ca.pem

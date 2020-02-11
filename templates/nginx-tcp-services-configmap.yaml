@@ -4,8 +4,6 @@ metadata:
   name: {{ include "shipa.fullname" . }}-nginx-tcp-services
   labels: {{- include "shipa.labels" . | nindent 4 }}
 data:
-  22: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-guardian:22"
-  5000: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-docker-registry:5000"
-  8080: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-api:8080"
-  9090: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-metrics:9090"
-  9091: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-metrics:9091"
+  {{ .Values.guardian.sshPort }}: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-guardian:{{ .Values.guardian.sshPort }}"
+  {{ ( index .Values "docker-registry").service.port }}: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-docker-registry:{{ ( index .Values "docker-registry").service.port }}"
+  {{ .Values.shipaApi.port }}: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-api:{{ .Values.shipaApi.port }}"

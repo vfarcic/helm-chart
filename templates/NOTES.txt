@@ -6,7 +6,7 @@ Password: {{ .Values.auth.adminPassword }}
 2. Set default target for shipa-client:
 
 export SHIPA_HOST=$(kubectl --namespace={{ .Release.Namespace }} get svc {{ .Release.Name }}-ingress-nginx  -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
-shipa target-add {{ .Release.Name }} http://$SHIPA_HOST:8080 -s
+shipa target-add {{ .Release.Name }} http://$SHIPA_HOST:{{ .Values.shipaApi.port }} -s
 
 shipa login {{ .Values.auth.adminUser }}
 shipa node-list

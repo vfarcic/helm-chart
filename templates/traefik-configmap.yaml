@@ -15,9 +15,9 @@ data:
 
     [entryPoints]
       [entryPoints.http]
-      address = ":80"
+      address = ":{{ .Values.service.traefik.httpPort }}"
       [entryPoints.https]
-      address = ":443"
+      address = ":{{ .Values.service.traefik.httpsPort }}"
         [entryPoints.https.tls]
           insecureSkipVerify = true
       [entryPoints.traefik]

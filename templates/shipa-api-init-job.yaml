@@ -27,7 +27,7 @@ spec:
           imagePullPolicy: {{ .Values.cli.pullPolicy }}
           env:
             - name: SHIPA_ENDPOINT
-              value: "{{ .Release.Name }}-api:{{ .Values.service.port }}"
+              value: "{{ .Release.Name }}-api:{{ .Values.shipaApi.port }}"
             - name: USERNAME
               valueFrom:
                 secretKeyRef:
@@ -38,20 +38,21 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-api-init-secret
                   key: password
-            - name: TRAEFIK_SERVICE
-              value: {{ template "shipa.fullname" . }}-traefik
-            - name: NGINX_SERVICE
-              value: {{ template "shipa.fullname" . }}-ingress-nginx
-            - name: TRAEFIK_SERVICE_TYPE
-              value: {{ .Values.service.traefik.serviceType }}
-            - name: NGINX_SERVICE_TYPE
-              value: {{ .Values.service.nginx.serviceType }}
+            - name: METRICS_SERVICE
+              value: {{ template "shipa.fullname" . }}-metrics
+            - name: TRAEFIK_INTERNAL_SERVICE
+              value: {{ template "shipa.fullname" . }}-traefik-internal
             - name: DASHBOARD_IMAGE
               value: {{ .Values.dashboard.image }}
             - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            - name: METRICS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-secret
+                  key: metrics-password
           volumeMounts:
             - name: init
               mountPath: /init

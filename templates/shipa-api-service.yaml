@@ -9,7 +9,7 @@ spec:
   selector:
     {{- include "shipa.selectorLabels" . | nindent 4 }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
+    - port:  {{ .Values.shipaApi.port }}
+      targetPort: {{ .Values.shipaApi.port }}
       protocol: TCP
       name: shipa
