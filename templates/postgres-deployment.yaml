@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "shipa.fullname" . }}-postgres
+  name: {{ template "shipa.fullname" . }}-postgres
   labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      name: {{ include "shipa.fullname" . }}-postgres
+      name: {{ template "shipa.fullname" . }}-postgres
   template:
     metadata:
       labels:
-        name: {{ include "shipa.fullname" . }}-postgres
+        name: {{ template "shipa.fullname" . }}-postgres
     spec:
       containers:
         - name: postgres

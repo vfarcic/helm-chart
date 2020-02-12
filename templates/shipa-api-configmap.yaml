@@ -10,7 +10,7 @@ data:
     use-tls: false
     repo-manager: guardian
     database:
-      url: {{ template "shipa.fullname" . }}-mongodb-replicaset:27017
+      url: {{ .Release.Name }}-mongodb-replicaset:27017
       name: shipa
     auth:
       token-expire-days: 2
@@ -27,7 +27,7 @@ data:
         socket: /var/run/docker.sock
       cluster:
         storage: mongodb
-        mongo-url: {{ template "shipa.fullname" . }}-mongodb-replicaset:27017
+        mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
         mongo-database: cluster
       collection: docker
       registry: SHIPA_PUBLIC_IP:{{ ( index .Values "docker-registry" ).service.port }}
@@ -58,7 +58,7 @@ data:
           store-type: etcdv3
           endpoint: {{ template "shipa.fullname" . }}-etcd:2379
     queue:
-      mongo-url: {{ template "shipa.fullname" . }}-mongodb-replicaset:27017
+      mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
       mongo-database: queuedb
     quota:
       units-per-app: 4

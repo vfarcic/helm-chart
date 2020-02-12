@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "shipa.fullname" . }}-metrics
+  name: {{ template "shipa.fullname" . }}-metrics
   labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
   selector:
-    name: {{ include "shipa.fullname" . }}-metrics
+    name: {{ template "shipa.fullname" . }}-metrics
   ports:
     - port: 9090
       targetPort: 9090

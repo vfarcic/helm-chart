@@ -4,5 +4,4 @@ dependencies:
     repository: https://kubernetes-charts.storage.googleapis.com
   - name: mongodb-replicaset
     version: 3.11.3
-    condition: production
     repository: https://kubernetes-charts.storage.googleapis.com

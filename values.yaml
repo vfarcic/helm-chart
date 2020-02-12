@@ -2,34 +2,27 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-
 auth:
   adminUser: admin@shipa.io
-  #adminPassword: shipa2020
 
 shipaApi:
   port: 8080
   image: gcr.io/shipa-1000/shipad:helm-chart
-  pullPolicy: IfNotPresent
-
-metrics:
-  image: gcr.io/shipa-1000/metrics:helm
   pullPolicy: Always
-  #password: hardcoded
 
 service:
   traefik:
     httpPort: 80
     httpsPort: 443
     enable: true
-    serviceType: ClusterIP
-#    serviceType: LoadBalancer
+#    serviceType: ClusterIP
+    serviceType: LoadBalancer
 #    clusterIP: 10.100.188.11
   #    loadBalancerIP: 104.154.157.13
   nginx:
     enabled: true
-#    serviceType: LoadBalancer
-    serviceType: ClusterIP
+    serviceType: LoadBalancer
+#    serviceType: ClusterIP
 #    clusterIP: 10.100.188.10
 #    loadBalancerIP: 35.202.88.71
 
@@ -60,6 +53,12 @@ guardian:
 cli:
   image: gcr.io/shipa-1000/shipa-client:helm-chart
   pullPolicy: Always
+
+metrics:
+  image: gcr.io/shipa-1000/metrics:helm
+  pullPolicy: Always
+
+  #password: hardcoded
 
 
 # --------------------------------------------------------------------------
@@ -101,7 +100,7 @@ mongodb-replicaset:
 
 docker-registry:
   service:
-    port: 5001
+    port: 5000
   tlsSecretName: shipa-certificates
   configData:
     version: 0.1

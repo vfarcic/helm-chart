@@ -38,7 +38,7 @@ spec:
             - name: NGINX_SERVICE
               value: {{ template "shipa.fullname" . }}-ingress-nginx
             - name: REGISTRY_SERVICE
-              value: {{ template "shipa.fullname" . }}-docker-registry
+              value: {{ .Release.Name }}-docker-registry
             - name: TRAEFIK_SERVICE_TYPE
               value: {{ .Values.service.traefik.serviceType }}
             - name: NGINX_SERVICE_TYPE

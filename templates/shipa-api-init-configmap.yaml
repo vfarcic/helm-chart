@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "shipa.fullname" . }}-api-init-config
+  name: {{ template "shipa.fullname" . }}-api-init-config
   labels: {{- include "shipa.labels" . | nindent 4 }}
 data:
   common.sh: |

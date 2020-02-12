@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "shipa.fullname" . }}-metrics
+  name: {{ template "shipa.fullname" . }}-metrics
   labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      name: {{ include "shipa.fullname" . }}-metrics
+      name: {{ template "shipa.fullname" . }}-metrics
   template:
     metadata:
       labels:
-        name: {{ include "shipa.fullname" . }}-metrics
+        name: {{ template "shipa.fullname" . }}-metrics
     spec:
       containers:
         - name: metrics

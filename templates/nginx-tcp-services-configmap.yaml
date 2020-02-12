@@ -1,9 +1,9 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: {{ include "shipa.fullname" . }}-nginx-tcp-services
+  name: {{ template "shipa.fullname" . }}-nginx-tcp-services
   labels: {{- include "shipa.labels" . | nindent 4 }}
 data:
   {{ .Values.guardian.sshPort }}: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-guardian:{{ .Values.guardian.sshPort }}"
-  {{ ( index .Values "docker-registry").service.port }}: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-docker-registry:{{ ( index .Values "docker-registry").service.port }}"
+  {{ ( index .Values "docker-registry").service.port }}: "{{ .Release.Namespace }}/{{ .Release.Name }}-docker-registry:{{ ( index .Values "docker-registry").service.port }}"
   {{ .Values.shipaApi.port }}: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-api:{{ .Values.shipaApi.port }}"

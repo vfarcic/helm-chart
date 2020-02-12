@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "shipa.fullname" . }}-etcd
+  name: {{ template "shipa.fullname" . }}-etcd
   labels: {{- include "shipa.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      name: {{ include "shipa.fullname" . }}-etcd
+      name: {{ template "shipa.fullname" . }}-etcd
   template:
     metadata:
       labels:
-        name: {{ include "shipa.fullname" . }}-etcd
+        name: {{ template "shipa.fullname" . }}-etcd
     spec:
       containers:
         - name: etcd
