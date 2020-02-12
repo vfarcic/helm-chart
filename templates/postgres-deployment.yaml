@@ -20,3 +20,15 @@ spec:
             - name: postgres
               containerPort: 5432
               protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+      volumes:
+        - name: data
+          {{- if .Values.postgres.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "shipa.fullname" . }}-postgres-pvc
+          {{- else }}
+          emptyDir: {}
+          {{- end -}}

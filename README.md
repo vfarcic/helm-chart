@@ -6,8 +6,6 @@ The first public IP (ingress-nginx) is used to open ports:
 1. 22 -> guardian
 1. 5000 -> docker registry
 1. 8080 -> shipa api
-1. 9090 -> prometheus
-1. 9091 -> prometheus pushgateway.
 
 The second public IP (traefik) is used to open: 
 1. 80 -> http access for apps
@@ -35,6 +33,8 @@ kubectl create clusterrolebinding kube-system-cluster-admin --clusterrole=cluste
 git clone https://github.com/shipa-corp/helm-chart
 cd helm-chart
 
+NAMESPACE=shipa-system
+kubectl create namespace $NAMESPACE
 kubectl apply -f limits.yaml
 
 # to successfully deploy shipa resources like DaemonSets to run busybody/netdata, pods to build platforms and so on
@@ -44,7 +44,11 @@ kubectl label $(kubectl get nodes -o name | head -n 2) "shipa.io/pool=theonepool
 helm dep up 
 
 # Please don't change "shipa" chart name for now
-helm install . --name=shipa --timeout=1000 --set=auth.adminPassword=shipa2020
+helm install . --name=shipa --timeout=1000 --set=auth.adminPassword=shipa2020 --namespace=$NAMESPACE
 --set=defaultPool=theonepool
 
 ```
+
+
+# Development
+

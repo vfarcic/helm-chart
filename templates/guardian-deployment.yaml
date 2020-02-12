@@ -37,6 +37,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/guardian
+              subPath: guardian
             - name: home-git
               mountPath: /home/git
             - name: credentials

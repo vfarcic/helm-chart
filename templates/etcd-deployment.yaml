@@ -28,3 +28,15 @@ spec:
           env:
             - name: ETCDCTL_API
               value: "3"
+          volumeMounts:
+            - name: data
+              mountPath: /var/etcd/data
+              subPath: etcd
+      volumes:
+        - name: data
+          {{- if .Values.etcd.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "shipa.fullname" . }}-etcd-pvc
+          {{- else }}
+          emptyDir: {}
+          {{- end -}}
