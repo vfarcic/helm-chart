@@ -29,14 +29,12 @@ cfssl gencert \
     -ca=$CERTIFICATES_DIRECTORY/ca.pem \
     -ca-key=$CERTIFICATES_DIRECTORY/ca-key.pem \
     -profile=server \
-    -hostname="$NGINX_ADDRESS" \
     $CERTIFICATES_DIRECTORY/csr-docker-registry.json | cfssljson -bare $CERTIFICATES_DIRECTORY/docker-registry
 
 cfssl gencert \
     -ca=$CERTIFICATES_DIRECTORY/ca.pem \
     -ca-key=$CERTIFICATES_DIRECTORY/ca-key.pem \
     -profile=server \
-    -hostname="$NGINX_ADDRESS" \
     $CERTIFICATES_DIRECTORY/csr-docker-cluster.json | cfssljson -bare $CERTIFICATES_DIRECTORY/docker-cluster
 
 rm -f $CERTIFICATES_DIRECTORY/*.csr

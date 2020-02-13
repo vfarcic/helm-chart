@@ -68,15 +68,22 @@ $SHIPA_CLIENT node-container-add netdata \
 
 $SHIPA_CLIENT node-container-upgrade netdata -y --pool=theonepool
 
-$SHIPA_CLIENT platform-add python
+platforms=$(echo $PLATFORMS | tr " " "\n")
 
-$SHIPA_CLIENT app-create dashboard python \
-    --pool=theonepool \
-    --team=admin \
-    -e METRICS_HOST=http://$METRICS_SERVICE:9090 \
-    -e METRICS_PASSWORD="$METRICS_PASSWORD" \
-    -e TRAEFIK_DASHBOARD_PASSWORD="" \
-    -e TRAEFIK_DASHBOARD_HOST=http://$TRAEFIK_INTERNAL_SERVICE:9095
+for platform in $platforms;
+do
+   $SHIPA_CLIENT platform-add $platform
+done
 
-$SHIPA_CLIENT app-deploy -a dashboard -i $DASHBOARD_IMAGE
+if [ "x$DASHBOARD_ENABLED" = "xtrue" ]; then
+  $SHIPA_CLIENT app-create dashboard python \
+      --pool=theonepool \
+      --team=admin \
+      -e METRICS_HOST=http://$METRICS_SERVICE:9090 \
+      -e METRICS_PASSWORD="$METRICS_PASSWORD" \
+      -e TRAEFIK_DASHBOARD_PASSWORD="" \
+      -e TRAEFIK_DASHBOARD_HOST=http://$TRAEFIK_INTERNAL_SERVICE:9095
+
+  $SHIPA_CLIENT app-deploy -a dashboard -i $DASHBOARD_IMAGE
+fi
 

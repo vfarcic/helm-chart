@@ -41,6 +41,10 @@ spec:
               value: {{ template "shipa.fullname" . }}-traefik-internal
             - name: DASHBOARD_IMAGE
               value: {{ .Values.dashboard.image }}
+            - name: DASHBOARD_ENABLED
+              value: "{{ .Values.dashboard.enabled }}"
+            - name: PLATFORMS
+              value: "{{ join " " .Values.platforms }}"
             - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:
