@@ -7,7 +7,7 @@ auth:
 
 shipaApi:
   port: 8080
-  image: gcr.io/shipa-1000/shipad:helm-chart
+  image: shipasoftware/api:helm-latest
   pullPolicy: Always
 
 service:
@@ -15,14 +15,14 @@ service:
     httpPort: 80
     httpsPort: 443
     enable: true
-    serviceType: ClusterIP
-#    serviceType: LoadBalancer
+#    serviceType: ClusterIP
+    serviceType: LoadBalancer
 #    clusterIP: 10.100.10.11
 #    loadBalancerIP: 104.154.157.13
   nginx:
     enabled: true
-#    serviceType: LoadBalancer
-    serviceType: ClusterIP
+    serviceType: LoadBalancer
+#    serviceType: ClusterIP
     clusterIP: 10.100.10.10
 #    loadBalancerIP: 35.202.88.71
 
@@ -44,7 +44,7 @@ postgres:
 
 guardian:
   sshPort: 22
-  image: gcr.io/shipa-1000/guardian:helm-chart
+  image: shipasoftware/guardian:helm-chart
   pullPolicy: Always
   persistence:
     enabled: false
@@ -52,11 +52,11 @@ guardian:
     size: 10Gi
 
 cli:
-  image: gcr.io/shipa-1000/shipa-client:helm-chart
+  image: shipasoftware/cli:helm-chart
   pullPolicy: Always
 
 metrics:
-  image: gcr.io/shipa-1000/metrics:helm
+  image: shipasoftware/metrics:v0.0.1
   pullPolicy: Always
   #password: hardcoded
 
