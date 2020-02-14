@@ -23,7 +23,7 @@ service:
     enabled: true
     serviceType: LoadBalancer
 #    serviceType: ClusterIP
-    clusterIP: 10.100.10.10
+    #clusterIP: 10.100.10.10
 #    loadBalancerIP: 35.202.88.71
 
 dashboard:
