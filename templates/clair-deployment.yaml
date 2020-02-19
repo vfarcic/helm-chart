@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
         - name: clair
-          image: quay.io/coreos/clair:v2.0.9
+          image: gcr.io/shipa-1000/clair:v2.0.9
           args:
             - --insecure-tls=true
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - name: clair
               containerPort: 6060
@@ -27,11 +27,21 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: {{ template "shipa.fullname" . }}-clair-config
+              mountPath: /clair-config/
+            - name: config-dir
               mountPath: /etc/clair/
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-secret
+                  key: postgres-password
       volumes:
+        - name: config-dir
+          emptyDir: {}
         - name: {{ template "shipa.fullname" . }}-clair-config
           configMap:
             name: {{ template "shipa.fullname" . }}-clair-config
             items:
-                - key: config.yaml
-                  path: config.yaml
+              - key: config.template.yaml
+                path: config.template.yaml

@@ -24,6 +24,12 @@ spec:
             - name: data
               mountPath: /var/lib/postgresql/data
               subPath: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-secret
+                  key: postgres-password
       volumes:
         - name: data
           {{- if .Values.postgres.persistence.enabled }}

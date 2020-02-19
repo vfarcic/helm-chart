@@ -24,15 +24,16 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - /usr/local/bin/kubectl delete ds --selector=$SELECTOR $NAMESPACE_MOD --ignore-not-found=true;
-              /usr/local/bin/kubectl delete delpoyment --selector=$SELECTOR $NAMESPACE_MOD --ignore-not-found=true;
+              /usr/local/bin/kubectl delete deployment --selector=$SELECTOR $NAMESPACE_MOD --ignore-not-found=true;
               /usr/local/bin/kubectl delete pod --selector=$SELECTOR $NAMESPACE_MOD --ignore-not-found=true;
               /usr/local/bin/kubectl delete services --selector=$SELECTOR $NAMESPACE_MOD --ignore-not-found=true;
               /usr/local/bin/kubectl delete sa --selector=$SELECTOR $NAMESPACE_MOD --ignore-not-found=true;
               /usr/local/bin/kubectl delete secrets --selector=$SELECTOR $NAMESPACE_MOD --ignore-not-found=true;
-              /usr/local/bin/kubectl delete secrets --selector=$SELECTOR $NAMESPACE_MOD --ignore-not-found=true;
               /usr/local/bin/kubectl delete crd apps.shipa.io --ignore-not-found=true;
               /usr/local/bin/kubectl delete configmap {{ template "shipa.fullname" . }}-leader-nginx --ignore-not-found=true;
               /usr/local/bin/kubectl delete namespaces --selector=$SELECTOR --ignore-not-found=true;
+              /usr/local/bin/kubectl delete clusterrolebindings  --selector=$SELECTOR --ignore-not-found=true $NAMESPACE_MOD;
+              /usr/local/bin/kubectl delete clusterrole --selector=$SELECTOR --ignore-not-found=true $NAMESPACE_MOD;
           imagePullPolicy: IfNotPresent
           env:
             - name: SELECTOR
