@@ -20,7 +20,7 @@ spec:
         - name: migrations
           image: {{ .Values.cli.image }}
           command:
-            - /init/init-job.sh
+            - /scripts/init-job.sh
           imagePullPolicy: {{ .Values.cli.pullPolicy }}
           env:
             - name: SHIPA_ENDPOINT
@@ -55,10 +55,10 @@ spec:
                   name: {{ template "shipa.fullname" . }}-secret
                   key: metrics-password
           volumeMounts:
-            - name: init
-              mountPath: /init
+            - name: scripts
+              mountPath: /scripts
       volumes:
-        - name: init
+        - name: scripts
           configMap:
             defaultMode: 0755
             name: {{ template "shipa.fullname" . }}-api-init-config

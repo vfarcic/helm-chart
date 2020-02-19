@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAMESPACE="default"
-helm delete --namespace=$NAMESPACE shipa
+helm delete --namespace=$NAMESPACE shipa  --no-hooks
 
 kubectl --namespace=$NAMESPACE delete job.batch/shipa-init-job-1 --ignore-not-found=true
 kubectl --namespace=$NAMESPACE delete deployment dashboard-web-1 --ignore-not-found=true

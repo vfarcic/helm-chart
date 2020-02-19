@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. /init/common.sh
+. /scripts/common.sh
 
 set_public_ips
 
@@ -20,9 +20,9 @@ fi
 CERTIFICATES_DIRECTORY=/tmp/certs
 mkdir $CERTIFICATES_DIRECTORY
 
-sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /init/csr-shipa-ca.json > $CERTIFICATES_DIRECTORY/csr-shipa-ca.json
-sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /init/csr-docker-registry.json > $CERTIFICATES_DIRECTORY/csr-docker-registry.json
-sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /init/csr-docker-cluster.json > $CERTIFICATES_DIRECTORY/csr-docker-cluster.json
+sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-shipa-ca.json > $CERTIFICATES_DIRECTORY/csr-shipa-ca.json
+sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-docker-registry.json > $CERTIFICATES_DIRECTORY/csr-docker-registry.json
+sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-docker-cluster.json > $CERTIFICATES_DIRECTORY/csr-docker-cluster.json
 
 cfssl gencert -initca $CERTIFICATES_DIRECTORY/csr-shipa-ca.json | cfssljson -bare $CERTIFICATES_DIRECTORY/ca
 cfssl gencert \

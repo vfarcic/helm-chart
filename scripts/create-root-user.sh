@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. /init/common.sh
+. /scripts/common.sh
 
 set_public_ips
 

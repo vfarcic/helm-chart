@@ -23,11 +23,11 @@ spec:
         - name: bootstrap
           image: {{ .Values.cli.image }}
           command:
-            - /init/bootstrap.sh
+            - /scripts/bootstrap.sh
           imagePullPolicy: {{ .Values.cli.pullPolicy }}
           volumeMounts:
-            - name: init
-              mountPath: /init
+            - name: scripts
+              mountPath: /scripts
             - name: shipa-conf
               mountPath: /etc/shipa-default/
             - name: config-dir
@@ -48,11 +48,11 @@ spec:
         - name: init
           image: {{ .Values.shipaApi.image }}
           command:
-            - /init/create-root-user.sh
+            - /scripts/create-root-user.sh
           imagePullPolicy: {{ .Values.shipaApi.pullPolicy }}
           volumeMounts:
-            - name: init
-              mountPath: /init
+            - name: scripts
+              mountPath: /scripts
             - name: config-dir
               mountPath: /etc/shipa/
             - name: certificates
@@ -130,7 +130,7 @@ spec:
         - name: certificates
           secret:
             secretName: shipa-certificates
-        - name: init
+        - name: scripts
           configMap:
             defaultMode: 0755
             name: {{ template "shipa.fullname" . }}-api-init-config
