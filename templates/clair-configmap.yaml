@@ -4,22 +4,10 @@ metadata:
   name: {{ template "shipa.fullname" . }}-clair-config
   labels: {{- include "shipa.labels" . | nindent 4 }}
 data:
-  config.yaml: |-
-    # Copyright 2015 clair authors
+  config.template.yaml: |-
     #
-    # Licensed under the Apache License, Version 2.0 (the "License");
-    # you may not use this file except in compliance with the License.
-    # You may obtain a copy of the License at
+    # This file is mounted to /clair-config/config.template.yaml and then processed by /entrypoint.sh
     #
-    #     http://www.apache.org/licenses/LICENSE-2.0
-    #
-    # Unless required by applicable law or agreed to in writing, software
-    # distributed under the License is distributed on an "AS IS" BASIS,
-    # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    # See the License for the specific language governing permissions and
-    # limitations under the License.
-
-    # The values specified here are the default values that Clair uses if no configuration file is specified or if the keys are not defined.
     clair:
       database:
         # Database driver
@@ -27,7 +15,7 @@ data:
         options:
           # PostgreSQL Connection string
           # https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING
-          source: host={{ template "shipa.fullname" . }}-postgres.{{ .Release.Namespace }} port=5432 user=postgres sslmode=disable statement_timeout=60000
+          source: host={{ template "shipa.fullname" . }}-postgres.{{ .Release.Namespace }} port=5432 user=postgres sslmode=disable statement_timeout=60000 password=$POSTGRES_PASSWORD
 
           # Number of elements kept in the cache
           # Values unlikely to change (e.g. namespaces) are cached in order to save prevent needless roundtrips to the database.
