@@ -1,0 +1,18 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "shipa.fullname" . }}-guardian-home-git-pvc
+  labels: {{- include "shipa.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.guardian.persistence.homeGit.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.guardian.persistence.homeGit.size | quote }}
+{{- if .Values.guardian.persistence.homeGit.storageClass }}
+{{- if (eq "-" .Values.guardian.persistence.homeGit.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.guardian.persistence.homeGit.storageClass }}"
+{{- end }}
+{{- end }}

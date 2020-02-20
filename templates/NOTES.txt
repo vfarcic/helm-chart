@@ -3,7 +3,20 @@
 Username: {{ .Values.auth.adminUser }}
 Password: {{ .Values.auth.adminPassword }}
 
-2. Set default target for shipa-client:
+2. If it's your production cluster, take care of PersistenVolumes.
+   The default reclaimPolicy for dynamically provisioned PersistentVolumes is "Delete" and
+   it's your responsibility to change it.
+
+   This code snippet helps you to set reclaimPolicy to "Retain" for all volumes:
+
+PVCs=$(kubectl --namespace={{ .Release.Namespace }} get pvc -l release={{ .Release.Name }} -o name)
+
+for pvc in $PVCs; do
+    volumeName=$(kubectl -n {{ .Release.Namespace }} get $pvc -o template --template=\{\{.spec.volumeName\}\})
+    kubectl -n {{ .Release.Namespace }} patch pv $volumeName -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'
+done
+
+3. Set default target for shipa-client:
 
 export SHIPA_HOST=$(kubectl --namespace={{ .Release.Namespace }} get svc {{ template "shipa.fullname" . }}-ingress-nginx  -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
 shipa target-add {{ .Release.Name }} http://$SHIPA_HOST:{{ .Values.shipaApi.port }} -s
@@ -11,3 +24,4 @@ shipa target-add {{ .Release.Name }} http://$SHIPA_HOST:{{ .Values.shipaApi.port
 shipa login {{ .Values.auth.adminUser }}
 shipa node-list
 shipa app-list
+

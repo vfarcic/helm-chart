@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: clair
-          image: gcr.io/shipa-1000/clair:v2.0.9
+          image: shipasoftware/clair:v2.0.9
           args:
             - --insecure-tls=true
           imagePullPolicy: Always

@@ -32,9 +32,5 @@ spec:
                   key: postgres-password
       volumes:
         - name: data
-          {{- if .Values.postgres.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ template "shipa.fullname" . }}-postgres-pvc
-          {{- else }}
-          emptyDir: {}
-          {{- end -}}

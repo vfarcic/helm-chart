@@ -59,8 +59,12 @@ kubectl get secrets shipa-certificates -o json \
         | jq ".data[\"tls.key\"] |= \"$DOCKER_REGISTRY_KEY\"" \
         | kubectl apply -f -
 
+kubectl scale deployment/$REGISTRY_SERVICE --replicas=0
+echo "stopping docker registry"
+sleep 25
+echo "running docker registry"
 kubectl set env deployment/$REGISTRY_SERVICE REGISTRY_AUTH_TOKEN_REALM="http://$NGINX_ADDRESS:$SHIPA_PORT/docker-auth"
-
+kubectl scale deployment/$REGISTRY_SERVICE --replicas=1
 
 echo "CA:"
 openssl x509 -in $CERTIFICATES_DIRECTORY/ca.pem -text -noout

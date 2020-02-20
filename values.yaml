@@ -32,13 +32,11 @@ dashboard:
 
 etcd:
   persistence:
-    enabled: false
     accessMode: 'ReadWriteOnce'
     size: 10Gi
 
 postgres:
   persistence:
-    enabled: false
     accessMode: 'ReadWriteOnce'
     size: 10Gi
 
@@ -47,9 +45,12 @@ guardian:
   image: shipasoftware/guardian:helm-chart
   pullPolicy: Always
   persistence:
-    enabled: false
-    accessMode: 'ReadWriteOnce'
-    size: 10Gi
+    homeGit:
+      accessMode: 'ReadWriteOnce'
+      size: 10Gi
+    repositories:
+      accessMode: 'ReadWriteOnce'
+      size: 10Gi
 
 cli:
   image: shipasoftware/cli:helm-chart
@@ -94,13 +95,18 @@ mongodb-replicaset:
     tag: latest
     pullPolicy: IfNotPresent
   persistentVolume:
-    enabled: false
+    enabled: true
+    size: 10Gi
   tls:
     enabled: false
   configmap:
 
 
 docker-registry:
+  persistence:
+    accessMode: 'ReadWriteOnce'
+    enabled: true
+    size: 10Gi
   service:
     port: 5000
   tlsSecretName: shipa-certificates

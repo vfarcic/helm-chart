@@ -70,6 +70,9 @@ $SHIPA_CLIENT node-container-upgrade netdata -y --pool=theonepool
 
 platforms=$(echo $PLATFORMS | tr " " "\n")
 
+sleep 30
+echo "waiting busybody daemons"
+
 for platform in $platforms;
 do
    $SHIPA_CLIENT platform-add $platform

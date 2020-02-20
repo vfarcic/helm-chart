@@ -19,11 +19,11 @@ set_guardian_variables() {
           | jq ".data[\"token\"] |= \"$TOKEN\"" \
           | kubectl apply -f -
 
-  kubectl set env deployment/$GUARDIAN_SERVICE GUARDIAN_HOST="$NGINX_ADDRESS"
   kubectl scale deployment/$GUARDIAN_SERVICE --replicas=0
   echo "stopping guardian"
   sleep 15
   echo "running guardian"
+  kubectl set env deployment/$GUARDIAN_SERVICE GUARDIAN_HOST="$NGINX_ADDRESS"
   kubectl scale deployment/$GUARDIAN_SERVICE --replicas=1
 }
 

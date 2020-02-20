@@ -34,9 +34,5 @@ spec:
               subPath: etcd
       volumes:
         - name: data
-          {{- if .Values.etcd.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ template "shipa.fullname" . }}-etcd-pvc
-          {{- else }}
-          emptyDir: {}
-          {{- end -}}

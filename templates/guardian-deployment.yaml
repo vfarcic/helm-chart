@@ -35,23 +35,21 @@ spec:
             - name: SHIPA_USER
               value: {{ required "Admin username required" .Values.auth.adminUser }}
           volumeMounts:
-            - name: data
+            - name: repositories-data
               mountPath: /var/lib/guardian
               subPath: guardian
-            - name: home-git
+            - name: home-git-data
               mountPath: /home/git
+              subPath: home
             - name: credentials
               mountPath: /etc/shipa
       volumes:
         - name: credentials
           secret:
             secretName: shipa-guardian
-        - name: home-git
-          emptyDir: {}
-        - name: data
-          {{- if .Values.guardian.persistence.enabled }}
+        - name: home-git-data
           persistentVolumeClaim:
-            claimName: {{ template "shipa.fullname" . }}-guardian-pvc
-          {{- else }}
-          emptyDir: {}
-          {{- end -}}
+            claimName: {{ template "shipa.fullname" . }}-guardian-home-git-pvc
+        - name: repositories-data
+          persistentVolumeClaim:
+            claimName: {{ template "shipa.fullname" . }}-guardian-repositories-pvc
