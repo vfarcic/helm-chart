@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: traefik
-          image: "traefik:v1.7.18-alpine"
+          image: "traefik:v1.7.21-alpine"
           command:
             - traefik
             - --configfile=/etc/traefik/traefik.toml

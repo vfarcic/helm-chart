@@ -31,6 +31,10 @@ data:
       [acme.httpChallenge]
       entryPoint = "http"
 
+    [api]
+    entryPoint = "traefik"
+    dashboard = true
+
     [etcd]
     endpoint = "{{ template "shipa.fullname" . }}-etcd:2379"
     watch = true
