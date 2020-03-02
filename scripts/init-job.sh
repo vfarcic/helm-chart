@@ -60,7 +60,7 @@ $SHIPA_CLIENT role-permission-add  AppImageAdmin app.update.image
 $SHIPA_CLIENT node-container-add netdata \
         --enable=true \
         --privileged=true \
-        --image=shipasoftware/netdata:latest -p 19999:19999 \
+        --image=shipasoftware/netdata:v0.0.1 -p 19999:19999 \
         -v /etc/passwd:/host/etc/passwd:ro \
         -v /etc/group:/host/etc/group:ro \
         -v /proc:/host/proc:ro \
@@ -70,8 +70,8 @@ $SHIPA_CLIENT node-container-upgrade netdata -y --pool=theonepool
 
 platforms=$(echo $PLATFORMS | tr " " "\n")
 
+echo "waiting busybody daemons..."
 sleep 30
-echo "waiting busybody daemons"
 
 for platform in $platforms;
 do
