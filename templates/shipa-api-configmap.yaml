@@ -72,5 +72,5 @@ data:
       server: http://{{ template "shipa.fullname" . }}-clair:6060
       disable: false
     kubernetes:
-      use-pool-namespaces: false
+      use-pool-namespaces: true
     debug: true

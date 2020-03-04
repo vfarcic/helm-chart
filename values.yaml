@@ -7,7 +7,7 @@ auth:
 
 shipaApi:
   port: 8080
-  image: shipasoftware/api:helm-latest
+  image: shipasoftware/api:helm-v1.0.45
   pullPolicy: Always
 
 service:
@@ -53,7 +53,7 @@ guardian:
       size: 10Gi
 
 cli:
-  image: shipasoftware/cli:helm-chart
+  image: shipasoftware/cli:v0.0.53
   pullPolicy: Always
 
 metrics:

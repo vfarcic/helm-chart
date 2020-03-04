@@ -16,17 +16,16 @@ $PASSWORD
 EOF
 $SHIPA_CLIENT team-create admin
 $SHIPA_CLIENT team-create system
-$SHIPA_CLIENT pool-add theonepool --public -d --provisioner=kubernetes
+$SHIPA_CLIENT pool-add theonepool --public -d --provisioner=kubernetes --kube-namespace=$POD_NAMESPACE
 
 TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
 CACERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 ADDR=$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
 
-$SHIPA_CLIENT cluster-add theonepool kubernetes --pool=theonepool \
+$SHIPA_CLIENT cluster-add theonepool --pool=theonepool \
   --cacert=$CACERT \
   --addr=$ADDR \
-  --custom="token=$TOKEN" \
-  --custom="namespace=$POD_NAMESPACE"
+  --custom="token=$TOKEN"
 $SHIPA_CLIENT role-add NodeContainer pool
 $SHIPA_CLIENT role-add ShipaUser global
 $SHIPA_CLIENT role-permission-add ShipaUser pool.create
