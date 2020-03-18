@@ -7,7 +7,7 @@ auth:
 
 shipaApi:
   port: 8080
-  image: shipasoftware/api:helm-v1.0.45
+  image: shipasoftware/api:helm-v1.0.48
   pullPolicy: Always
 
 service:
@@ -15,6 +15,7 @@ service:
     httpPort: 80
     httpsPort: 443
     enable: true
+    rbac: true
 #    serviceType: ClusterIP
     serviceType: LoadBalancer
 #    clusterIP: 10.100.10.11
@@ -53,7 +54,7 @@ guardian:
       size: 10Gi
 
 cli:
-  image: shipasoftware/cli:v0.0.53
+  image: shipasoftware/cli:v0.0.55
   pullPolicy: Always
 
 metrics:

@@ -73,4 +73,7 @@ data:
       disable: false
     kubernetes:
       use-pool-namespaces: true
+      remote-cluster-ingress:
+        port: 31567
+        service-type: LoadBalancer
     debug: true

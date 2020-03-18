@@ -12,6 +12,11 @@ spec:
       labels:
         name: {{ template "shipa.fullname" . }}-traefik
     spec:
+      {{- if .Values.service.traefik.rbac }}
+      serviceAccountName: {{ template "shipa.fullname" . }}
+      {{- else }}
+      serviceAccountName: default
+      {{- end }}
       containers:
         - name: traefik
           image: "traefik:v1.7.21-alpine"

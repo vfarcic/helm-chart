@@ -22,10 +22,13 @@ TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
 CACERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 ADDR=$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
 
+sleep 10
 $SHIPA_CLIENT cluster-add theonepool --pool=theonepool \
   --cacert=$CACERT \
   --addr=$ADDR \
+  --ingress-service-type=LoadBalancer \
   --custom="token=$TOKEN"
+
 $SHIPA_CLIENT role-add NodeContainer pool
 $SHIPA_CLIENT role-add ShipaUser global
 $SHIPA_CLIENT role-permission-add ShipaUser pool.create
