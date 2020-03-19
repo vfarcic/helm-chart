@@ -26,7 +26,7 @@ sleep 10
 $SHIPA_CLIENT cluster-add theonepool --pool=theonepool \
   --cacert=$CACERT \
   --addr=$ADDR \
-  --ingress-service-type=LoadBalancer \
+  --ingress-service-type=ClusterIP \
   --custom="token=$TOKEN"
 
 $SHIPA_CLIENT role-add NodeContainer pool

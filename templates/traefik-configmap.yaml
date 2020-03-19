@@ -42,3 +42,4 @@ data:
     useAPIv3 = true
 
     [kubernetes]
+    ingressClass = "shipa-traefik-core"
