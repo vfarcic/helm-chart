@@ -13,6 +13,8 @@ data:
       url: {{ .Release.Name }}-mongodb-replicaset:27017
       name: shipa
     auth:
+      admin-email: {{ .Values.auth.adminUser | quote }}
+      dummy-domain: {{ .Values.auth.dummyDomain | quote }}
       token-expire-days: 2
       hash-cost: 4
       user-registration: true

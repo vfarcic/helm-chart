@@ -4,6 +4,7 @@
 
 auth:
   adminUser: admin@shipa.io
+  dummyDomain: "@shipa.io"
 
 shipaApi:
   port: 8080
