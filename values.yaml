@@ -8,8 +8,10 @@ auth:
 
 shipaApi:
   port: 8080
-  image: shipasoftware/api:helm-v1.0.49
+  image: shipasoftware/api:helm-v1.0.51
   pullPolicy: Always
+
+license: ""
 
 service:
   traefik:

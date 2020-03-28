@@ -12,6 +12,7 @@ data:
     database:
       url: {{ .Release.Name }}-mongodb-replicaset:27017
       name: shipa
+    license: {{ .Values.license }}
     auth:
       admin-email: {{ .Values.auth.adminUser | quote }}
       dummy-domain: {{ .Values.auth.dummyDomain | quote }}

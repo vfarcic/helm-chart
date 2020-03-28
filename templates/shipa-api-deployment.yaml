@@ -11,6 +11,8 @@ spec:
     metadata:
       labels:
         {{- include "shipa.selectorLabels" . | nindent 8 }}
+      annotations:
+        timestamp: "{{ date "20060102150405" .Release.Time }}"
     spec:
       {{- if .Values.rbac.enabled }}
       serviceAccountName: {{ template "shipa.fullname" . }}
