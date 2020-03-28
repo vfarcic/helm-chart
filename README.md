@@ -21,6 +21,7 @@ There is no hardcoded password for admin user so `--set=auth.adminPassword=....`
 
 # Installation
 
+## Configuring kubernetes cluster and helm chart
 ```bash
 
 NAMESPACE=shipa-system
@@ -43,8 +44,37 @@ kubectl apply -f limits.yaml --namespace=$NAMESPACE
 kubectl label $(kubectl get nodes -o name) "shipa.io/pool=theonepool" --overwrite
 
 helm dep up 
-helm install . --name=shipa --timeout=1000 --set=auth.adminPassword=shipa2020 --namespace=$NAMESPACE
+```
 
+## Installing shipa helm chart
+
+To easily manage upgrades you could keep all overridden values in values.override.yaml
+
+```bash
+cat > values.override.yaml << EOF
+auth:
+  adminPassword: shipa2020
+EOF
+helm install . --name=shipa --timeout=1000 --namespace=$NAMESPACE -f values.override.yaml
+```
+
+## Upgrading shipa helm chart
+
+```bash
+helm upgrade shipa . --timeout=1000 --namespace=$NAMESPACE -f values.override.yaml
+```
+
+## Upgrading shipa helm chart if you have Pro license
+
+We have two general ways how to execute helm upgrade if you have Pro license:
+* Pass a license file to helm upgrade 
+
+```bash
+helm upgrade shipa . --timeout=1000 --namespace=$NAMESPACE -f values.override.yaml -f license.yaml
+```
+* Merge license key from a license file to values.override.yaml and execute helm upgrade as usual
+```bash
+cat license.yaml | grep "license:" >> values.override.yaml
 ```
 
 # Dev environment
