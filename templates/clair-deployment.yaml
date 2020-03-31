@@ -14,9 +14,7 @@ spec:
     spec:
       containers:
         - name: clair
-          image: shipasoftware/clair:v2.0.9
-          args:
-            - --insecure-tls=true
+          image: shipasoftware/clair:v2.0.9.1
           imagePullPolicy: Always
           ports:
             - name: clair
