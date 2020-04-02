@@ -61,7 +61,7 @@ cli:
   pullPolicy: Always
 
 metrics:
-  image: shipasoftware/metrics:v0.0.1
+  image: shipasoftware/metrics:v0.0.3
   pullPolicy: Always
   #password: hardcoded
 

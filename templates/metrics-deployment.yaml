@@ -31,7 +31,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: "{{ template "shipa.fullname" . }}-metrics-config"
-              mountPath: /etc/prometheus/
+              mountPath: /etc/prometheus/config
       volumes:
         - name: {{ template "shipa.fullname" . }}-metrics-config
           configMap:
