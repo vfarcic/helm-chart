@@ -16,7 +16,7 @@ $PASSWORD
 EOF
 $SHIPA_CLIENT team-create admin
 $SHIPA_CLIENT team-create system
-$SHIPA_CLIENT pool-add theonepool --public -d --provisioner=kubernetes --kube-namespace=$POD_NAMESPACE
+$SHIPA_CLIENT pool-add ../templates/shipa-theonepool-template.yaml
 
 TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
 CACERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"

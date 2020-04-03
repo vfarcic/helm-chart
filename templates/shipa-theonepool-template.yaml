@@ -1,0 +1,15 @@
+ShipaPool: theonepool
+Resources:
+   General:
+      Setup:
+         Force: false
+         Default: true
+         Public: true
+         Provisioner: kubernetes
+      Security: 
+         Disable-Scan: true
+         Scan-Platform-Layers: false
+      Access:
+         Append: 
+           - admin
+           - system
