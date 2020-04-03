@@ -27,7 +27,7 @@ $SHIPA_CLIENT cluster-add theonepool --pool=theonepool \
   --cacert=$CACERT \
   --addr=$ADDR \
   --ingress-service-type=ClusterIP \
-  --custom="token=$TOKEN"
+  --token=$TOKEN
 
 $SHIPA_CLIENT role-add NodeContainer pool
 $SHIPA_CLIENT role-add ShipaUser global
