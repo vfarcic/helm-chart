@@ -6,6 +6,7 @@ Resources:
          Default: true
          Public: true
          Provisioner: kubernetes
+         KubeNamespace: $(POD_NAMESPACE)
       Security: 
          Disable-Scan: true
          Scan-Platform-Layers: false
