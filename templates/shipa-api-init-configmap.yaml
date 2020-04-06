@@ -18,3 +18,20 @@ data:
 {{ .Files.Get "scripts/csr-docker-registry.json" | indent 4 }}
   csr-shipa-ca.json: |
 {{ .Files.Get "scripts/csr-shipa-ca.json" | indent 4 }}
+  default-pool-template.yaml: |
+    ShipaPool: theonepool
+    Resources:
+      General:
+        Setup:
+          Force: false
+          Default: true
+          Public: true
+          Provisioner: kubernetes
+          KubeNamespace: {{ .Release.Namespace }}
+        Security:
+          Disable-Scan: true
+          Scan-Platform-Layers: false
+        Access:
+          Append:
+            - admin
+            - system
