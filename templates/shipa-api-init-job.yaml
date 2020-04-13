@@ -43,6 +43,10 @@ spec:
               value: {{ .Values.dashboard.image }}
             - name: DASHBOARD_ENABLED
               value: "{{ .Values.dashboard.enabled }}"
+            - name: DASHBOARD2_IMAGE
+              value: {{ .Values.dashboard2.image }}
+            - name: DASHBOARD2_ENABLED
+              value: "{{ .Values.dashboard2.enabled }}"
             - name: PLATFORMS
               value: "{{ join " " .Values.platforms }}"
             - name: POD_NAMESPACE

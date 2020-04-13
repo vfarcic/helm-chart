@@ -8,7 +8,7 @@ auth:
 
 shipaApi:
   port: 8080
-  image: shipasoftware/api:helm-v1.0.55
+  image: shipasoftware/api:helm-v1.0.56
   pullPolicy: Always
 
 license: ""
@@ -33,6 +33,10 @@ service:
 dashboard:
   enabled: true
   image: shipasoftware/dashboard:latest
+
+dashboard2:
+  enabled: true
+  image: shipasoftware/dashboard:v2.0.1
 
 etcd:
   persistence:
@@ -67,6 +71,7 @@ metrics:
 
 platforms:
   - python
+  - static
 
 # --------------------------------------------------------------------------
 
