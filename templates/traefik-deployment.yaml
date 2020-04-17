@@ -19,7 +19,7 @@ spec:
       {{- end }}
       containers:
         - name: traefik
-          image: "traefik:v1.7.21-alpine"
+          image: "traefik:v1.7.24-alpine"
           command:
             - traefik
             - --configfile=/etc/traefik/traefik.toml
@@ -36,13 +36,19 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: certificates
-              mountPath: /certs/
+              mountPath: /etc/shipa/ssl
             - name: "{{ template "shipa.fullname" . }}-traefik-config"
               mountPath: /etc/traefik/
+          env:
+            - name: SSL_CERT_DIR
+              value: /etc/shipa/ssl
       volumes:
         - name: certificates
           secret:
             secretName: shipa-certificates
+            items:
+              - key: ca.pem
+                path: shipa-ca.crt
         - name: {{ template "shipa.fullname" . }}-traefik-config
           configMap:
             name: {{ template "shipa.fullname" . }}-traefik-config

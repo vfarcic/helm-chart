@@ -80,3 +80,8 @@ data:
         port: 31567
         service-type: LoadBalancer
     debug: true
+
+    certificates:
+      root: /certs/
+      ca: ca.pem
+      ca-key: ca-key.pem
