@@ -27,6 +27,7 @@ data:
       password: $METRICS_PASSWORD
     docker:
       bb:
+        image: shipasoftware/bb:v0.0.1
         socket: /var/run/docker.sock
       cluster:
         storage: mongodb
@@ -87,3 +88,9 @@ data:
       root: /certs/
       ca: ca.pem
       ca-key: ca-key.pem
+
+    grafana:
+      enable: true
+      user: admin
+      password: $GRAFANA_ADMIN_PASSWORD
+      url: http://shipa-grafana:3000

@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "shipa.fullname" . }}-http-ingress
+  labels: {{- include "shipa.labels" . | nindent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: "shipa-nginx-ingress"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ template "shipa.fullname" . }}-api
+              servicePort: {{ .Values.shipaApi.port }}
+          - path: /grafana
+            backend:
+              serviceName: {{ template "shipa.fullname" . }}-grafana
+              servicePort: 3000

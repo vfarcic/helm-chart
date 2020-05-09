@@ -6,4 +6,3 @@ metadata:
 data:
   {{ .Values.guardian.sshPort }}: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-guardian:{{ .Values.guardian.sshPort }}"
   {{ ( index .Values "docker-registry").service.port }}: "{{ .Release.Namespace }}/{{ .Release.Name }}-docker-registry:{{ ( index .Values "docker-registry").service.port }}"
-  {{ .Values.shipaApi.port }}: "{{ .Release.Namespace }}/{{ include "shipa.fullname" . }}-api:{{ .Values.shipaApi.port }}"

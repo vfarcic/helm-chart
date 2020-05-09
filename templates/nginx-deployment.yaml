@@ -22,9 +22,10 @@ spec:
           args:
             - /nginx-ingress-controller
             - --election-id={{ template "shipa.fullname" . }}-leader
-            - --configmap=$(POD_NAMESPACE)/{{ template "shipa.fullname" . }}-nginx-config
             - --tcp-services-configmap=$(POD_NAMESPACE)/{{ template "shipa.fullname" . }}-nginx-tcp-services
             - --publish-service=$(POD_NAMESPACE)/{{ template "shipa.fullname" . }}-ingress-nginx
+            - --http-port={{ .Values.shipaApi.port }}
+            - --ingress-class=shipa-nginx-ingress
           securityContext:
             allowPrivilegeEscalation: true
             capabilities:

@@ -29,23 +29,32 @@ $SHIPA_CLIENT cluster-add theonepool --pool=theonepool \
   --ingress-service-type=ClusterIP \
   --token=$TOKEN
 
-$SHIPA_CLIENT role-add NodeContainer pool
 $SHIPA_CLIENT role-add ShipaUser global
 $SHIPA_CLIENT role-permission-add ShipaUser pool.create
 $SHIPA_CLIENT role-permission-add ShipaUser team.create
+
 $SHIPA_CLIENT role-add TeamAdmin team
 $SHIPA_CLIENT role-permission-add TeamAdmin team
 $SHIPA_CLIENT role-permission-add TeamAdmin app
+
 $SHIPA_CLIENT role-add PoolAdmin pool
 $SHIPA_CLIENT role-permission-add PoolAdmin pool
 $SHIPA_CLIENT role-permission-add PoolAdmin node
+
 $SHIPA_CLIENT role-default-add --team-create TeamAdmin
 $SHIPA_CLIENT role-default-add --pool-add PoolAdmin
 $SHIPA_CLIENT role-default-add --user-create ShipaUser
-$SHIPA_CLIENT role-permission-add NodeContainer app.metrics.write
+
+$SHIPA_CLIENT role-add NodeContainer pool
+$SHIPA_CLIENT role-permission-add NodeContainer metrics.write
 $SHIPA_CLIENT role-permission-add NodeContainer app.update.log
-$SHIPA_CLIENT role-permission-add NodeContainer pool.metrics.write
 $SHIPA_CLIENT role-permission-add NodeContainer node.update.status
+
+$SHIPA_CLIENT role-add ClusterNodeContainer cluster
+$SHIPA_CLIENT role-permission-add ClusterNodeContainer metrics.write
+$SHIPA_CLIENT role-permission-add ClusterNodeContainer app.update.log
+$SHIPA_CLIENT role-permission-add ClusterNodeContainer node.update.status
+
 $SHIPA_CLIENT token-create --team=system --id=system-node-container
 $SHIPA_CLIENT role-assign NodeContainer system-node-container theonepool
 $SHIPA_CLIENT role-add PlatformImageAdmin global

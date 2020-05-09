@@ -8,7 +8,7 @@ auth:
 
 shipaApi:
   port: 8080
-  image: shipasoftware/api:helm-v1.0.58
+  image: shipasoftware/api:helm-v1.0.59
   pullPolicy: Always
 
 license: ""
@@ -36,7 +36,7 @@ dashboard:
 
 dashboard2:
   enabled: true
-  image: shipasoftware/dashboard:v2.0.2
+  image: shipasoftware/dashboard:v2.0.6
 
 etcd:
   persistence:
@@ -68,6 +68,12 @@ metrics:
   image: shipasoftware/metrics:v0.0.3
   pullPolicy: Always
   #password: hardcoded
+
+grafana:
+  image: grafana/grafana:6.7.3
+  pullPolicy: IfNotPresent
+  #password: hardcoded
+
 
 platforms:
   - python

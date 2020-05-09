@@ -70,6 +70,11 @@ spec:
               secretKeyRef:
                 name: {{ template "shipa.fullname" . }}-api-init-secret
                 key: password
+          - name: GRAFANA_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "shipa.fullname" . }}-secret
+                key: grafana-password
           - name: TRAEFIK_SERVICE
             value: {{ template "shipa.fullname" . }}-traefik
           - name: NGINX_SERVICE
@@ -96,6 +101,11 @@ spec:
                 secretKeyRef:
                   name: {{ template "shipa.fullname" . }}-secret
                   key: metrics-password
+            - name: GRAFANA_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-secret
+                  key: grafana-password
             - name: DOCKER_REGISTRY_PASSWORD
               valueFrom:
                 secretKeyRef:
