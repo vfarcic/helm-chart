@@ -71,7 +71,7 @@ $SHIPA_CLIENT role-permission-add  AppImageAdmin app.update.image
 $SHIPA_CLIENT node-container-add netdata \
         --enable=true \
         --privileged=true \
-        --image=shipasoftware/netdata:v0.0.2 -p 19999:19999 \
+        --image=shipasoftware/netdata:v0.0.3 -p 19999:19999 \
         -v /etc/passwd:/host/etc/passwd:ro \
         -v /etc/group:/host/etc/group:ro \
         -v /proc:/host/proc:ro \
