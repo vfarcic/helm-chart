@@ -37,7 +37,7 @@ dashboard:
 
 dashboard2:
   enabled: true
-  image: shipasoftware/dashboard:v2.0.6
+  image: shipasoftware/dashboard:v2.0.9
 
 etcd:
   persistence:

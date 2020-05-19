@@ -93,6 +93,7 @@ if [ "x$DASHBOARD2_ENABLED" = "xtrue" ]; then
   $SHIPA_CLIENT app-create dashboard2 static \
       --pool=theonepool \
       --team=admin \
+      -e SHIPA_LICENSE=Free \
       -e METRICS_HOST=http://$METRICS_SERVICE:9090 \
       -e METRICS_PASSWORD="$METRICS_PASSWORD" \
       -e TRAEFIK_DASHBOARD_PASSWORD="" \
