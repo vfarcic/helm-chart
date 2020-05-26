@@ -3,12 +3,11 @@
 # Declare variables to be passed into your templates.
 
 auth:
-  adminUser: admin@shipa.io
   dummyDomain: "@shipa.io"
 
 shipaApi:
   port: 8080
-  image: shipasoftware/api:helm-v1.0.60
+  image: shipasoftware/api:helm-v1.0.63
   pullPolicy: Always
   debug: false
 
@@ -20,6 +19,7 @@ service:
     httpsPort: 443
     enable: true
     rbac: true
+    debug: false
 #    serviceType: ClusterIP
     serviceType: LoadBalancer
 #    clusterIP: 10.100.10.11
@@ -33,11 +33,7 @@ service:
 
 dashboard:
   enabled: true
-  image: shipasoftware/dashboard:latest
-
-dashboard2:
-  enabled: true
-  image: shipasoftware/dashboard:v2.0.9
+  image: shipasoftware/dashboard:v2.0.10
 
 etcd:
   persistence:
@@ -62,22 +58,24 @@ guardian:
       size: 10Gi
 
 cli:
-  image: shipasoftware/cli:v0.0.62
+  image: shipasoftware/cli:v0.0.65
   pullPolicy: Always
 
 metrics:
-  image: shipasoftware/metrics:v0.0.3
+  image: shipasoftware/metrics:v0.0.4
   pullPolicy: Always
   #password: hardcoded
+  persistence:
+    accessMode: 'ReadWriteOnce'
+    size: 10Gi
 
 busybody:
-  image: shipasoftware/bb:v0.0.1
+  image: shipasoftware/bb:v0.0.2
 
 netdata:
   image: shipasoftware/netdata:v0.0.3
 
 platforms:
-  - python
   - static
 
 # --------------------------------------------------------------------------

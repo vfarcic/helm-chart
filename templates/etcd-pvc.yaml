@@ -11,8 +11,8 @@ spec:
       storage: {{ .Values.etcd.persistence.size | quote }}
   {{- if .Values.etcd.persistence.storageClass }}
   {{- if (eq "-" .Values.etcd.persistence.storageClass) }}
-storageClassName: ""
+  storageClassName: ""
   {{- else }}
-storageClassName: "{{ .Values.etcd.persistence.storageClass }}"
+  storageClassName: "{{ .Values.etcd.persistence.storageClass }}"
   {{- end }}
   {{- end }}

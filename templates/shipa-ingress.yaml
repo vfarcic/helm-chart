@@ -13,7 +13,3 @@ spec:
             backend:
               serviceName: {{ template "shipa.fullname" . }}-api
               servicePort: {{ .Values.shipaApi.port }}
-          - path: /grafana
-            backend:
-              serviceName: {{ template "shipa.fullname" . }}-grafana
-              servicePort: 3000

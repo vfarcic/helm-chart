@@ -89,27 +89,11 @@ do
    $SHIPA_CLIENT platform-add $platform
 done
 
-if [ "x$DASHBOARD2_ENABLED" = "xtrue" ]; then
-  $SHIPA_CLIENT app-create dashboard2 static \
-      --pool=theonepool \
-      --team=admin \
-      -e SHIPA_LICENSE=Free \
-      -e METRICS_HOST=http://$METRICS_SERVICE:9090 \
-      -e METRICS_PASSWORD="$METRICS_PASSWORD" \
-      -e TRAEFIK_DASHBOARD_PASSWORD="" \
-      -e TRAEFIK_DASHBOARD_HOST=http://$TRAEFIK_INTERNAL_SERVICE:9095
-
-  $SHIPA_CLIENT app-deploy -a dashboard2 -i $DASHBOARD2_IMAGE
-fi
-
 if [ "x$DASHBOARD_ENABLED" = "xtrue" ]; then
-  $SHIPA_CLIENT app-create dashboard python \
+  $SHIPA_CLIENT app-create dashboard static \
       --pool=theonepool \
       --team=admin \
-      -e METRICS_HOST=http://$METRICS_SERVICE:9090 \
-      -e METRICS_PASSWORD="$METRICS_PASSWORD" \
-      -e TRAEFIK_DASHBOARD_PASSWORD="" \
-      -e TRAEFIK_DASHBOARD_HOST=http://$TRAEFIK_INTERNAL_SERVICE:9095
+      -e SHIPA_ADMIN_USER=$USERNAME
 
   $SHIPA_CLIENT app-deploy -a dashboard -i $DASHBOARD_IMAGE
 fi

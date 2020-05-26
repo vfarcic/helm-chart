@@ -11,8 +11,8 @@ spec:
       storage: {{ .Values.postgres.persistence.size | quote }}
   {{- if .Values.postgres.persistence.storageClass }}
   {{- if (eq "-" .Values.postgres.persistence.storageClass) }}
-storageClassName: ""
+  storageClassName: ""
   {{- else }}
-storageClassName: "{{ .Values.postgres.persistence.storageClass }}"
+  storageClassName: "{{ .Values.postgres.persistence.storageClass }}"
   {{- end }}
   {{- end }}
