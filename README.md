@@ -53,6 +53,7 @@ To easily manage upgrades you could keep all overridden values in values.overrid
 ```bash
 cat > values.override.yaml << EOF
 auth:
+  adminUser: <your email here>
   adminPassword: shipa2020
 EOF
 helm install . --name=shipa --timeout=1000 --namespace=$NAMESPACE -f values.override.yaml
