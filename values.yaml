@@ -7,7 +7,7 @@ auth:
 
 shipaApi:
   port: 8080
-  image: shipasoftware/api:helm-v1.0.63
+  image: shipasoftware/api:helm-v1.0.64
   pullPolicy: Always
   debug: false
 
@@ -33,7 +33,7 @@ service:
 
 dashboard:
   enabled: true
-  image: shipasoftware/dashboard:v2.0.10
+  image: shipasoftware/dashboard:v2.0.12
 
 etcd:
   persistence:
@@ -62,7 +62,7 @@ cli:
   pullPolicy: Always
 
 metrics:
-  image: shipasoftware/metrics:v0.0.4
+  image: shipasoftware/metrics:v0.0.5
   pullPolicy: Always
   #password: hardcoded
   persistence:
