@@ -5,6 +5,9 @@ metadata:
   labels: {{- include "shipa.labels" . | nindent 4 }}
 data:
   prometheus.yml: |-
+    #
+    # DO NOT EDIT. Can be updated by shipa helm chart
+    #
     global:
       scrape_interval: 1m
 
@@ -22,3 +25,12 @@ data:
         scheme: http
         static_configs:
           - targets: ['{{ template "shipa.fullname" . }}-traefik-internal.{{ .Release.Namespace }}:9095']
+
+    {{- if .Values.metrics.extraPrometheusConfiguration }}
+    #
+    # User defined extra configuration
+    #
+    {{- range $line, $value := ( split "\n" .Values.metrics.extraPrometheusConfiguration ) }}
+    {{ $value }}
+    {{- end }}
+    {{- end }}

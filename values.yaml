@@ -64,6 +64,14 @@ cli:
 metrics:
   image: shipasoftware/metrics:v0.0.5
   pullPolicy: Always
+
+  # Extra configuration to add to prometheus.yaml
+  # extraPrometheusConfiguration: |
+  #   remote_read:
+  #      - url: http://localhost:9268/read
+  #   remote_write:
+  #      - url: http://localhost:9268/write
+  extraPrometheusConfiguration:
   #password: hardcoded
 
 busybody:
