@@ -89,3 +89,5 @@ data:
       root: /certs/
       ca: ca.pem
       ca-key: ca-key.pem
+
+    signatures: single # multiple/single
