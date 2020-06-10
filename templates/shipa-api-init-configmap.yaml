@@ -10,6 +10,8 @@ data:
 {{ .Files.Get "scripts/create-root-user.sh" | indent 4 }}
   init-job.sh: |
 {{ .Files.Get "scripts/init-job.sh" | indent 4 }}
+  install-dashboard.sh: |
+{{ .Files.Get "scripts/install-dashboard.sh" | indent 4 }}
   bootstrap.sh: |
 {{ .Files.Get "scripts/bootstrap.sh" | indent 4 }}
   csr-docker-cluster.json: |

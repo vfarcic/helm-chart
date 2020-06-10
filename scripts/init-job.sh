@@ -89,11 +89,4 @@ do
    $SHIPA_CLIENT platform-add $platform
 done
 
-if [ "x$DASHBOARD_ENABLED" = "xtrue" ]; then
-  $SHIPA_CLIENT app-create dashboard static \
-      --pool=theonepool \
-      --team=admin \
-      -e SHIPA_ADMIN_USER=$USERNAME
-
-  $SHIPA_CLIENT app-deploy -a dashboard -i $DASHBOARD_IMAGE
-fi
+/scripts/install-dashboard.sh

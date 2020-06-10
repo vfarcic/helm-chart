@@ -58,7 +58,7 @@ guardian:
       size: 10Gi
 
 cli:
-  image: shipasoftware/cli:v0.0.65
+  image: shipasoftware/cli:v0.0.67
   pullPolicy: Always
 
 metrics:
