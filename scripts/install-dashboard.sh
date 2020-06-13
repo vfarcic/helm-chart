@@ -26,6 +26,11 @@ if [ "x$EVENT_ID" != "x" ]; then
 
   if [ "x$SAME_IMAGE" != "x" ]; then
     echo "The dashboard uses the same image : $DASHBOARD_IMAGE"
+
+    #
+    # Let's restart the dashboard, there is a chance that a user has changed a license (Free -> Pro)
+    #
+    $SHIPA_CLIENT app-restart -a dashboard
     exit 0
   fi
 fi
