@@ -59,8 +59,12 @@ data:
         domain: TRAEFIK_IP.nip.io
         kv:
           prefix: traefik
-          store-type: etcdv3
           endpoint: {{ template "shipa.fullname" . }}-etcd:2379
+          username: root
+          password: $ETCD_PASSWORD
+          ca: /certs/ca.pem
+          client-key: /certs/etcd-client.key
+          client-cert: /certs/etcd-client.crt
     queue:
       mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
       mongo-database: queuedb
@@ -77,10 +81,14 @@ data:
       disabled: false
     kubernetes:
       core-ingress-controller-address: TRAEFIK_IP
+      core-services-address: SHIPA_PUBLIC_IP
       use-pool-namespaces: true
       remote-cluster-ingress:
-        port: 31567
+        http-port: 80
+        https-port: 443
+        protected-port: 31567
         service-type: LoadBalancer
+
       deploy-sidecar-image: shipasoftware/deploy-agent:v0.6.1
       deploy-inspect-image: shipasoftware/deploy-agent:v0.6.1
     debug: {{ .Values.shipaApi.debug }}

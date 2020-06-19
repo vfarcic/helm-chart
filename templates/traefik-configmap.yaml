@@ -19,7 +19,7 @@ data:
       [entryPoints.https]
       address = ":{{ .Values.service.traefik.httpsPort }}"
         [entryPoints.https.tls]
-          insecureSkipVerify = true
+
       [entryPoints.traefik]
       address = ":9095"
 
@@ -40,6 +40,12 @@ data:
     watch = true
     prefix = "/traefik"
     useAPIv3 = true
+    username = "root"
+      [etcd.tls]
+      ca = "/etc/shipa/ssl/shipa-ca.crt"
+      cert = "/etc/shipa/ssl/etcd-client.crt"
+      key = "/etc/shipa/ssl/etcd-client.key"
+      insecureSkipVerify = false
 
     [kubernetes]
     ingressClass = "shipa-traefik-core"

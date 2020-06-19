@@ -39,6 +39,8 @@ spec:
               value: {{ template "shipa.fullname" . }}-traefik
             - name: NGINX_SERVICE
               value: {{ template "shipa.fullname" . }}-ingress-nginx
+            - name: ETCD_SERVICE
+              value: {{ template "shipa.fullname" . }}-etcd
             - name: REGISTRY_SERVICE
               value: {{ .Release.Name }}-docker-registry
             - name: TRAEFIK_SERVICE_TYPE
@@ -101,6 +103,11 @@ spec:
                 secretKeyRef:
                   name: {{ template "shipa.fullname" . }}-secret
                   key: docker-registry-password
+            - name: ETCD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-secret
+                  key: etcd-password
           ports:
             - name: shipa
               containerPort: {{ .Values.shipaApi.port }}
@@ -129,6 +136,7 @@ spec:
             items:
               - key: shipa.conf
                 path: shipa.conf
+          # FIXME: inject certs that are used only
         - name: certificates
           secret:
             secretName: shipa-certificates

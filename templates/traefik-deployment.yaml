@@ -23,6 +23,7 @@ spec:
           command:
             - traefik
             - --configfile=/etc/traefik/traefik.toml
+            - --etcd.password=$(ETCD_PASSWORD)
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -42,6 +43,11 @@ spec:
           env:
             - name: SSL_CERT_DIR
               value: /etc/shipa/ssl
+            - name: ETCD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-secret
+                  key: etcd-password
       volumes:
         - name: certificates
           secret:
@@ -49,6 +55,10 @@ spec:
             items:
               - key: ca.pem
                 path: shipa-ca.crt
+              - key: etcd-client.crt
+                path: etcd-client.crt
+              - key: etcd-client.key
+                path: etcd-client.key
         - name: {{ template "shipa.fullname" . }}-traefik-config
           configMap:
             name: {{ template "shipa.fullname" . }}-traefik-config

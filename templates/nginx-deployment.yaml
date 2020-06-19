@@ -53,6 +53,9 @@ spec:
             - name: registry
               containerPort: {{ ( index .Values "docker-registry").service.port }}
               protocol: TCP
+            - name: etcd
+              containerPort: 2379
+              protocol: TCP
           livenessProbe:
             failureThreshold: 3
             httpGet:

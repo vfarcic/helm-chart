@@ -1,0 +1,16 @@
+{
+  "CN": "Shipa etcd",
+  "hosts": [
+    "SHIPA_PUBLIC_IP",
+    "ETCD_SERVICE"
+  ],
+  "key": {
+    "algo": "ecdsa",
+    "size": 256
+  },
+  "names": [
+    {
+      "O": "Shipa"
+    }
+  ]
+}

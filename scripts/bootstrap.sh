@@ -23,6 +23,9 @@ mkdir $CERTIFICATES_DIRECTORY
 sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-shipa-ca.json > $CERTIFICATES_DIRECTORY/csr-shipa-ca.json
 sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-docker-registry.json > $CERTIFICATES_DIRECTORY/csr-docker-registry.json
 sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-docker-cluster.json > $CERTIFICATES_DIRECTORY/csr-docker-cluster.json
+sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-etcd.json > $CERTIFICATES_DIRECTORY/csr-etcd.json
+sed "s/ETCD_SERVICE/$ETCD_SERVICE/g" --in-place $CERTIFICATES_DIRECTORY/csr-etcd.json
+cp /scripts/csr-etcd-client.json $CERTIFICATES_DIRECTORY/csr-etcd-client.json
 
 cfssl gencert -initca $CERTIFICATES_DIRECTORY/csr-shipa-ca.json | cfssljson -bare $CERTIFICATES_DIRECTORY/ca
 cfssl gencert \
@@ -37,6 +40,18 @@ cfssl gencert \
     -profile=server \
     $CERTIFICATES_DIRECTORY/csr-docker-cluster.json | cfssljson -bare $CERTIFICATES_DIRECTORY/docker-cluster
 
+cfssl gencert \
+    -ca=$CERTIFICATES_DIRECTORY/ca.pem \
+    -ca-key=$CERTIFICATES_DIRECTORY/ca-key.pem \
+    -profile=server \
+    $CERTIFICATES_DIRECTORY/csr-etcd.json | cfssljson -bare $CERTIFICATES_DIRECTORY/etcd-server
+
+cfssl gencert \
+    -ca=$CERTIFICATES_DIRECTORY/ca.pem \
+    -ca-key=$CERTIFICATES_DIRECTORY/ca-key.pem \
+    -profile=client \
+    $CERTIFICATES_DIRECTORY/csr-etcd-client.json | cfssljson -bare $CERTIFICATES_DIRECTORY/etcd-client
+
 rm -f $CERTIFICATES_DIRECTORY/*.csr
 rm -f $CERTIFICATES_DIRECTORY/*.json
 
@@ -49,6 +64,12 @@ DOCKER_CLUSTER_KEY=$(cat $CERTIFICATES_DIRECTORY/docker-cluster-key.pem | base64
 DOCKER_REGISTRY_CERT=$(cat $CERTIFICATES_DIRECTORY/docker-registry.pem | base64)
 DOCKER_REGISTRY_KEY=$(cat $CERTIFICATES_DIRECTORY/docker-registry-key.pem | base64)
 
+ETCD_SERVER_CERT=$(cat $CERTIFICATES_DIRECTORY/etcd-server.pem | base64)
+ETCD_SERVER_KEY=$(cat $CERTIFICATES_DIRECTORY/etcd-server-key.pem | base64)
+
+ETCD_CLIENT_CERT=$(cat $CERTIFICATES_DIRECTORY/etcd-client.pem | base64)
+ETCD_CLIENT_KEY=$(cat $CERTIFICATES_DIRECTORY/etcd-client-key.pem | base64)
+
 # FIXME: name of secret
 kubectl get secrets shipa-certificates -o json \
         | jq ".data[\"ca.pem\"] |= \"$CA_CERT\"" \
@@ -57,6 +78,10 @@ kubectl get secrets shipa-certificates -o json \
         | jq ".data[\"key.pem\"] |= \"$DOCKER_CLUSTER_KEY\"" \
         | jq ".data[\"tls.crt\"] |= \"$DOCKER_REGISTRY_CERT\"" \
         | jq ".data[\"tls.key\"] |= \"$DOCKER_REGISTRY_KEY\"" \
+        | jq ".data[\"etcd-server.crt\"] |= \"$ETCD_SERVER_CERT\"" \
+        | jq ".data[\"etcd-server.key\"] |= \"$ETCD_SERVER_KEY\"" \
+        | jq ".data[\"etcd-client.crt\"] |= \"$ETCD_CLIENT_CERT\"" \
+        | jq ".data[\"etcd-client.key\"] |= \"$ETCD_CLIENT_KEY\"" \
         | kubectl apply -f -
 
 kubectl scale deployment/$REGISTRY_SERVICE --replicas=0
@@ -74,3 +99,9 @@ openssl x509 -in $CERTIFICATES_DIRECTORY/docker-registry.pem -text -noout
 
 echo "Docker cluster:"
 openssl x509 -in $CERTIFICATES_DIRECTORY/docker-cluster.pem -text -noout
+
+echo "Etcd server:"
+openssl x509 -in $CERTIFICATES_DIRECTORY/etcd-server.pem -text -noout
+
+echo "Etcd client:"
+openssl x509 -in $CERTIFICATES_DIRECTORY/etcd-client.pem -text -noout

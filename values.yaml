@@ -36,6 +36,8 @@ dashboard:
   image: shipasoftware/dashboard:v2.0.13
 
 etcd:
+  debug: false
+  #password: bingo
   persistence:
     accessMode: 'ReadWriteOnce'
     size: 10Gi
