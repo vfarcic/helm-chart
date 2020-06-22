@@ -92,7 +92,10 @@ data:
       deploy-sidecar-image: shipasoftware/deploy-agent:v0.6.1
       deploy-inspect-image: shipasoftware/deploy-agent:v0.6.1
     debug: {{ .Values.shipaApi.debug }}
-
+    node-traefik:
+      image: {{ .Values.shipa-node-traefik.image }}
+      user: {{ .Values.shipa-node-traefik.user }}
+      password: {{ .Values.shipa-node-traefik.password }}
     certificates:
       root: /certs/
       ca: ca.pem

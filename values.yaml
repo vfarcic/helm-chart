@@ -82,6 +82,11 @@ busybody:
 netdata:
   image: shipasoftware/netdata:v0.0.3
 
+shipa-node-traefik:
+  image: shipasoftware/shipa-node-traefik:v0.0.1
+  user: admin
+  password: shipa2020
+
 platforms:
   - static
 
