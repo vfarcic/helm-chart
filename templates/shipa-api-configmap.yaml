@@ -95,7 +95,7 @@ data:
     node-traefik:
       image: {{ .Values.shipa-node-traefik.image }}
       user: {{ .Values.shipa-node-traefik.user }}
-      password: {{ .Values.shipa-node-traefik.password }}
+      password: $NODE_TRAEFIK_PASSWORD
     certificates:
       root: /certs/
       ca: ca.pem

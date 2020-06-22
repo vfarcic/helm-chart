@@ -85,7 +85,6 @@ netdata:
 shipa-node-traefik:
   image: shipasoftware/shipa-node-traefik:v0.0.1
   user: admin
-  password: shipa2020
 
 platforms:
   - static
