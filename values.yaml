@@ -82,7 +82,7 @@ busybody:
 netdata:
   image: shipasoftware/netdata:v0.0.3
 
-shipa-node-traefik:
+shipaNodeTraefik:
   image: shipasoftware/shipa-node-traefik:v0.0.1
   user: admin
 

@@ -93,8 +93,8 @@ data:
       deploy-inspect-image: shipasoftware/deploy-agent:v0.6.1
     debug: {{ .Values.shipaApi.debug }}
     node-traefik:
-      image: {{ .Values.shipa-node-traefik.image }}
-      user: {{ .Values.shipa-node-traefik.user }}
+      image: {{ .Values.shipaNodeTraefik.image }}
+      user: {{ .Values.shipaNodeTraefik.user }}
       password: $NODE_TRAEFIK_PASSWORD
     certificates:
       root: /certs/
