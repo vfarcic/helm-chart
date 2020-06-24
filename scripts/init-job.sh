@@ -55,6 +55,9 @@ $SHIPA_CLIENT role-permission-add ClusterNodeContainer metrics.write
 $SHIPA_CLIENT role-permission-add ClusterNodeContainer app.update.log
 $SHIPA_CLIENT role-permission-add ClusterNodeContainer node.update.status
 
+$SHIPA_CLIENT role-add ClusterMetricsWriter cluster
+$SHIPA_CLIENT role-permission-add ClusterMetricsWriter metrics.write
+
 $SHIPA_CLIENT token-create --team=system --id=system-node-container
 $SHIPA_CLIENT role-assign NodeContainer system-node-container theonepool
 $SHIPA_CLIENT role-add PlatformImageAdmin global
