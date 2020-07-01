@@ -26,7 +26,9 @@ sleep 10
 $SHIPA_CLIENT cluster-add theonepool --pool=theonepool \
   --cacert=$CACERT \
   --addr=$ADDR \
-  --ingress-service-type=ClusterIP \
+  --ingress-service-type=$INGRESS_SERVICE_TYPE \
+  --ingress-ip=$INGRESS_IP \
+  --ingress-debug=$INGRESS_DEBUG \
   --token=$TOKEN
 
 $SHIPA_CLIENT role-add ShipaUser global

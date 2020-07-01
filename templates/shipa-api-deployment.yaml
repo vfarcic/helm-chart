@@ -35,16 +35,12 @@ spec:
             - name: config-dir
               mountPath: /etc/shipa/
           env:
-            - name: TRAEFIK_SERVICE
-              value: {{ template "shipa.fullname" . }}-traefik
             - name: NGINX_SERVICE
               value: {{ template "shipa.fullname" . }}-ingress-nginx
             - name: ETCD_SERVICE
               value: {{ template "shipa.fullname" . }}-etcd
             - name: REGISTRY_SERVICE
               value: {{ .Release.Name }}-docker-registry
-            - name: TRAEFIK_SERVICE_TYPE
-              value: {{ .Values.service.traefik.serviceType }}
             - name: NGINX_SERVICE_TYPE
               value: {{ .Values.service.nginx.serviceType }}
             - name: SHIPA_PORT
@@ -72,14 +68,10 @@ spec:
               secretKeyRef:
                 name: {{ template "shipa.fullname" . }}-api-init-secret
                 key: password
-          - name: TRAEFIK_SERVICE
-            value: {{ template "shipa.fullname" . }}-traefik
           - name: NGINX_SERVICE
             value: {{ template "shipa.fullname" . }}-ingress-nginx
           - name: GUARDIAN_SERVICE
             value: {{ template "shipa.fullname" . }}-guardian
-          - name: TRAEFIK_SERVICE_TYPE
-            value: {{ .Values.service.traefik.serviceType }}
           - name: NGINX_SERVICE_TYPE
             value: {{ .Values.service.nginx.serviceType }}
           - name: POD_NAMESPACE
@@ -141,7 +133,7 @@ spec:
             items:
               - key: shipa.conf
                 path: shipa.conf
-          # FIXME: inject certs that are used only
+
         - name: certificates
           secret:
             secretName: shipa-certificates

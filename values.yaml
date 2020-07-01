@@ -13,17 +13,13 @@ shipaApi:
 
 license: ""
 
+shipaCore:
+  debug: false
+  # serviceType: ClusterIP
+  serviceType: LoadBalancer
+  # ip: 10.100.10.11
+
 service:
-  traefik:
-    httpPort: 80
-    httpsPort: 443
-    enable: true
-    rbac: true
-    debug: false
-#    serviceType: ClusterIP
-    serviceType: LoadBalancer
-#    clusterIP: 10.100.10.11
-#    loadBalancerIP: 104.154.157.13
   nginx:
     enabled: true
     serviceType: LoadBalancer

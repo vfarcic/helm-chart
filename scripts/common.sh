@@ -18,10 +18,6 @@ wait_public_ip() {
 }
 
 set_public_ips() {
-  echo "Waiting for traefik to be ready"
-  TRAEFIK_ADDRESS=$(wait_public_ip $TRAEFIK_SERVICE_TYPE $TRAEFIK_SERVICE)
-  echo "shipa address: $TRAEFIK_ADDRESS"
-
   echo "Waiting for nginx ingress to be ready"
   NGINX_ADDRESS=$(wait_public_ip $NGINX_SERVICE_TYPE $NGINX_SERVICE)
   echo "shipa address: $NGINX_ADDRESS"

@@ -37,8 +37,12 @@ spec:
                   key: password
             - name: METRICS_SERVICE
               value: {{ template "shipa.fullname" . }}-metrics
-            - name: TRAEFIK_INTERNAL_SERVICE
-              value: {{ template "shipa.fullname" . }}-traefik-internal
+            - name: INGRESS_SERVICE_TYPE
+              value: {{ default ( "LoadBalancer" ) .Values.shipaCore.serviceType | quote }}
+            - name: INGRESS_IP
+              value: {{ default ( "" ) .Values.shipaCore.ip | quote }}
+            - name: INGRESS_DEBUG
+              value: {{ default ( "false" ) .Values.shipaCore.debug | quote }}
             - name: DASHBOARD_IMAGE
               value: {{ .Values.dashboard.image }}
             - name: DASHBOARD_ENABLED

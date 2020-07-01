@@ -56,9 +56,7 @@ data:
     routers:
       traefik:
         type: traefik
-        domain: TRAEFIK_IP.nip.io
         kv:
-          prefix: traefik
           endpoint: {{ template "shipa.fullname" . }}-etcd:2379
           username: root
           password: $ETCD_PASSWORD
@@ -80,7 +78,6 @@ data:
       server: http://{{ template "shipa.fullname" . }}-clair:6060
       disabled: false
     kubernetes:
-      core-ingress-controller-address: TRAEFIK_IP
       core-services-address: SHIPA_PUBLIC_IP
       use-pool-namespaces: true
       remote-cluster-ingress:
