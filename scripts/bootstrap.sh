@@ -23,6 +23,8 @@ sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-shipa-ca.json > $CERTIFICA
 sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-docker-registry.json > $CERTIFICATES_DIRECTORY/csr-docker-registry.json
 sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-docker-cluster.json > $CERTIFICATES_DIRECTORY/csr-docker-cluster.json
 sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-etcd.json > $CERTIFICATES_DIRECTORY/csr-etcd.json
+sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-api-config.json > $CERTIFICATES_DIRECTORY/csr-api-config.json
+sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-api-server.json > $CERTIFICATES_DIRECTORY/csr-api-server.json
 sed "s/ETCD_SERVICE/$ETCD_SERVICE/g" --in-place $CERTIFICATES_DIRECTORY/csr-etcd.json
 cp /scripts/csr-etcd-client.json $CERTIFICATES_DIRECTORY/csr-etcd-client.json
 
@@ -51,6 +53,13 @@ cfssl gencert \
     -profile=client \
     $CERTIFICATES_DIRECTORY/csr-etcd-client.json | cfssljson -bare $CERTIFICATES_DIRECTORY/etcd-client
 
+cfssl gencert \
+    -ca=$CERTIFICATES_DIRECTORY/ca.pem \
+    -ca-key=$CERTIFICATES_DIRECTORY/ca-key.pem \
+    -config=$CERTIFICATES_DIRECTORY/csr-api-config.json \
+    -profile=server \
+    $CERTIFICATES_DIRECTORY/csr-api-server.json | cfssljson -bare $CERTIFICATES_DIRECTORY/api-server
+
 rm -f $CERTIFICATES_DIRECTORY/*.csr
 rm -f $CERTIFICATES_DIRECTORY/*.json
 
@@ -69,6 +78,10 @@ ETCD_SERVER_KEY=$(cat $CERTIFICATES_DIRECTORY/etcd-server-key.pem | base64)
 ETCD_CLIENT_CERT=$(cat $CERTIFICATES_DIRECTORY/etcd-client.pem | base64)
 ETCD_CLIENT_KEY=$(cat $CERTIFICATES_DIRECTORY/etcd-client-key.pem | base64)
 
+API_SERVER_CERT=$(cat $CERTIFICATES_DIRECTORY/api-server.pem | base64)
+API_SERVER_KEY=$(cat $CERTIFICATES_DIRECTORY/api-server-key.pem | base64)
+
+
 # FIXME: name of secret
 kubectl get secrets shipa-certificates -o json \
         | jq ".data[\"ca.pem\"] |= \"$CA_CERT\"" \
@@ -81,6 +94,8 @@ kubectl get secrets shipa-certificates -o json \
         | jq ".data[\"etcd-server.key\"] |= \"$ETCD_SERVER_KEY\"" \
         | jq ".data[\"etcd-client.crt\"] |= \"$ETCD_CLIENT_CERT\"" \
         | jq ".data[\"etcd-client.key\"] |= \"$ETCD_CLIENT_KEY\"" \
+        | jq ".data[\"api-server.crt\"] |= \"$API_SERVER_CERT\"" \
+        | jq ".data[\"api-server.key\"] |= \"$API_SERVER_KEY\"" \
         | kubectl apply -f -
 
 kubectl scale deployment/$REGISTRY_SERVICE --replicas=0

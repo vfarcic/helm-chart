@@ -22,7 +22,11 @@ spec:
       name: registry
       targetPort: {{ ( index .Values "docker-registry").service.port }}
       protocol: TCP
-    - port: {{ .Values.shipaApi.port }}
+    - port: {{ .Values.shipaApi.securePort }}
+      name: shipa-secure
+      targetPort: {{ .Values.shipaApi.securePort }}
+      protocol: TCP
+    - port:  {{ .Values.shipaApi.port }}
       name: shipa
       targetPort: {{ .Values.shipaApi.port }}
       protocol: TCP

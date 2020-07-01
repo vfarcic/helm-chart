@@ -109,6 +109,9 @@ spec:
             - name: shipa
               containerPort: {{ .Values.shipaApi.port }}
               protocol: TCP
+            - name: shipa-secure
+              containerPort: {{ .Values.shipaApi.securePort }}
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /

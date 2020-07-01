@@ -17,9 +17,11 @@ for pvc in $PVCs; do
 done
 
 3. Set default target for shipa-client:
-
-export SHIPA_HOST=$(kubectl --namespace={{ .Release.Namespace }} get svc {{ template "shipa.fullname" . }}-ingress-nginx  -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
-shipa target-add {{ .Release.Name }} http://$SHIPA_HOST:{{ .Values.shipaApi.port }} -s
+export SHIPA_HOST=$(kubectl --namespace={{ .Release.Namespace }} get ingress {{ template "shipa.fullname" . }}-http-ingress -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+export SHIPA_TARGET_NAME={{ .Release.Name }}
+mkdir -p $HOME/.shipa/certificates/$SHIPA_TARGET_NAME
+kubectl exec -n "default" $(kubectl get pod -l app.kubernetes.io/name={{ template "shipa.fullname" . }} -o=name) -- cat "certs/ca.pem" > $HOME/.shipa/certificates/$SHIPA_TARGET_NAME/ca.crt
+shipa target-add $SHIPA_TARGET_NAME https://$SHIPA_HOST:{{ .Values.shipaApi.securePort }} -s
 
 shipa login {{ .Values.auth.adminUser }}
 shipa node-list

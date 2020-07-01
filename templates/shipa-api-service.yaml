@@ -13,3 +13,7 @@ spec:
       targetPort: {{ .Values.shipaApi.port }}
       protocol: TCP
       name: shipa
+    - port:  {{ .Values.shipaApi.securePort }}
+      targetPort: {{ .Values.shipaApi.securePort }}
+      protocol: TCP
+      name: shipa-secure
