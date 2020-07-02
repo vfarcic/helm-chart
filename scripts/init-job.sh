@@ -23,7 +23,7 @@ CACERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 ADDR=$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
 
 sleep 10
-$SHIPA_CLIENT cluster-add theonepool --pool=theonepool \
+$SHIPA_CLIENT cluster-add shipa-core --pool=theonepool \
   --cacert=$CACERT \
   --addr=$ADDR \
   --ingress-service-type=$INGRESS_SERVICE_TYPE \
