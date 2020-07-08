@@ -22,7 +22,7 @@ export SHIPA_HOST=$(kubectl --namespace={{ .Release.Namespace }} get svc {{ temp
 export SHIPA_TARGET_NAME={{ .Release.Name }}
 mkdir -p $HOME/.shipa/certificates/$SHIPA_TARGET_NAME
 kubectl exec -n {{ .Release.Namespace }} $(kubectl -n {{ .Release.Namespace }} get pod -l app.kubernetes.io/name={{ template "shipa.fullname" . }} -o=name) -- cat "certs/ca.pem" > $HOME/.shipa/certificates/$SHIPA_TARGET_NAME/ca.crt
-shipa target-add $SHIPA_TARGET_NAME https://$SHIPA_HOST:{{ .Values.shipaApi.securePort }} -s
+shipa target-add $SHIPA_TARGET_NAME $SHIPA_HOST --port={{ .Values.shipaApi.securePort }} -s
 
 shipa login {{ .Values.auth.adminUser }}
 shipa node-list
