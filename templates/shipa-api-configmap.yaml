@@ -7,7 +7,7 @@ data:
   shipa.conf: |-
     tls-listen: "0.0.0.0:{{ .Values.shipaApi.securePort }}"
     listen: "0.0.0.0:{{ .Values.shipaApi.port }}"
-    host: https://SHIPA_PUBLIC_IP:{{ .Values.shipaApi.securePort }}
+    host: http://SHIPA_PUBLIC_IP:{{ .Values.shipaApi.port }}
     use-tls: true
     tls:
       server-cert: /certs/api-server.crt
