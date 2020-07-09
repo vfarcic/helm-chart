@@ -27,6 +27,9 @@ if [ "x$EVENT_ID" != "x" ]; then
   if [ "x$SAME_IMAGE" != "x" ]; then
     echo "The dashboard uses the same image : $DASHBOARD_IMAGE"
 
+    # That's helm upgrade, we should wait for a new shipa api
+    sleep 140
+
     #
     # Let's restart the dashboard, there is a chance that a user has changed a license (Free -> Pro)
     #
