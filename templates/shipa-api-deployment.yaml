@@ -112,14 +112,22 @@ spec:
             - name: shipa-secure
               containerPort: {{ .Values.shipaApi.securePort }}
               protocol: TCP
+
           livenessProbe:
             httpGet:
               path: /
               port: {{ .Values.shipaApi.port }}
+            initialDelaySeconds: 60
+            periodSeconds: 15
+            failureThreshold: 4
           readinessProbe:
             httpGet:
               path: /
               port: {{ .Values.shipaApi.port }}
+            periodSeconds: 15
+            initialDelaySeconds: 30
+            failureThreshold: 4
+            successThreshold: 1
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
