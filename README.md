@@ -1,25 +1,29 @@
 
+# Documentation
+
+Documentation for Shipa can be found at https://learn.shipa.io
+
 # Defaults 
 
-We create two LoadBalancers to expose services to the internet.    
-The first public IP (ingress-nginx) is used to open ports: 
+We create LoadBalancer service to expose Shipa to the internet:
 1. 22 -> guardian
 1. 5000 -> docker registry
-1. 8080 -> shipa api
+1. 8080 -> shipa api over http
+1. 8081 -> shipa api over https
 
-The second public IP (traefik) is used to open: 
-1. 80 -> http access for apps
-1. 443 -> https access for apps.
-
-By default we use dynamic public IPs set by a cloud-provider but there are options to use static ips:
+By default we use dynamic public IP set by a cloud-provider but there is a parameter to use static ip (if you have it):
 ```bash 
---set service.traefik.loadBalancerIP=35.192.15.168 
 --set service.nginx.loadBalancerIP=35.192.15.168 
 ```
 
-There is no hardcoded password for admin user so `--set=auth.adminPassword=....` is required.
-
 # Installation
+
+The installation creates an admin user, and you have to set its email and password:
+```bash
+--set=auth.adminUser=....   
+--set=auth.adminPassword=....    
+```
+
 
 ## Configuring kubernetes cluster and helm chart
 ```bash
@@ -39,10 +43,6 @@ cd helm-chart
 
 kubectl apply -f limits.yaml --namespace=$NAMESPACE
 
-# to successfully deploy shipa resources like DaemonSets to run busybody/netdata, pods to build platforms and so on
-# we should label nodes (at least one)
-kubectl label $(kubectl get nodes -o name) "shipa.io/pool=theonepool" --overwrite
-
 helm dep up 
 ```
 
@@ -54,7 +54,7 @@ To easily manage upgrades you could keep all overridden values in values.overrid
 cat > values.override.yaml << EOF
 auth:
   adminUser: <your email here>
-  adminPassword: shipa2020
+  adminPassword: <your admin password> 
 EOF
 helm install . --name=shipa --timeout=1000 --namespace=$NAMESPACE -f values.override.yaml
 ```
@@ -78,54 +78,10 @@ helm upgrade shipa . --timeout=1000 --namespace=$NAMESPACE -f values.override.ya
 cat license.yaml | grep "license:" >> values.override.yaml
 ```
 
-# Dev environment
+# Shipa client
 
-There is an interesting project from Cloud Native: [https://www.telepresence.io/](https://www.telepresence.io/)
+If you are looking to operate Shipa from your local machine, we have binaries of shipa client: https://learn.shipa.io/docs/downloading-the-shipa-client
 
-Steps to run development environment:
-* Install telepresence: [here's manual](https://www.telepresence.io/reference/install).
-* Install Intellij IDEA [plugin](https://www.telepresence.io/tutorials/intellij)
-* Run minikube cluster
-```kubectl label node minikube shipa.io/pool=theonepool```
-* Install the helm chart. It takes up to 5-8 minutes
-```
-helm install shipa . \ 
---timeout=15m \
---set=auth.adminPassword=shipa2020 \
---set=service.traefik.serviceType=ClusterIP \
---set=service.nginx.serviceType=ClusterIP \
---set=service.nginx.clusterIP=10.100.10.10 \
---set=dashboard.enabled=false \
---set=platforms=[]
-```   
-* run telepresence: 
-```
-telepresence --swap-deployment shipa-api --env-json shipa-api.json
-```
-* Configure IDEA to inject enviroment variables from shipa-api.json:
-[here](https://www.telepresence.io/tutorials/intellij)
-* Run ShipaAPI in IDE. 
-* Work with shipa client
-```
-shipa target-add shipa-api http://shipa-ingress-nginx:8080 -s 
-```
+# Collaboration/Contributing
 
-* Use ./cleanup.sh to cleanup the cluster.
-
-If you want to expose mongodb, there is ./dev/mongodb.yaml
-
-#### Notes about dev environment
-
-The helm chart exposed two kubernetes services, so with minikube it's possible with two hacks:
-1. Change nginx and traefik services' types to ClusterIP. You can do it directly in values.yaml or 
-run the helm install command with additional parameters:
-   ```
-   helm install shipa ... \
-   --set=service.traefik.serviceType=ClusterIP \
-   --set=service.nginx.serviceType=ClusterIP
-   ```
-   
-1. Run minikube tunnel, it fixes the services and injects private 10.\*.\*.\* ips instead of public ones.
-
-
-
+We welcome all feedback or pull requests. If you have any questions feel free to reach us at info@shipa.io
