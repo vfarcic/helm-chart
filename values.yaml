@@ -80,7 +80,7 @@ netdata:
   image: shipasoftware/netdata:v0.0.4
 
 shipaNodeTraefik:
-  image: shipasoftware/shipa-node-traefik:v0.0.2
+  image: shipasoftware/shipa-node-traefik:v0.0.3
   user: admin
 
 platforms:
