@@ -17,6 +17,7 @@ rules:
       - extensions
       - rbac.authorization.k8s.io
       - apiextensions.k8s.io
+      - networking.k8s.io
       - core
       - apps
       - shipa.io
