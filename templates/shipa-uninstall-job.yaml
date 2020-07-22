@@ -36,6 +36,7 @@ spec:
               /usr/local/bin/kubectl delete clusterrole --selector=$SELECTOR --ignore-not-found=true $NAMESPACE_MOD;
               /usr/local/bin/kubectl delete ingress --selector=$SELECTOR --ignore-not-found=true $NAMESPACE_MOD;
               /usr/local/bin/kubectl delete endpoints --selector=$SELECTOR --ignore-not-found=true $NAMESPACE_MOD;
+              /usr/local/bin/kubectl delete netpol --selector=$SELECTOR --ignore-not-found=true $NAMESPACE_MOD;
           imagePullPolicy: IfNotPresent
           env:
             - name: SELECTOR
