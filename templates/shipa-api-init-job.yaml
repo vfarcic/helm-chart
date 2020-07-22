@@ -24,7 +24,9 @@ spec:
           imagePullPolicy: {{ .Values.cli.pullPolicy }}
           env:
             - name: SHIPA_ENDPOINT
-              value: "{{ template "shipa.fullname" . }}-api:{{ .Values.shipaApi.port }}"
+              value: "{{ template "shipa.fullname" . }}-api"
+            - name: SHIPA_ENDPOINT_PORT
+              value: "{{ .Values.shipaApi.port }}"
             - name: USERNAME
               valueFrom:
                 secretKeyRef:

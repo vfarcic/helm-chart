@@ -2,14 +2,13 @@
 
 echo "Waiting for shipa api"
 
-until $(curl --output /dev/null --silent http://$SHIPA_ENDPOINT); do
+until $(curl --output /dev/null --silent http://$SHIPA_ENDPOINT:$SHIPA_ENDPOINT_PORT); do
     echo "."
     sleep 2
 done
 
 SHIPA_CLIENT="/bin/shipa"
-$SHIPA_CLIENT target-add local http://$SHIPA_ENDPOINT
-$SHIPA_CLIENT target-set local
+$SHIPA_CLIENT target-add -s local $SHIPA_ENDPOINT --insecure --port=$SHIPA_ENDPOINT_PORT
 $SHIPA_CLIENT login << EOF
 $USERNAME
 $PASSWORD
