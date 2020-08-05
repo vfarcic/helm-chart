@@ -17,6 +17,11 @@ if [ $? = 1 ]; then
       -e SHIPA_ADMIN_USER=$USERNAME
 fi
 
+NETDATA_CLIENT_CERT=$(kubectl get secret/shipa-certificates -o json | jq ".data[\"netdata-client.crt\"]" | base64 -d)
+NETDATA_CLIENT_KEY=$(kubectl get secret/shipa-certificates -o json | jq ".data[\"netdata-client.key\"]" | base64 -d)
+
+$SHIPA_CLIENT env-set -a dashboard NETDATA_CLIENT_KEY="$NETDATA_CLIENT_KEY" NETDATA_CLIENT_CERT="$NETDATA_CLIENT_CERT"
+
 EVENT_ID=$($SHIPA_CLIENT event-list --target=app --target-value=dashboard --kind=app.deploy | grep true | head -n 1 | cut -d "|" -f 2)
 
 if [ "x$EVENT_ID" != "x" ]; then
