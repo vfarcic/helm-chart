@@ -105,8 +105,4 @@ data:
       client-ca: client-ca.crt
       client-ca-key: client-ca.key
 
-    buildkit:
-      image-controller:
-        image: gcr.io/shipa-1000/image-controller:v1
-
     signatures: single # multiple/single
