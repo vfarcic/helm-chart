@@ -30,7 +30,7 @@ service:
 
 dashboard:
   enabled: true
-  image: shipasoftware/dashboard:v2.0.21
+  image: shipasoftware/dashboard:v2.0.23
 
 etcd:
   debug: false
