@@ -3,11 +3,11 @@
 Username: {{ .Values.auth.adminUser }}
 Password: {{ .Values.auth.adminPassword }}
 
-2. If it's your production cluster, take care of PersistenVolumes.
-   The default reclaimPolicy for dynamically provisioned PersistentVolumes is "Delete" and
-   it's your responsibility to change it.
+2. If this is a production cluster, please configure persistent volumes.
+   The default reclaimPolicy for dynamically provisioned persistent volumes is "Delete" and
+   users are advised to change it for production
 
-   This code snippet helps you to set reclaimPolicy to "Retain" for all volumes:
+   The code snippet below can be used to set reclaimPolicy to "Retain" for all volumes:
 
 PVCs=$(kubectl --namespace={{ .Release.Namespace }} get pvc -l release={{ .Release.Name }} -o name)
 
