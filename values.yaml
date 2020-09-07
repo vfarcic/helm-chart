@@ -32,13 +32,6 @@ dashboard:
   enabled: true
   image: shipasoftware/dashboard:v2.0.30
 
-etcd:
-  debug: false
-  #password: bingo
-  persistence:
-    accessMode: 'ReadWriteOnce'
-    size: 10Gi
-
 postgres:
   persistence:
     accessMode: 'ReadWriteOnce'

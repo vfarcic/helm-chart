@@ -21,6 +21,10 @@ rules:
       - core
       - apps
       - shipa.io
+      - admissionregistration.k8s.io
+      - cert-manager.io
+      - acme.cert-manager.io
+      - traefik.containo.us
     resources: ["*"]
     verbs: ["*"]
 ---

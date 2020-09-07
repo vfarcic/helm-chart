@@ -30,7 +30,3 @@ spec:
       name: shipa
       targetPort: {{ .Values.shipaApi.port }}
       protocol: TCP
-    - port: 2379
-      name: etcd
-      targetPort: 2379
-      protocol: TCP

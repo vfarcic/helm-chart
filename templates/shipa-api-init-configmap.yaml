@@ -16,10 +16,6 @@ data:
 {{ .Files.Get "scripts/bootstrap.sh" | indent 4 }}
   csr-docker-cluster.json: |
 {{ .Files.Get "scripts/csr-docker-cluster.json" | indent 4 }}
-  csr-etcd.json: |
-{{ .Files.Get "scripts/csr-etcd.json" | indent 4 }}
-  csr-etcd-client.json: |
-{{ .Files.Get "scripts/csr-etcd-client.json" | indent 4 }}
   csr-docker-registry.json: |
 {{ .Files.Get "scripts/csr-docker-registry.json" | indent 4 }}
   csr-shipa-ca.json: |
