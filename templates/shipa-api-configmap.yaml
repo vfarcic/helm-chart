@@ -61,13 +61,6 @@ data:
     routers:
       traefik:
         type: traefik
-        kv:
-          endpoint: {{ template "shipa.fullname" . }}-etcd:2379
-          username: root
-          password: $ETCD_PASSWORD
-          ca: /certs/ca.pem
-          client-key: /certs/etcd-client.key
-          client-cert: /certs/etcd-client.crt
     queue:
       mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
       mongo-database: queuedb

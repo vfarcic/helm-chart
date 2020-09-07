@@ -13,7 +13,6 @@ helm install shipa . \
 --set=service.nginx.clusterIP=10.100.10.10 \
 --set=dashboard.enabled=false \
 --set=platforms={} \
---set=etcd.persistence.size=1Gi \
 --set=guardian.persistence.homeGit.size=1Gi \
 --set=guardian.persistence.repositories.size=1Gi \
 --set=postgres.persistence.size=1Gi \

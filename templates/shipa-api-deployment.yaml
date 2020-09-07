@@ -37,8 +37,6 @@ spec:
           env:
             - name: NGINX_SERVICE
               value: {{ template "shipa.fullname" . }}-ingress-nginx
-            - name: ETCD_SERVICE
-              value: {{ template "shipa.fullname" . }}-etcd
             - name: REGISTRY_SERVICE
               value: {{ .Release.Name }}-docker-registry
             - name: NGINX_SERVICE_TYPE
@@ -95,11 +93,6 @@ spec:
                 secretKeyRef:
                   name: {{ template "shipa.fullname" . }}-secret
                   key: docker-registry-password
-            - name: ETCD_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "shipa.fullname" . }}-secret
-                  key: etcd-password
             - name: NODE_TRAEFIK_PASSWORD
               valueFrom:
                 secretKeyRef:
