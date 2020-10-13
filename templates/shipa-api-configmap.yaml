@@ -61,6 +61,7 @@ data:
     routers:
       traefik:
         type: traefik
+        domain: shipa.cloud
         kv:
           endpoint: {{ template "shipa.fullname" . }}-etcd:2379
           username: root

@@ -9,9 +9,14 @@ wait_public_ip() {
       echo $ClusterIP
     else
       external_ip=""
-      while [ -z $external_ip ]; do
-          external_ip=$(kubectl get svc $SERVICE_NAME --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}")
+      while [ -z "$external_ip" ]; do
           sleep 2
+          external_ip=$(kubectl get svc $SERVICE_NAME --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}")
+
+          # EKS assigns dns name instead of IP to this Service.
+          if [ -z "${external_ip##*no value*}" ]; then
+            external_ip=$(kubectl get svc $SERVICE_NAME --template="{{range .status.loadBalancer.ingress}}{{.hostname}}{{end}}")
+          fi
       done
       echo $external_ip
     fi
