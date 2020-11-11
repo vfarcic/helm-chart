@@ -68,6 +68,8 @@ data:
           ca: /certs/ca.pem
           client-key: /certs/etcd-client.key
           client-cert: /certs/etcd-client.crt
+      istio:
+        type: istio
     queue:
       mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
       mongo-database: queuedb

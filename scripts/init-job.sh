@@ -22,13 +22,26 @@ CACERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 ADDR=$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
 
 sleep 10
-$SHIPA_CLIENT cluster-add shipa-core --pool=theonepool \
-  --cacert=$CACERT \
-  --addr=$ADDR \
-  --ingress-service-type=$INGRESS_SERVICE_TYPE \
-  --ingress-ip=$INGRESS_IP \
-  --ingress-debug=$INGRESS_DEBUG \
-  --token=$TOKEN
+
+if [[ -z $ISTIO_INGRESS_IP ]]; then
+  $SHIPA_CLIENT cluster-add shipa-core --pool=theonepool \
+    --cacert=$CACERT \
+    --addr=$ADDR \
+    --ingress-service-type="traefik:$TRAEFIK_INGRESS_SERVICE_TYPE" \
+    --ingress-ip="traefik:$TRAEFIK_INGRESS_IP" \
+    --ingress-debug="traefik:$TRAEFIK_INGRESS_DEBUG" \
+    --token=$TOKEN
+else
+    $SHIPA_CLIENT cluster-add shipa-core --pool=theonepool \
+    --cacert=$CACERT \
+    --addr=$ADDR \
+    --ingress-service-type="traefik:$TRAEFIK_INGRESS_SERVICE_TYPE" \
+    --ingress-ip="traefik:$TRAEFIK_INGRESS_IP" \
+    --ingress-debug="traefik:$TRAEFIK_INGRESS_DEBUG" \
+    --ingress-service-type="istio:$ISTIO_SERVICE_TYPE" \
+    --ingress-ip="istio:$ISTIO_INGRESS_IP" \
+    --token=$TOKEN
+fi
 
 $SHIPA_CLIENT role-add ShipaUser global
 $SHIPA_CLIENT role-permission-add ShipaUser pool.create

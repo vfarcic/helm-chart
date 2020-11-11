@@ -8,17 +8,21 @@ auth:
 shipaApi:
   port: 8080
   securePort: 8081
-  image: shipasoftware/api:helm-v1.0.87
+  image: shipasoftware/api:helm-v1.0.89
   pullPolicy: Always
   debug: false
 
 license: ""
 
 shipaCore:
-  debug: false
-  # serviceType: ClusterIP
-  serviceType: LoadBalancer
-  # ip: 10.100.10.11
+  traefikDebug: false
+  # traefikServiceType: ClusterIP
+  traefikServiceType: LoadBalancer
+  # traefikIp: 10.100.10.11
+  istioDebug: false
+  # istioServiceType: ClusterIP
+  istioServiceType: LoadBalancer
+  # istioIp: 10.100.10.11
 
 service:
   nginx:
@@ -57,7 +61,7 @@ guardian:
       size: 10Gi
 
 cli:
-  image: shipasoftware/cli:v0.0.69
+  image: shipasoftware/cli:v0.0.78
   pullPolicy: Always
 
 metrics:
