@@ -38,7 +38,7 @@ else
     --ingress-service-type="traefik:$TRAEFIK_INGRESS_SERVICE_TYPE" \
     --ingress-ip="traefik:$TRAEFIK_INGRESS_IP" \
     --ingress-debug="traefik:$TRAEFIK_INGRESS_DEBUG" \
-    --ingress-service-type="istio:$ISTIO_SERVICE_TYPE" \
+    --ingress-service-type="istio:$ISTIO_INGRESS_SERVICE_TYPE" \
     --ingress-ip="istio:$ISTIO_INGRESS_IP" \
     --token=$TOKEN
 fi
