@@ -42,13 +42,26 @@ dashboard:
 
 etcd:
   debug: false
-  #password: bingo
   persistence:
+    ## Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.
+    ##
+    ## storageClass: ""
     accessMode: 'ReadWriteOnce'
     size: 10Gi
 
 postgres:
   persistence:
+    ## Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.
+    ##
+    ## storageClass: ""
     accessMode: 'ReadWriteOnce'
     size: 10Gi
 
@@ -58,9 +71,23 @@ guardian:
   pullPolicy: Always
   persistence:
     homeGit:
+      ## Persistent Volume Storage Class
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.
+      ##
+      ## storageClass: ""
       accessMode: 'ReadWriteOnce'
       size: 10Gi
     repositories:
+      ## Persistent Volume Storage Class
+      ## If defined, storageClassName: <storageClass>
+      ## If set to "-", storageClassName: "", which disables dynamic provisioning
+      ## If undefined (the default) or set to null, no storageClassName spec is
+      ##   set, choosing the default provisioner.
+      ##
+      ## storageClass: ""
       accessMode: 'ReadWriteOnce'
       size: 10Gi
 
@@ -124,6 +151,13 @@ mongodb-replicaset:
     tag: latest
     pullPolicy: IfNotPresent
   persistentVolume:
+    ## Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.
+    ##
+    ## storageClass: ""
     enabled: true
     size: 10Gi
   tls:
@@ -136,6 +170,13 @@ docker-registry:
     accessMode: 'ReadWriteOnce'
     enabled: true
     size: 10Gi
+    ## Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.
+    ##
+    ## storageClass: ""
   service:
     port: 5000
   tlsSecretName: shipa-certificates
