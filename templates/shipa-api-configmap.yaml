@@ -30,6 +30,11 @@ data:
     metrics:
       host: {{ template "shipa.fullname" . }}-metrics
       password: $METRICS_PASSWORD
+
+      # section contains configuration of Prometheus Metrics Exporter
+      prometheus-metrics-exporter:
+        image: shipasoftware/prometheus-metrics-exporter:v0.0.2
+
     docker:
       bb:
         image: {{ .Values.busybody.image }}
