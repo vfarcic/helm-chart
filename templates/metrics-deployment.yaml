@@ -13,6 +13,8 @@ spec:
     metadata:
       labels:
         name: {{ template "shipa.fullname" . }}-metrics
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
         # Please do not scale metrics container. It doesn't use storage lock (--storage.tsdb.no-lockfile)

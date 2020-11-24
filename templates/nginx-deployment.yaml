@@ -14,6 +14,8 @@ spec:
     metadata:
       labels:
         name: {{ template "shipa.fullname" . }}-nginx-ingress
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       # wait up to 30 seconds for the drain of connections
       terminationGracePeriodSeconds: 30
