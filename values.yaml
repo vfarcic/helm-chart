@@ -146,6 +146,9 @@ mongodb-replicaset:
     name: mongo
     tag: latest
     pullPolicy: IfNotPresent
+  extraLabels:
+    "shipa.io/is-shipa": "true"
+    "sidecar.istio.io/inject": "false"
   persistentVolume:
     ## Persistent Volume Storage Class
     ## If defined, storageClassName: <storageClass>
@@ -176,6 +179,9 @@ docker-registry:
   service:
     port: 5000
   tlsSecretName: shipa-certificates
+  extraLabels:
+    "shipa.io/is-shipa": "true"
+    "sidecar.istio.io/inject": "false"
   configData:
     version: 0.1
     log:
