@@ -67,7 +67,7 @@ postgres:
 
 guardian:
   sshPort: 22
-  image: shipasoftware/guardian:helm-chart
+  image: shipasoftware/guardian:v1.2.0
   pullPolicy: Always
   persistence:
     homeGit:
