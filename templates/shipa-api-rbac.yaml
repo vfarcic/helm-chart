@@ -25,6 +25,8 @@ rules:
       - networking.istio.io
       - rbac.istio.io
       - authentication.istio.io
+      - cert-manager.io
+      - admissionregistration.k8s.io
     resources: ["*"]
     verbs: ["*"]
 ---

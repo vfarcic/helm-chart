@@ -1,0 +1,7 @@
+auth:
+  adminUser: admin@shipa.io
+  adminPassword: shipa2020
+cli:
+  image: skoncar/shipa-cli:latest
+shipaApi:
+  image: skoncar/shipa-api:latest
