@@ -27,6 +27,7 @@ data:
     provisioner: kubernetes
     platforms:
       build-pool: theonepool
+      platformImageTag: {{ .Values.shipaApi.platformImageTag }}
     metrics:
       host: {{ template "shipa.fullname" . }}-metrics
       password: $METRICS_PASSWORD
