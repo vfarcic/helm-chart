@@ -13,7 +13,7 @@ $SHIPA_CLIENT login << EOF
 $USERNAME
 $PASSWORD
 EOF
-$SHIPA_CLIENT team-create admin
+$SHIPA_CLIENT team-create shipa-team
 $SHIPA_CLIENT team-create system
 $SHIPA_CLIENT pool-add /scripts/default-pool-template.yaml
 

@@ -13,7 +13,7 @@ if [ $? = 1 ]; then
   echo "Creating the dashboard app"
   $SHIPA_CLIENT app-create dashboard static \
       --pool=theonepool \
-      --team=admin \
+      --team=shipa-team \
       -e SHIPA_ADMIN_USER=$USERNAME
 fi
 
