@@ -122,7 +122,13 @@ shipaNodeTraefik:
   user: admin
 
 platforms:
-  - static
+  # defaultPlatformImageTag is the default tag for supported Shipa platform images 
+  # Any Dockerfile provided by the user having base image from shipa registry
+  # should have the supported platform image tag for compatibility with Shipa API.
+  defaultPlatformImageTag: v1.2
+  # toInstall defines all platforms we should add to shipa during helm install
+  toInstall:
+    - static
 
 # --------------------------------------------------------------------------
 
