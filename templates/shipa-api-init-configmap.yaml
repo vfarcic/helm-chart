@@ -33,7 +33,7 @@ data:
   csr-api-server.json: |
 {{ .Files.Get "scripts/csr-api-server.json" | indent 4 }}
   default-pool-template.yaml: |
-    ShipaPool: theonepool
+    ShipaPool: shipa-pool
     Resources:
       General:
         Setup:

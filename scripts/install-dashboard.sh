@@ -12,7 +12,7 @@ $SHIPA_CLIENT app-info -a dashboard > /dev/null 2>&1
 if [ $? = 1 ]; then
   echo "Creating the dashboard app"
   $SHIPA_CLIENT app-create dashboard static \
-      --pool=theonepool \
+      --pool=shipa-pool \
       --team=shipa-team \
       -e SHIPA_ADMIN_USER=$USERNAME
 fi
