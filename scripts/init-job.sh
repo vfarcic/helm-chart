@@ -30,6 +30,7 @@ if [[ -z $ISTIO_INGRESS_IP ]]; then
     --ingress-service-type="traefik:$TRAEFIK_INGRESS_SERVICE_TYPE" \
     --ingress-ip="traefik:$TRAEFIK_INGRESS_IP" \
     --ingress-debug="traefik:$TRAEFIK_INGRESS_DEBUG" \
+    --install-cert-manager=$INSTALL_CERT_MANAGER \
     --token=$TOKEN
 else
     $SHIPA_CLIENT cluster-add shipa-core --pool=theonepool \
@@ -40,6 +41,7 @@ else
     --ingress-debug="traefik:$TRAEFIK_INGRESS_DEBUG" \
     --ingress-service-type="istio:$ISTIO_INGRESS_SERVICE_TYPE" \
     --ingress-ip="istio:$ISTIO_INGRESS_IP" \
+    --install-cert-manager=$INSTALL_CERT_MANAGER \
     --token=$TOKEN
 fi
 

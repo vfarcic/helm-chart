@@ -23,6 +23,10 @@ shipaCore:
   # istioServiceType: ClusterIP
   istioServiceType: LoadBalancer
   # istioIp: 10.100.10.11
+  # if set to true, shipa will deploy CertManager into cert-manager namespace
+  # use carefully as it could override your installation of cert-manager
+  installCertManager: false
+
 
 service:
   nginx:
@@ -88,7 +92,7 @@ guardian:
       size: 10Gi
 
 cli:
-  image: shipasoftware/cli:v0.0.78
+  image: shipasoftware/cli:v0.0.80
   pullPolicy: Always
 
 metrics:

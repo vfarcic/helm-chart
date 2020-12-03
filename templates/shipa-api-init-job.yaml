@@ -53,6 +53,8 @@ spec:
               value: {{ default ( "LoadBalancer" ) .Values.shipaCore.istioServiceType | quote }}
             - name: ISTIO_INGRESS_IP
               value: {{ default ( "" ) .Values.shipaCore.istioIp | quote }}
+            - name: INSTALL_CERT_MANAGER
+              value: {{ default ( "false" ) .Values.shipaCore.installCertManager | quote }}
             - name: DASHBOARD_IMAGE
               value: {{ .Values.dashboard.image }}
             - name: DASHBOARD_ENABLED
