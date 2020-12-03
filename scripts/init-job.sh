@@ -24,7 +24,7 @@ ADDR=$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
 sleep 10
 
 if [[ -z $ISTIO_INGRESS_IP ]]; then
-  $SHIPA_CLIENT cluster-add shipa-core --pool=theonepool \
+  $SHIPA_CLIENT cluster-add shipa-cluster --pool=theonepool \
     --cacert=$CACERT \
     --addr=$ADDR \
     --ingress-service-type="traefik:$TRAEFIK_INGRESS_SERVICE_TYPE" \
@@ -33,7 +33,7 @@ if [[ -z $ISTIO_INGRESS_IP ]]; then
     --install-cert-manager=$INSTALL_CERT_MANAGER \
     --token=$TOKEN
 else
-    $SHIPA_CLIENT cluster-add shipa-core --pool=theonepool \
+    $SHIPA_CLIENT cluster-add shipa-cluster --pool=theonepool \
     --cacert=$CACERT \
     --addr=$ADDR \
     --ingress-service-type="traefik:$TRAEFIK_INGRESS_SERVICE_TYPE" \
