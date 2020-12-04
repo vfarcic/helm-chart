@@ -108,11 +108,11 @@ spec:
                 secretKeyRef:
                   name: {{ template "shipa.fullname" . }}-secret
                   key: node-traefik-password
-            - name: SHIPA_ORGANIZATION
+            - name: SHIPA_ORGANIZATION_ID
               valueFrom:
                 configMapKeyRef:
                   name: {{ template "shipa.fullname" . }}-org-config
-                  key: org-id
+                  key: shipa-org-id
           ports:
             - name: shipa
               containerPort: {{ .Values.shipaApi.port }}

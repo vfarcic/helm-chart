@@ -7,4 +7,4 @@ metadata:
     "helm.sh/hook": "pre-install"
     "helm.sh/hook-delete-policy": "before-hook-creation"
 data:
-  org-id: {{ randAlphaNum 10 | b64enc | quote }}
+  shipa-org-id: {{ randAlphaNum 10 | b64enc | quote }}
