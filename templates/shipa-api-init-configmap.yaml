@@ -48,4 +48,4 @@ data:
         Access:
           Append:
             - shipa-admin-team
-            - system
+            - shipa-system-team

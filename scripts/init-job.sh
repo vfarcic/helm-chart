@@ -14,7 +14,7 @@ $USERNAME
 $PASSWORD
 EOF
 $SHIPA_CLIENT team-create shipa-admin-team
-$SHIPA_CLIENT team-create system
+$SHIPA_CLIENT team-create shipa-system-team
 $SHIPA_CLIENT pool-add /scripts/default-pool-template.yaml
 
 TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
@@ -74,7 +74,7 @@ $SHIPA_CLIENT role-permission-add ClusterNodeContainer node.update.status
 $SHIPA_CLIENT role-add ClusterMetricsWriter cluster
 $SHIPA_CLIENT role-permission-add ClusterMetricsWriter metrics.write
 
-$SHIPA_CLIENT token-create --team=system --id=system-node-container
+$SHIPA_CLIENT token-create --team=shipa-system-team --id=system-node-container
 $SHIPA_CLIENT role-assign NodeContainer system-node-container shipa-pool
 $SHIPA_CLIENT role-add PlatformImageAdmin global
 $SHIPA_CLIENT role-add PlatformImageReader global
