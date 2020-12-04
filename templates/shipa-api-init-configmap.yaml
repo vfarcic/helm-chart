@@ -47,5 +47,5 @@ data:
           Scan-Platform-Layers: false
         Access:
           Append:
-            - shipa-team
+            - shipa-admin-team
             - system
