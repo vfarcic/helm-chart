@@ -22,6 +22,8 @@ spec:
           image: {{ .Values.metrics.image }}
           imagePullPolicy: {{ .Values.metrics.pullPolicy }}
           env:
+            - name: PROMETHEUS_ARGS
+              value: "--web.enable-admin-api {{ default ("--storage.tsdb.retention.time=1d") .Values.metrics.prometheusArgs }}"
             - name: METRICS_PASSWORD
               valueFrom:
                 secretKeyRef:

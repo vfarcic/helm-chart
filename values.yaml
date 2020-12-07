@@ -96,7 +96,7 @@ cli:
   pullPolicy: Always
 
 metrics:
-  image: shipasoftware/metrics:v0.0.5
+  image: shipasoftware/metrics:v0.0.6
   pullPolicy: Always
 
   # Extra configuration to add to prometheus.yaml
@@ -107,6 +107,7 @@ metrics:
   #      - url: http://localhost:9268/write
   extraPrometheusConfiguration:
   #password: hardcoded
+  prometheusArgs: "--storage.tsdb.retention.time=1d"
 
 busybody:
   image: shipasoftware/bb:v0.0.6
