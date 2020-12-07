@@ -18,6 +18,8 @@ data:
       url: {{ .Release.Name }}-mongodb-replicaset:27017
       name: shipa
     license: {{ .Values.license }}
+    organization:
+      id: $SHIPA_ORGANIZATION_ID
     auth:
       admin-email: {{ .Values.auth.adminUser | quote }}
       dummy-domain: {{ .Values.auth.dummyDomain | quote }}
@@ -26,9 +28,8 @@ data:
       user-registration: true
     provisioner: kubernetes
     platforms:
-      platformImageTag: {{ .Values.platforms.defaultPlatformImageTag }}
-      build-pool: theonepool
-      platformImageTag: {{ .Values.shipaApi.platformImageTag }}
+      build-pool: shipa-pool
+      platformImageTag: {{ .Values.platforms.platformImageTag }}
     metrics:
       host: {{ template "shipa.fullname" . }}-metrics
       password: $METRICS_PASSWORD

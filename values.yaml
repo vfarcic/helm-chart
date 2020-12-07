@@ -18,7 +18,7 @@ shipaApi:
 
 license: ""
 
-shipaCore:
+shipaCluster:
   traefikDebug: false
   # traefikServiceType: ClusterIP
   traefikServiceType: LoadBalancer
@@ -122,10 +122,10 @@ shipaNodeTraefik:
   user: admin
 
 platforms:
-  # defaultPlatformImageTag is the default tag for supported Shipa platform images 
+  # platformImageTag is the default tag for supported Shipa platform images 
   # Any Dockerfile provided by the user having base image from shipa registry
   # should have the supported platform image tag for compatibility with Shipa API.
-  defaultPlatformImageTag: v1.2
+  platformImageTag: v1.2
   # toInstall defines all platforms we should add to shipa during helm install
   toInstall:
     - static
