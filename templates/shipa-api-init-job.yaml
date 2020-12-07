@@ -44,17 +44,17 @@ spec:
             - name: METRICS_SERVICE
               value: {{ template "shipa.fullname" . }}-metrics
             - name: TRAEFIK_INGRESS_SERVICE_TYPE
-              value: {{ default ( "LoadBalancer" ) .Values.shipaCore.traefikServiceType | quote }}
+              value: {{ default ( "LoadBalancer" ) .Values.shipaCluster.traefikServiceType | quote }}
             - name: TRAEFIK_INGRESS_IP
-              value: {{ default ( "" ) .Values.shipaCore.traefikIp | quote }}
+              value: {{ default ( "" ) .Values.shipaCluster.traefikIp | quote }}
             - name: TRAEFIK_INGRESS_DEBUG
-              value: {{ default ( "false" ) .Values.shipaCore.traefikDebug | quote }}
+              value: {{ default ( "false" ) .Values.shipaCluster.traefikDebug | quote }}
             - name: ISTIO_INGRESS_SERVICE_TYPE
-              value: {{ default ( "LoadBalancer" ) .Values.shipaCore.istioServiceType | quote }}
+              value: {{ default ( "LoadBalancer" ) .Values.shipaCluster.istioServiceType | quote }}
             - name: ISTIO_INGRESS_IP
-              value: {{ default ( "" ) .Values.shipaCore.istioIp | quote }}
+              value: {{ default ( "" ) .Values.shipaCluster.istioIp | quote }}
             - name: INSTALL_CERT_MANAGER
-              value: {{ default ( "false" ) .Values.shipaCore.installCertManager | quote }}
+              value: {{ default ( "false" ) .Values.shipaCluster.installCertManager | quote }}
             - name: DASHBOARD_IMAGE
               value: {{ .Values.dashboard.image }}
             - name: DASHBOARD_ENABLED

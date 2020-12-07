@@ -13,8 +13,8 @@ $SHIPA_CLIENT login << EOF
 $USERNAME
 $PASSWORD
 EOF
-$SHIPA_CLIENT team-create admin
-$SHIPA_CLIENT team-create system
+$SHIPA_CLIENT team-create shipa-admin-team
+$SHIPA_CLIENT team-create shipa-system-team
 $SHIPA_CLIENT pool-add /scripts/default-pool-template.yaml
 
 TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
@@ -22,9 +22,8 @@ CACERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 ADDR=$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
 
 sleep 10
-
 if [[ -z $ISTIO_INGRESS_IP ]]; then
-  $SHIPA_CLIENT cluster-add shipa-core --pool=theonepool \
+  $SHIPA_CLIENT cluster-add shipa-cluster --pool=shipa-pool \
     --cacert=$CACERT \
     --addr=$ADDR \
     --ingress-service-type="traefik:$TRAEFIK_INGRESS_SERVICE_TYPE" \
@@ -33,7 +32,7 @@ if [[ -z $ISTIO_INGRESS_IP ]]; then
     --install-cert-manager=$INSTALL_CERT_MANAGER \
     --token=$TOKEN
 else
-    $SHIPA_CLIENT cluster-add shipa-core --pool=theonepool \
+    $SHIPA_CLIENT cluster-add shipa-cluster --pool=shipa-pool \
     --cacert=$CACERT \
     --addr=$ADDR \
     --ingress-service-type="traefik:$TRAEFIK_INGRESS_SERVICE_TYPE" \
@@ -74,8 +73,8 @@ $SHIPA_CLIENT role-permission-add ClusterNodeContainer node.update.status
 $SHIPA_CLIENT role-add ClusterMetricsWriter cluster
 $SHIPA_CLIENT role-permission-add ClusterMetricsWriter metrics.write
 
-$SHIPA_CLIENT token-create --team=system --id=system-node-container
-$SHIPA_CLIENT role-assign NodeContainer system-node-container theonepool
+$SHIPA_CLIENT token-create --team=shipa-system-team --id=system-node-container
+$SHIPA_CLIENT role-assign NodeContainer system-node-container shipa-pool
 $SHIPA_CLIENT role-add PlatformImageAdmin global
 $SHIPA_CLIENT role-add PlatformImageReader global
 $SHIPA_CLIENT role-add AppImageAdmin app
@@ -96,7 +95,7 @@ $SHIPA_CLIENT node-container-add netdata \
         -v /proc:/host/proc:ro \
         -v /sys:/host/sys:ro
 
-$SHIPA_CLIENT node-container-upgrade netdata -y --pool=theonepool
+$SHIPA_CLIENT node-container-upgrade netdata -y --pool=shipa-pool
 
 platforms=$(echo $PLATFORMS | tr " " "\n")
 
