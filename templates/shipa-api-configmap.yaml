@@ -19,7 +19,7 @@ data:
       name: shipa
     license: {{ .Values.license }}
     organization:
-      id: $SHIPA_ORGANIZATION_ID
+      id: SHIPA_ORGANIZATION_ID
     auth:
       admin-email: {{ .Values.auth.adminUser | quote }}
       dummy-domain: {{ .Values.auth.dummyDomain | quote }}

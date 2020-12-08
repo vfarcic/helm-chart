@@ -48,6 +48,11 @@ spec:
               value: {{ .Values.service.nginx.serviceType }}
             - name: SHIPA_PORT
               value: {{ .Values.shipaApi.port | quote }}
+            - name: SHIPA_ORGANIZATION_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ template "shipa.fullname" . }}-defaults-configmap
+                  key: shipa-org-id       
         - name: init
           image: {{ .Values.shipaApi.image }}
           command:
@@ -108,11 +113,6 @@ spec:
                 secretKeyRef:
                   name: {{ template "shipa.fullname" . }}-secret
                   key: node-traefik-password
-            - name: SHIPA_ORGANIZATION_ID
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ template "shipa.fullname" . }}-defaults-configmap
-                  key: shipa-org-id
           ports:
             - name: shipa
               containerPort: {{ .Values.shipaApi.port }}
