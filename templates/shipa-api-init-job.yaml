@@ -43,12 +43,12 @@ spec:
                   key: password
             - name: METRICS_SERVICE
               value: {{ template "shipa.fullname" . }}-metrics
-            - name: TRAEFIK_INGRESS_SERVICE_TYPE
-              value: {{ default ( "LoadBalancer" ) .Values.shipaCluster.traefikServiceType | quote }}
-            - name: TRAEFIK_INGRESS_IP
-              value: {{ default ( "" ) .Values.shipaCluster.traefikIp | quote }}
-            - name: TRAEFIK_INGRESS_DEBUG
-              value: {{ default ( "false" ) .Values.shipaCluster.traefikDebug | quote }}
+            - name: INGRESS_SERVICE_TYPE
+              value: {{ default ( "LoadBalancer" ) .Values.shipaCluster.serviceType | quote }}
+            - name: INGRESS_IP
+              value: {{ default ( "" ) .Values.shipaCluster.ip | quote }}
+            - name: INGRESS_DEBUG
+              value: {{ default ( "false" ) .Values.shipaCluster.debug | quote }}
             - name: ISTIO_INGRESS_SERVICE_TYPE
               value: {{ default ( "LoadBalancer" ) .Values.shipaCluster.istioServiceType | quote }}
             - name: ISTIO_INGRESS_IP
