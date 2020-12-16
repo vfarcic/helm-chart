@@ -15,14 +15,24 @@ shipaApi:
 license: ""
 
 shipaCluster:
-  traefikDebug: false
-  # traefikServiceType: ClusterIP
-  traefikServiceType: LoadBalancer
-  # traefikIp: 10.100.10.11
+  # use debug logs in traefik ingress controller
+  debug: false
+  
+  # kubernetes service type for traefik ingress controller (LoadBalancer/ClusterIP)
+  serviceType: LoadBalancer
+  
+  # override traefik ingress controller ip address
+  # ip: 10.100.10.11
+  
+  # use debug logs in istio ingress controller
   istioDebug: false
-  # istioServiceType: ClusterIP
+  
+  # kubernetes service type for istio ingress controller (LoadBalancer/ClusterIP)
   istioServiceType: LoadBalancer
+  
+  # override istio ingress controller ip address
   # istioIp: 10.100.10.11
+  
   # if set to true, shipa will deploy CertManager into cert-manager namespace
   # use carefully as it could override your installation of cert-manager
   installCertManager: false

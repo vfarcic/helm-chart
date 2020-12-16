@@ -26,18 +26,18 @@ if [[ -z $ISTIO_INGRESS_IP ]]; then
   $SHIPA_CLIENT cluster-add shipa-cluster --pool=shipa-pool \
     --cacert=$CACERT \
     --addr=$ADDR \
-    --ingress-service-type="traefik:$TRAEFIK_INGRESS_SERVICE_TYPE" \
-    --ingress-ip="traefik:$TRAEFIK_INGRESS_IP" \
-    --ingress-debug="traefik:$TRAEFIK_INGRESS_DEBUG" \
+    --ingress-service-type="traefik:$INGRESS_SERVICE_TYPE" \
+    --ingress-ip="traefik:$INGRESS_IP" \
+    --ingress-debug="traefik:$INGRESS_DEBUG" \
     --install-cert-manager=$INSTALL_CERT_MANAGER \
     --token=$TOKEN
 else
     $SHIPA_CLIENT cluster-add shipa-cluster --pool=shipa-pool \
     --cacert=$CACERT \
     --addr=$ADDR \
-    --ingress-service-type="traefik:$TRAEFIK_INGRESS_SERVICE_TYPE" \
-    --ingress-ip="traefik:$TRAEFIK_INGRESS_IP" \
-    --ingress-debug="traefik:$TRAEFIK_INGRESS_DEBUG" \
+    --ingress-service-type="traefik:$INGRESS_SERVICE_TYPE" \
+    --ingress-ip="traefik:$INGRESS_IP" \
+    --ingress-debug="traefik:$INGRESS_DEBUG" \
     --ingress-service-type="istio:$ISTIO_INGRESS_SERVICE_TYPE" \
     --ingress-ip="istio:$ISTIO_INGRESS_IP" \
     --install-cert-manager=$INSTALL_CERT_MANAGER \
