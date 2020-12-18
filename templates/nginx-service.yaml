@@ -14,10 +14,6 @@ spec:
   selector:
     name: {{ template "shipa.fullname" . }}-nginx-ingress
   ports:
-    - port: {{ .Values.guardian.sshPort }}
-      name: guardian
-      targetPort: {{ .Values.guardian.sshPort }}
-      protocol: TCP
     - port: {{ ( index .Values "docker-registry").service.port }}
       name: registry
       targetPort: {{ ( index .Values "docker-registry").service.port }}

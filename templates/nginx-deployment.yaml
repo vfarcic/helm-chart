@@ -48,9 +48,6 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
           ports:
-            - name: guardian
-              containerPort: {{ .Values.guardian.sshPort }}
-              protocol: TCP
             - name: shipa
               containerPort: {{ .Values.shipaApi.port }}
               protocol: TCP

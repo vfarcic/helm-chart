@@ -13,7 +13,6 @@ data:
       server-cert: /certs/api-server.crt
       server-key: /certs/api-server.key
 
-    repo-manager: guardian
     database:
       url: {{ .Release.Name }}-mongodb-replicaset:27017
       name: shipa
@@ -88,8 +87,6 @@ data:
     log:
       disable-syslog: true
       use-stderr: true
-    git:
-      api-server: http://{{ template "shipa.fullname" . }}-guardian:8000
     clair:
       server: http://{{ template "shipa.fullname" . }}-clair:6060
       disabled: false

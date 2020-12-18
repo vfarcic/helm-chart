@@ -6,7 +6,6 @@ Documentation for Shipa can be found at https://learn.shipa.io
 # Defaults 
 
 We create LoadBalancer service to expose Shipa to the internet:
-1. 22 -> guardian
 1. 5000 -> docker registry
 1. 8080 -> shipa api over http
 1. 8081 -> shipa api over https
