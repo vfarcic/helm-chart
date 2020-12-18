@@ -75,32 +75,6 @@ postgres:
     accessMode: 'ReadWriteOnce'
     size: 10Gi
 
-guardian:
-  sshPort: 22
-  image: shipasoftware/guardian:v1.2.0
-  pullPolicy: Always
-  persistence:
-    homeGit:
-      ## Persistent Volume Storage Class
-      ## If defined, storageClassName: <storageClass>
-      ## If set to "-", storageClassName: "", which disables dynamic provisioning
-      ## If undefined (the default) or set to null, no storageClassName spec is
-      ##   set, choosing the default provisioner.
-      ##
-      ## storageClass: ""
-      accessMode: 'ReadWriteOnce'
-      size: 10Gi
-    repositories:
-      ## Persistent Volume Storage Class
-      ## If defined, storageClassName: <storageClass>
-      ## If set to "-", storageClassName: "", which disables dynamic provisioning
-      ## If undefined (the default) or set to null, no storageClassName spec is
-      ##   set, choosing the default provisioner.
-      ##
-      ## storageClass: ""
-      accessMode: 'ReadWriteOnce'
-      size: 10Gi
-
 cli:
   image: shipasoftware/cli:v1.2.0-rc-4
   pullPolicy: Always

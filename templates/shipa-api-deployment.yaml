@@ -78,8 +78,6 @@ spec:
                 key: password
           - name: NGINX_SERVICE
             value: {{ template "shipa.fullname" . }}-ingress-nginx
-          - name: GUARDIAN_SERVICE
-            value: {{ template "shipa.fullname" . }}-guardian
           - name: NGINX_SERVICE_TYPE
             value: {{ .Values.service.nginx.serviceType }}
           - name: POD_NAMESPACE
