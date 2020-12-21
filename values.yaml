@@ -8,7 +8,7 @@ auth:
 shipaApi:
   port: 8080
   securePort: 8081
-  image: shipasoftware/api:v1.2.0-rc-5
+  image: shipasoftware/api:v1.2.0-rc-6
   pullPolicy: Always
   debug: false
 
@@ -48,7 +48,7 @@ service:
 
 dashboard:
   enabled: true
-  image: shipasoftware/dashboard:v1.2.0-rc-5
+  image: shipasoftware/dashboard:v1.2.0-rc-6
 
 etcd:
   debug: false
