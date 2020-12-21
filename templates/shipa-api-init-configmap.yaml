@@ -43,8 +43,8 @@ data:
           Provisioner: kubernetes
           KubeNamespace: {{ .Release.Namespace }}
         Security:
-          Disable-Scan: true
-          Scan-Platform-Layers: false
+          Disable-Scan: false
+          Scan-Platform-Layers: true
         Access:
           Append:
             - shipa-admin-team
