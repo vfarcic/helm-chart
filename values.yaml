@@ -177,6 +177,8 @@ docker-registry:
       fields:
         service: registry
     storage:
+      delete:
+        enabled: true
       cache:
         blobdescriptor: inmemory
     http:
