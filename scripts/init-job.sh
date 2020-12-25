@@ -44,10 +44,6 @@ else
     --token=$TOKEN
 fi
 
-$SHIPA_CLIENT role-add ShipaUser global
-$SHIPA_CLIENT role-permission-add ShipaUser pool.create
-$SHIPA_CLIENT role-permission-add ShipaUser team.create
-
 $SHIPA_CLIENT role-add TeamAdmin team
 $SHIPA_CLIENT role-permission-add TeamAdmin team
 $SHIPA_CLIENT role-permission-add TeamAdmin app
@@ -58,7 +54,6 @@ $SHIPA_CLIENT role-permission-add PoolAdmin node
 
 $SHIPA_CLIENT role-default-add --team-create TeamAdmin
 $SHIPA_CLIENT role-default-add --pool-add PoolAdmin
-$SHIPA_CLIENT role-default-add --user-create ShipaUser
 
 $SHIPA_CLIENT role-add NodeContainer pool
 $SHIPA_CLIENT role-permission-add NodeContainer metrics.write
