@@ -48,7 +48,7 @@ $SHIPA_CLIENT role-add TeamAdmin team
 $SHIPA_CLIENT role-permission-add TeamAdmin team
 $SHIPA_CLIENT role-permission-add TeamAdmin app
 
-$SHIPA_CLIENT role-add PoolAdmin pool
+$SHIPA_CLIENT role-add PoolAdmin team
 $SHIPA_CLIENT role-permission-add PoolAdmin pool
 $SHIPA_CLIENT role-permission-add PoolAdmin node
 
