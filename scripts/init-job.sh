@@ -48,6 +48,8 @@ $SHIPA_CLIENT role-add TeamAdmin team
 $SHIPA_CLIENT role-permission-add TeamAdmin team
 $SHIPA_CLIENT role-permission-add TeamAdmin app
 $SHIPA_CLIENT role-permission-add TeamAdmin cluster
+$SHIPA_CLIENT role-permission-add TeamAdmin service
+$SHIPA_CLIENT role-permission-add TeamAdmin service-instance
 
 $SHIPA_CLIENT role-add PoolAdmin pool
 $SHIPA_CLIENT role-permission-add PoolAdmin pool
@@ -57,9 +59,14 @@ $SHIPA_CLIENT role-permission-add PoolAdmin cluster
 $SHIPA_CLIENT role-add ClusterAdmin cluster
 $SHIPA_CLIENT role-permission-add ClusterAdmin cluster
 
+$SHIPA_CLIENT role-add ServiceAdmin service
+$SHIPA_CLIENT role-add ServiceInstanceAdmin service-instance
+
 $SHIPA_CLIENT role-default-add --team-create TeamAdmin
 $SHIPA_CLIENT role-default-add --pool-add PoolAdmin
 $SHIPA_CLIENT role-default-add --cluster-add ClusterAdmin
+$SHIPA_CLIENT role-default-add --service-add ServiceAdmin
+$SHIPA_CLIENT role-default-add --service-instance-add ServiceInstanceAdmin
 
 $SHIPA_CLIENT role-add NodeContainer pool
 $SHIPA_CLIENT role-permission-add NodeContainer metrics.write
