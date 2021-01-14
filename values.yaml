@@ -11,10 +11,6 @@ shipaApi:
   image: shipasoftware/api:v1.2.0
   pullPolicy: Always
   debug: false
-  # platformImageTag is the default tag for supported Shipa platform images 
-  # Any Dockerfile provided by the user having base image from shipa registry
-  # should have the supported platform image tag for compatibility with Shipa API.
-  platformImageTag: v1.2
 
 license: ""
 
