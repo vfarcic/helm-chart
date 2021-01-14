@@ -8,7 +8,7 @@ auth:
 shipaApi:
   port: 8080
   securePort: 8081
-  image: shipasoftware/api:v1.2.0-rc-10
+  image: shipasoftware/api:v1.2.0
   pullPolicy: Always
   debug: false
   # platformImageTag is the default tag for supported Shipa platform images 
@@ -52,7 +52,7 @@ service:
 
 dashboard:
   enabled: true
-  image: shipasoftware/dashboard:v1.2.0-rc-10
+  image: shipasoftware/dashboard:v1.2.0
 
 etcd:
   debug: false
@@ -80,7 +80,7 @@ postgres:
     size: 10Gi
 
 cli:
-  image: shipasoftware/cli:v1.2.0-rc-9
+  image: shipasoftware/cli:v1.2.0
   pullPolicy: Always
 
 metrics:
