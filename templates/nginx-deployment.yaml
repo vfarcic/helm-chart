@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: {{ template "shipa.fullname" . }}-nginx-ingress
   labels: {{- include "shipa.labels" . | nindent 4 }}
+  annotations:
+    sidecar.istio.io/inject: "false"
 spec:
   replicas: 1
   selector:
@@ -12,6 +14,8 @@ spec:
     metadata:
       labels:
         name: {{ template "shipa.fullname" . }}-nginx-ingress
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       # wait up to 30 seconds for the drain of connections
       terminationGracePeriodSeconds: 30
@@ -44,9 +48,6 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
           ports:
-            - name: guardian
-              containerPort: {{ .Values.guardian.sshPort }}
-              protocol: TCP
             - name: shipa
               containerPort: {{ .Values.shipaApi.port }}
               protocol: TCP

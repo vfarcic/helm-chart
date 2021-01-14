@@ -8,21 +8,35 @@ auth:
 shipaApi:
   port: 8080
   securePort: 8081
-  image: shipasoftware/api:helm-v1.0.88
+  image: shipasoftware/api:v1.2.0
   pullPolicy: Always
   debug: false
-  # platformImageTag is the default tag for supported Shipa platform images 
-  # Any Dockerfile provided by the user having base image from shipa registry
-  # should have the supported platform image tag for compatibility with Shipa API.
-  platformImageTag: v1.2
 
 license: ""
 
-shipaCore:
+shipaCluster:
+  # use debug logs in traefik ingress controller
   debug: false
-  # serviceType: ClusterIP
+  
+  # kubernetes service type for traefik ingress controller (LoadBalancer/ClusterIP)
   serviceType: LoadBalancer
+  
+  # override traefik ingress controller ip address
   # ip: 10.100.10.11
+  
+  # use debug logs in istio ingress controller
+  istioDebug: false
+  
+  # kubernetes service type for istio ingress controller (LoadBalancer/ClusterIP)
+  istioServiceType: LoadBalancer
+  
+  # override istio ingress controller ip address
+  # istioIp: 10.100.10.11
+  
+  # if set to true, shipa will deploy CertManager into cert-manager namespace
+  # use carefully as it could override your installation of cert-manager
+  installCertManager: false
+
 
 service:
   nginx:
@@ -34,38 +48,39 @@ service:
 
 dashboard:
   enabled: true
-  image: shipasoftware/dashboard:v2.0.30
+  image: shipasoftware/dashboard:v1.2.0
 
 etcd:
   debug: false
-  #password: bingo
   persistence:
+    ## Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.
+    ##
+    ## storageClass: ""
     accessMode: 'ReadWriteOnce'
     size: 10Gi
 
 postgres:
   persistence:
+    ## Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.
+    ##
+    ## storageClass: ""
     accessMode: 'ReadWriteOnce'
     size: 10Gi
 
-guardian:
-  sshPort: 22
-  image: shipasoftware/guardian:helm-chart
-  pullPolicy: Always
-  persistence:
-    homeGit:
-      accessMode: 'ReadWriteOnce'
-      size: 10Gi
-    repositories:
-      accessMode: 'ReadWriteOnce'
-      size: 10Gi
-
 cli:
-  image: shipasoftware/cli:v0.0.69
+  image: shipasoftware/cli:v1.2.0
   pullPolicy: Always
 
 metrics:
-  image: shipasoftware/metrics:v0.0.5
+  image: shipasoftware/metrics:v0.0.6
   pullPolicy: Always
 
   # Extra configuration to add to prometheus.yaml
@@ -76,6 +91,7 @@ metrics:
   #      - url: http://localhost:9268/write
   extraPrometheusConfiguration:
   #password: hardcoded
+  prometheusArgs: "--storage.tsdb.retention.time=1d"
 
 busybody:
   image: shipasoftware/bb:v0.0.6
@@ -87,7 +103,13 @@ shipaNodeTraefik:
   user: admin
 
 platforms:
-  - static
+  # platformImageTag is the default tag for supported Shipa platform images 
+  # Any Dockerfile provided by the user having base image from shipa registry
+  # should have the supported platform image tag for compatibility with Shipa API.
+  platformImageTag: v1.2
+  # toInstall defines all platforms we should add to shipa during helm install
+  toInstall:
+    - static
 
 # --------------------------------------------------------------------------
 
@@ -120,6 +142,13 @@ mongodb-replicaset:
     tag: latest
     pullPolicy: IfNotPresent
   persistentVolume:
+    ## Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.
+    ##
+    ## storageClass: ""
     enabled: true
     size: 10Gi
   tls:
@@ -132,6 +161,13 @@ docker-registry:
     accessMode: 'ReadWriteOnce'
     enabled: true
     size: 10Gi
+    ## Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.
+    ##
+    ## storageClass: ""
   service:
     port: 5000
   tlsSecretName: shipa-certificates
@@ -141,6 +177,8 @@ docker-registry:
       fields:
         service: registry
     storage:
+      delete:
+        enabled: true
       cache:
         blobdescriptor: inmemory
     http:

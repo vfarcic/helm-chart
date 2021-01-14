@@ -17,7 +17,8 @@ for pvc in $PVCs; do
 done
 
 3. Set default target for shipa-client:
-export SHIPA_HOST=$(kubectl --namespace={{ .Release.Namespace }} get svc {{ template "shipa.fullname" . }}-ingress-nginx  -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+
+export SHIPA_HOST=$(kubectl --namespace={{ .Release.Namespace }} get svc {{ template "shipa.fullname" . }}-ingress-nginx -o jsonpath="{.status.loadBalancer.ingress[0].ip}") && if [[ -z $SHIPA_HOST ]]; then export SHIPA_HOST=$(kubectl --namespace={{ .Release.Namespace }} get svc {{ template "shipa.fullname" . }}-ingress-nginx -o jsonpath="{.status.loadBalancer.ingress[0].hostname}") ; fi
 
 shipa target-add {{ .Release.Name }} $SHIPA_HOST -s
 

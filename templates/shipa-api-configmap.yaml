@@ -13,11 +13,12 @@ data:
       server-cert: /certs/api-server.crt
       server-key: /certs/api-server.key
 
-    repo-manager: guardian
     database:
       url: {{ .Release.Name }}-mongodb-replicaset:27017
       name: shipa
     license: {{ .Values.license }}
+    organization:
+      id: SHIPA_ORGANIZATION_ID
     auth:
       admin-email: {{ .Values.auth.adminUser | quote }}
       dummy-domain: {{ .Values.auth.dummyDomain | quote }}
@@ -26,11 +27,16 @@ data:
       user-registration: true
     provisioner: kubernetes
     platforms:
-      build-pool: theonepool
-      platformImageTag: {{ .Values.shipaApi.platformImageTag }}
+      build-pool: shipa-pool
+      platformImageTag: {{ .Values.platforms.platformImageTag }}
     metrics:
       host: {{ template "shipa.fullname" . }}-metrics
       password: $METRICS_PASSWORD
+
+      # section contains configuration of Prometheus Metrics Exporter
+      prometheus-metrics-exporter:
+        image: shipasoftware/prometheus-metrics-exporter:v0.0.2
+
     docker:
       bb:
         image: {{ .Values.busybody.image }}
@@ -70,6 +76,8 @@ data:
           ca: /certs/ca.pem
           client-key: /certs/etcd-client.key
           client-cert: /certs/etcd-client.crt
+      istio:
+        type: istio
     queue:
       mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
       mongo-database: queuedb
@@ -79,8 +87,6 @@ data:
     log:
       disable-syslog: true
       use-stderr: true
-    git:
-      api-server: http://{{ template "shipa.fullname" . }}-guardian:8000
     clair:
       server: http://{{ template "shipa.fullname" . }}-clair:6060
       disabled: false

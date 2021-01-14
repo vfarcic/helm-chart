@@ -33,7 +33,7 @@ data:
   csr-api-server.json: |
 {{ .Files.Get "scripts/csr-api-server.json" | indent 4 }}
   default-pool-template.yaml: |
-    ShipaPool: theonepool
+    ShipaPool: shipa-pool
     Resources:
       General:
         Setup:
@@ -43,9 +43,9 @@ data:
           Provisioner: kubernetes
           KubeNamespace: {{ .Release.Namespace }}
         Security:
-          Disable-Scan: true
-          Scan-Platform-Layers: false
+          Disable-Scan: false
+          Scan-Platform-Layers: true
         Access:
           Append:
-            - admin
-            - system
+            - shipa-admin-team
+            - shipa-system-team

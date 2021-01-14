@@ -9,7 +9,14 @@ wait_public_ip() {
       echo $ClusterIP
     else
       external_ip=""
-      while [ -z "$external_ip" ]; do
+      while [ -z $external_ip ]; do
+          external_ip=$(kubectl get svc $SERVICE_NAME -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+
+          if [ -z $external_ip ]; then
+            # fallback to .hostname, as on EKS .hostname is populated instead of .ip
+            external_ip=$(kubectl get svc $SERVICE_NAME -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+          fi
+
           sleep 2
           external_ip=$(kubectl get svc $SERVICE_NAME --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}")
 

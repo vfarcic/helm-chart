@@ -3,11 +3,15 @@ kind: Job
 metadata:
   name: "{{ template "shipa.fullname" . }}-init-job-{{ .Release.Revision }}"
   labels: {{- include "shipa.labels" . | nindent 4 }}
+  annotations:
+    sidecar.istio.io/inject: "false"
 spec:
   backoffLimit: 5
   template:
     metadata:
       name: "{{ template "shipa.fullname" . }}-init-job-{{ .Release.Revision }}"
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       terminationGracePeriodSeconds: 3
       {{- if .Values.rbac.enabled }}
@@ -40,17 +44,23 @@ spec:
             - name: METRICS_SERVICE
               value: {{ template "shipa.fullname" . }}-metrics
             - name: INGRESS_SERVICE_TYPE
-              value: {{ default ( "LoadBalancer" ) .Values.shipaCore.serviceType | quote }}
+              value: {{ default ( "LoadBalancer" ) .Values.shipaCluster.serviceType | quote }}
             - name: INGRESS_IP
-              value: {{ default ( "" ) .Values.shipaCore.ip | quote }}
+              value: {{ default ( "" ) .Values.shipaCluster.ip | quote }}
             - name: INGRESS_DEBUG
-              value: {{ default ( "false" ) .Values.shipaCore.debug | quote }}
+              value: {{ default ( "false" ) .Values.shipaCluster.debug | quote }}
+            - name: ISTIO_INGRESS_SERVICE_TYPE
+              value: {{ default ( "LoadBalancer" ) .Values.shipaCluster.istioServiceType | quote }}
+            - name: ISTIO_INGRESS_IP
+              value: {{ default ( "" ) .Values.shipaCluster.istioIp | quote }}
+            - name: INSTALL_CERT_MANAGER
+              value: {{ default ( "false" ) .Values.shipaCluster.installCertManager | quote }}
             - name: DASHBOARD_IMAGE
               value: {{ .Values.dashboard.image }}
             - name: DASHBOARD_ENABLED
               value: "{{ .Values.dashboard.enabled }}"
             - name: PLATFORMS
-              value: "{{ join " " .Values.platforms }}"
+              value: "{{ join " " .Values.platforms.toInstall }}"
             - name: NETDATA_IMAGE
               value: {{ .Values.netdata.image}}
             - name: POD_NAMESPACE

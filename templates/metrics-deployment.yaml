@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: {{ template "shipa.fullname" . }}-metrics
   labels: {{- include "shipa.labels" . | nindent 4 }}
+  annotations:
+    sidecar.istio.io/inject: "false"
 spec:
   selector:
     matchLabels:
@@ -11,6 +13,8 @@ spec:
     metadata:
       labels:
         name: {{ template "shipa.fullname" . }}-metrics
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
         # Please do not scale metrics container. It doesn't use storage lock (--storage.tsdb.no-lockfile)
@@ -18,6 +22,8 @@ spec:
           image: {{ .Values.metrics.image }}
           imagePullPolicy: {{ .Values.metrics.pullPolicy }}
           env:
+            - name: PROMETHEUS_ARGS
+              value: "--web.enable-admin-api {{ default ("--storage.tsdb.retention.time=1d") .Values.metrics.prometheusArgs }}"
             - name: METRICS_PASSWORD
               valueFrom:
                 secretKeyRef:

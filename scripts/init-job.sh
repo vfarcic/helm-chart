@@ -13,8 +13,8 @@ $SHIPA_CLIENT login << EOF
 $USERNAME
 $PASSWORD
 EOF
-$SHIPA_CLIENT team-create admin
-$SHIPA_CLIENT team-create system
+$SHIPA_CLIENT team-create shipa-admin-team
+$SHIPA_CLIENT team-create shipa-system-team
 $SHIPA_CLIENT pool-add /scripts/default-pool-template.yaml
 
 TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
@@ -22,29 +22,51 @@ CACERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 ADDR=$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT
 
 sleep 10
-$SHIPA_CLIENT cluster-add shipa-core --pool=theonepool \
-  --cacert=$CACERT \
-  --addr=$ADDR \
-  --ingress-service-type=$INGRESS_SERVICE_TYPE \
-  --ingress-ip=$INGRESS_IP \
-  --ingress-debug=$INGRESS_DEBUG \
-  --token=$TOKEN
-
-$SHIPA_CLIENT role-add ShipaUser global
-$SHIPA_CLIENT role-permission-add ShipaUser pool.create
-$SHIPA_CLIENT role-permission-add ShipaUser team.create
+if [[ -z $ISTIO_INGRESS_IP ]]; then
+  $SHIPA_CLIENT cluster-add shipa-cluster --pool=shipa-pool \
+    --cacert=$CACERT \
+    --addr=$ADDR \
+    --ingress-service-type="traefik:$INGRESS_SERVICE_TYPE" \
+    --ingress-ip="traefik:$INGRESS_IP" \
+    --ingress-debug="traefik:$INGRESS_DEBUG" \
+    --install-cert-manager=$INSTALL_CERT_MANAGER \
+    --token=$TOKEN
+else
+    $SHIPA_CLIENT cluster-add shipa-cluster --pool=shipa-pool \
+    --cacert=$CACERT \
+    --addr=$ADDR \
+    --ingress-service-type="traefik:$INGRESS_SERVICE_TYPE" \
+    --ingress-ip="traefik:$INGRESS_IP" \
+    --ingress-debug="traefik:$INGRESS_DEBUG" \
+    --ingress-service-type="istio:$ISTIO_INGRESS_SERVICE_TYPE" \
+    --ingress-ip="istio:$ISTIO_INGRESS_IP" \
+    --install-cert-manager=$INSTALL_CERT_MANAGER \
+    --token=$TOKEN
+fi
 
 $SHIPA_CLIENT role-add TeamAdmin team
 $SHIPA_CLIENT role-permission-add TeamAdmin team
 $SHIPA_CLIENT role-permission-add TeamAdmin app
+$SHIPA_CLIENT role-permission-add TeamAdmin cluster
+$SHIPA_CLIENT role-permission-add TeamAdmin service
+$SHIPA_CLIENT role-permission-add TeamAdmin service-instance
 
 $SHIPA_CLIENT role-add PoolAdmin pool
 $SHIPA_CLIENT role-permission-add PoolAdmin pool
 $SHIPA_CLIENT role-permission-add PoolAdmin node
+$SHIPA_CLIENT role-permission-add PoolAdmin cluster
+
+$SHIPA_CLIENT role-add ClusterAdmin cluster
+$SHIPA_CLIENT role-permission-add ClusterAdmin cluster
+
+$SHIPA_CLIENT role-add ServiceAdmin service
+$SHIPA_CLIENT role-add ServiceInstanceAdmin service-instance
 
 $SHIPA_CLIENT role-default-add --team-create TeamAdmin
 $SHIPA_CLIENT role-default-add --pool-add PoolAdmin
-$SHIPA_CLIENT role-default-add --user-create ShipaUser
+$SHIPA_CLIENT role-default-add --cluster-add ClusterAdmin
+$SHIPA_CLIENT role-default-add --service-add ServiceAdmin
+$SHIPA_CLIENT role-default-add --service-instance-add ServiceInstanceAdmin
 
 $SHIPA_CLIENT role-add NodeContainer pool
 $SHIPA_CLIENT role-permission-add NodeContainer metrics.write
@@ -59,8 +81,8 @@ $SHIPA_CLIENT role-permission-add ClusterNodeContainer node.update.status
 $SHIPA_CLIENT role-add ClusterMetricsWriter cluster
 $SHIPA_CLIENT role-permission-add ClusterMetricsWriter metrics.write
 
-$SHIPA_CLIENT token-create --team=system --id=system-node-container
-$SHIPA_CLIENT role-assign NodeContainer system-node-container theonepool
+$SHIPA_CLIENT token-create --team=shipa-system-team --id=system-node-container
+$SHIPA_CLIENT role-assign NodeContainer system-node-container shipa-pool
 $SHIPA_CLIENT role-add PlatformImageAdmin global
 $SHIPA_CLIENT role-add PlatformImageReader global
 $SHIPA_CLIENT role-add AppImageAdmin app
@@ -81,7 +103,7 @@ $SHIPA_CLIENT node-container-add netdata \
         -v /proc:/host/proc:ro \
         -v /sys:/host/sys:ro
 
-$SHIPA_CLIENT node-container-upgrade netdata -y --pool=theonepool
+$SHIPA_CLIENT node-container-upgrade netdata -y --pool=shipa-pool
 
 platforms=$(echo $PLATFORMS | tr " " "\n")
 
