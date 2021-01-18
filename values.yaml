@@ -41,10 +41,22 @@ shipaCluster:
 service:
   nginx:
     enabled: true
+
+    # kubernetes service type for nginx ingress (LoadBalancer/ClusterIP)
     serviceType: LoadBalancer
-#    serviceType: ClusterIP
+
+    # override nginx ingress controller ip address if its service type is ClusterIP
     #clusterIP: 10.100.10.10
-#    loadBalancerIP: 35.202.88.71
+
+    # override nginx ingress controller ip address if its service type is LoadBalancer
+    #loadBalancerIP: 35.202.88.71
+
+    # If set, defines nginx configuration as described in the manual:
+    # https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap
+    # there are default values, take a look at templates/nginx-configmap.yaml
+    #config:
+    #  proxy-body-size: "128M"
+
 
 dashboard:
   enabled: true
