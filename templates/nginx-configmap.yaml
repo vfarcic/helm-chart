@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "shipa.fullname" . }}-nginx
+  labels: {{- include "shipa.labels" . | nindent 4 }}
+data:
+  {{- if .Values.service.nginx.config }}
+  {{- range $key, $value := .Values.service.nginx.config }}
+  {{ $key }}: {{ $value }}
+  {{- end }}
+  {{- else }}
+  proxy-body-size: "256M"
+  {{- end }}
