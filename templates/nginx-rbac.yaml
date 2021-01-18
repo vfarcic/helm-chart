@@ -17,6 +17,14 @@ rules:
       - watch
   - apiGroups:
       - ""
+    resourceNames:
+      - {{ template "shipa.fullname" . }}-leader-shipa-nginx-ingress
+    resources:
+      - configmaps
+    verbs:
+      - update
+  - apiGroups:
+      - ""
     resources:
       - nodes
     verbs:
