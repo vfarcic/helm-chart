@@ -32,8 +32,8 @@ data:
 {{ .Files.Get "scripts/csr-api-config.json" | indent 4 }}
   csr-api-server.json: |
 {{ .Files.Get "scripts/csr-api-server.json" | indent 4 }}
-  default-pool-template.yaml: |
-    ShipaPool: shipa-pool
+  default-framework-template.yaml: |
+    ShipaFramework: shipa-framework
     Resources:
       General:
         Setup:
