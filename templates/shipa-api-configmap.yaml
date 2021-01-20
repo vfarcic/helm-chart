@@ -27,7 +27,6 @@ data:
       user-registration: true
     provisioner: kubernetes
     platforms:
-      build-pool: shipa-pool
       platformImageTag: {{ .Values.platforms.platformImageTag }}
     metrics:
       host: {{ template "shipa.fullname" . }}-metrics
