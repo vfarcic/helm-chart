@@ -3,6 +3,7 @@ kind: ClusterRole
 metadata:
   name: {{ template "shipa.fullname" . }}-nginx-ingress-clusterrole
   labels: {{- include "shipa.labels" . | nindent 4 }}
+    shipa.io/shipa-api-ingress-controller: "true"
 rules:
   - apiGroups:
       - ""

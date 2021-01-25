@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: {{ template "shipa.fullname" . }}-nginx-ingress
   labels: {{- include "shipa.labels" . | nindent 4 }}
+    shipa.io/shipa-api-ingress-controller: "true"
   annotations:
     sidecar.istio.io/inject: "false"
 spec:

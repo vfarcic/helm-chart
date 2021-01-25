@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "shipa.fullname" . }}-nginx
   labels: {{- include "shipa.labels" . | nindent 4 }}
+    shipa.io/shipa-api-ingress-controller: "true"
 data:
   {{- if .Values.service.nginx.config }}
   {{- range $key, $value := .Values.service.nginx.config }}
