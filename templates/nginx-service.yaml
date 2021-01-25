@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: {{ template "shipa.fullname" . }}-ingress-nginx
   labels: {{- include "shipa.labels" . | nindent 4 }}
+    shipa.io/shipa-api-ingress-controller: "true"
 spec:
   type: "{{ .Values.service.nginx.serviceType }}"
   {{- if .Values.service.nginx.loadBalancerIP }}
