@@ -63,7 +63,7 @@ $SHIPA_CLIENT role-add ServiceAdmin service
 $SHIPA_CLIENT role-add ServiceInstanceAdmin service-instance
 
 $SHIPA_CLIENT role-default-add --team-create TeamAdmin
-$SHIPA_CLIENT role-default-add --framework-add PoolAdmin
+$SHIPA_CLIENT role-default-add --framework-add FrameworkAdmin
 $SHIPA_CLIENT role-default-add --cluster-add ClusterAdmin
 $SHIPA_CLIENT role-default-add --service-add ServiceAdmin
 $SHIPA_CLIENT role-default-add --service-instance-add ServiceInstanceAdmin
