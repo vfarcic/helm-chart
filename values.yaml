@@ -8,7 +8,7 @@ auth:
 shipaApi:
   port: 8080
   securePort: 8081
-  image: shipasoftware/api:v1.2.0-update-1
+  image: shipasoftware/api:v1.2.1-rc-1
   pullPolicy: Always
   debug: false
 
@@ -60,7 +60,7 @@ service:
 
 dashboard:
   enabled: true
-  image: shipasoftware/dashboard:v1.2.0
+  image: shipasoftware/dashboard:v1.2.1-rc-1
 
 etcd:
   debug: false
@@ -88,11 +88,11 @@ postgres:
     size: 10Gi
 
 cli:
-  image: shipasoftware/cli:v1.2.0
+  image: shipasoftware/cli:v1.2.1-rc-1
   pullPolicy: Always
 
 metrics:
-  image: shipasoftware/metrics:v0.0.6
+  image: shipasoftware/metrics:v0.0.7
   pullPolicy: Always
 
   # Extra configuration to add to prometheus.yaml
@@ -106,10 +106,10 @@ metrics:
   prometheusArgs: "--storage.tsdb.retention.time=1d"
 
 busybody:
-  image: shipasoftware/bb:v0.0.6
+  image: shipasoftware/bb:v0.0.7
 
 netdata:
-  image: shipasoftware/netdata:v0.0.4
+  image: shipasoftware/netdata:v0.0.5
 
 shipaNodeTraefik:
   user: admin
