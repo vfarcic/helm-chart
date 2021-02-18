@@ -48,6 +48,8 @@ spec:
               value: {{ .Values.service.nginx.serviceType }}
             - name: SHIPA_PORT
               value: {{ .Values.shipaApi.port | quote }}
+            - name: SHIPA_API_CNAMES
+              value: {{ join "\",\"" .Values.shipaApi.cnames | quote }}
             - name: SHIPA_ORGANIZATION_ID
               valueFrom:
                 configMapKeyRef:
