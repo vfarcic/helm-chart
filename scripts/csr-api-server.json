@@ -1,7 +1,8 @@
 {
   "CN": "Shipa",
   "hosts": [
-    "SHIPA_PUBLIC_IP"
+    "SHIPA_PUBLIC_IP",
+    "SHIPA_API_CNAMES"
   ],
   "key": {
     "algo": "rsa",

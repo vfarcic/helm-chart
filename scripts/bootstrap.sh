@@ -27,6 +27,12 @@ sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-etcd.json > $CERTIFICATES_
 sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-api-config.json > $CERTIFICATES_DIRECTORY/csr-api-config.json
 sed "s/SHIPA_PUBLIC_IP/$NGINX_ADDRESS/g" /scripts/csr-api-server.json > $CERTIFICATES_DIRECTORY/csr-api-server.json
 sed "s/ETCD_SERVICE/$ETCD_SERVICE/g" --in-place $CERTIFICATES_DIRECTORY/csr-etcd.json
+
+sed "s/SHIPA_API_CNAMES/$SHIPA_API_CNAMES/g" --in-place $CERTIFICATES_DIRECTORY/csr-docker-registry.json
+sed "s/SHIPA_API_CNAMES/$SHIPA_API_CNAMES/g" --in-place $CERTIFICATES_DIRECTORY/csr-docker-cluster.json
+sed "s/SHIPA_API_CNAMES/$SHIPA_API_CNAMES/g" --in-place $CERTIFICATES_DIRECTORY/csr-etcd.json
+sed "s/SHIPA_API_CNAMES/$SHIPA_API_CNAMES/g" --in-place $CERTIFICATES_DIRECTORY/csr-api-server.json
+
 cp /scripts/csr-etcd-client.json $CERTIFICATES_DIRECTORY/csr-etcd-client.json
 cp /scripts/csr-client-ca.json $CERTIFICATES_DIRECTORY/csr-client-ca.json
 cp /scripts/csr-netdata-client.json $CERTIFICATES_DIRECTORY/csr-netdata-client.json
