@@ -14,7 +14,11 @@ data:
       server-key: /certs/api-server.key
 
     database:
+     {{- if .Values.externalMongodb.enable }}
+      url: {{ .Release.Name }}-externalMongodb:{{ .Values.externalMongodb.port}}
+     {{ else }}
       url: {{ .Release.Name }}-mongodb-replicaset:27017
+     {{- end }}
       name: shipa
     license: {{ .Values.license }}
     organization:
@@ -47,7 +51,11 @@ data:
         socket: /var/run/docker.sock
       cluster:
         storage: mongodb
-        mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
+        {{- if .Values.externalMongodb.enable }}
+         mongo-url: {{ .Release.Name }}-externalMongodb:{{ .Values.externalMongodb.port }}
+        {{ else }}
+         mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
+        {{- end }}
         mongo-database: cluster
       collection: docker
       registry: SHIPA_PUBLIC_IP:{{ ( index .Values "docker-registry" ).service.port }}
@@ -83,7 +91,11 @@ data:
       istio:
         type: istio
     queue:
+    {{- if .Values.externalMongodb.enable }}
+      mongo-url: {{ .Release.Name }}-externalMongodb:{{ .Values.externalMongodb.port }}
+    {{ else }}
       mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
+    {{- end }}
       mongo-database: queuedb
     quota:
       units-per-app: 4
