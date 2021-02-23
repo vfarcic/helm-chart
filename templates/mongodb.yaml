@@ -1,0 +1,9 @@
+{{- if .Values.externalMongodb.enable }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-external-mongodb
+spec:
+  type: ExternalName
+  externalName: {{ .Values.externalMongodb.host }}
+{{- end }}
