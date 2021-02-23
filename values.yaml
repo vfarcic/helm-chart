@@ -139,7 +139,14 @@ serviceAccount:
 rbac:
   enabled: true
 
+# Connect your own instance of mongodb
+externalMongodb:
+  enable: true
+  # host can be a DNS or and IP
+  host: < mongodb host >
+  port: 27017
 
+# Default DB config
 mongodb-replicaset:
   replicaSetName: rs0
   replicas: 1
