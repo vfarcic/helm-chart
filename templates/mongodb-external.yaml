@@ -7,3 +7,26 @@ spec:
   type: ExternalName
   externalName: {{ .Values.externalMongodb.host }}
 {{- end }}
+
+---
+{{- if .Values.externalMongodb.enable }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-external-mongodb
+spec:
+  ports:
+    - name: {{ .Release.Name }}-external-mongodb
+      port: {{ .Values.externalMongodb.port }}
+      targetPort: {{ .Values.externalMongodb.port }}
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+ name: {{ .Release.Name }}-external-mongodb
+subsets:
+ - addresses:
+     - ip: {{ .Values.externalMongodb.host }}
+   ports:
+     - port: {{ .Values.externalMongodb.port }}
+{{- end }}
