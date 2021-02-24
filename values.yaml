@@ -141,14 +141,14 @@ rbac:
 
 # Connect your own instance of mongodb
 externalMongodb:
-  enable: true
+  enable: false
   # host can be of type 'DNS' or 'IP'
   type: DNS
   host: < mongodb host >
   port: 27017
 
 # Default DB config
-mongodb-replicaset:
+mongodb:
   replicaSetName: rs0
   replicas: 1
   port: 27017
