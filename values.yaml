@@ -146,6 +146,11 @@ externalMongodb:
   type: DNS
   host: < mongodb host >
   port: 27017
+  auth:
+    enable: true
+    username: < username >
+    password: < password >
+
 
 # Default DB config
 mongodb-replicaset:
