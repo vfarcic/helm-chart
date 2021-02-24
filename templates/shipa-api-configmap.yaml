@@ -15,9 +15,9 @@ data:
 
     database:
      {{- if .Values.externalMongodb.enable }}
-      url: {{ .Release.Name }}-externalMongodb:{{ .Values.externalMongodb.port}}
+      url: {{ .Release.Name }}-mongodb:{{ .Values.externalMongodb.port}}
      {{ else }}
-      url: {{ .Release.Name }}-mongodb-replicaset:27017
+      url: {{ .Release.Name }}-mongodb:27017
      {{- end }}
       name: shipa
     license: {{ .Values.license }}
@@ -52,9 +52,9 @@ data:
       cluster:
         storage: mongodb
         {{- if .Values.externalMongodb.enable }}
-         mongo-url: {{ .Release.Name }}-externalMongodb:{{ .Values.externalMongodb.port }}
+         mongo-url: {{ .Release.Name }}-mongodb:{{ .Values.externalMongodb.port }}
         {{ else }}
-         mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
+         mongo-url: {{ .Release.Name }}-mongodb:27017
         {{- end }}
         mongo-database: cluster
       collection: docker
@@ -92,9 +92,9 @@ data:
         type: istio
     queue:
     {{- if .Values.externalMongodb.enable }}
-      mongo-url: {{ .Release.Name }}-externalMongodb:{{ .Values.externalMongodb.port }}
+      mongo-url: {{ .Release.Name }}-mongodb:{{ .Values.externalMongodb.port }}
     {{ else }}
-      mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
+      mongo-url: {{ .Release.Name }}-mongodb:27017
     {{- end }}
       mongo-database: queuedb
     quota:
