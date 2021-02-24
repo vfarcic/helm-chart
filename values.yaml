@@ -149,6 +149,8 @@ externalMongodb:
 
 # Default DB config
 mongodb-replicaset:
+# Override the name of the chart, which in turn changes the name of the containers, services etc.
+  nameOverride: "mongodb"
   replicaSetName: rs0
   replicas: 1
   port: 27017
