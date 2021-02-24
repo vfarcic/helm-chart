@@ -2,7 +2,7 @@ dependencies:
   - name: docker-registry
     version: 1.9.1
     repository: https://charts.helm.sh/stable
-  - name: mongodb
+  - name: mongodb-replicaset
     version: 3.11.3
     repository: https://charts.helm.sh/stable
     tags:
