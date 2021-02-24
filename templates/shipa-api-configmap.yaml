@@ -21,7 +21,7 @@ data:
       password: {{ .Values.externalMongodb.auth.password }}
       {{- end }}
       url: {{ .Release.Name }}-mongodb:{{ .Values.externalMongodb.port}}
-      host-type: {{ .Values.externalMongodb.type }}
+      host-type: {{ .Values.externalMongodb.type | quote }}
      {{ else }}
       url: {{ .Release.Name }}-mongodb:27017
       host-type: "IP"
