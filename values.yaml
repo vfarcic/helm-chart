@@ -159,7 +159,7 @@ tags:
   defaultDB: true
 
 # Default DB config
-mongodb-replicaset:
+mongodb:
   replicaSetName: rs0
   replicas: 1
   port: 27017
