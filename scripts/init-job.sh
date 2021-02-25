@@ -68,32 +68,6 @@ $SHIPA_CLIENT role-default-add --cluster-add ClusterAdmin
 $SHIPA_CLIENT role-default-add --service-add ServiceAdmin
 $SHIPA_CLIENT role-default-add --service-instance-add ServiceInstanceAdmin
 
-$SHIPA_CLIENT role-add NodeContainer framework
-$SHIPA_CLIENT role-permission-add NodeContainer metrics.write
-$SHIPA_CLIENT role-permission-add NodeContainer app.update.log
-$SHIPA_CLIENT role-permission-add NodeContainer node.update.status
-
-$SHIPA_CLIENT role-add ClusterNodeContainer cluster
-$SHIPA_CLIENT role-permission-add ClusterNodeContainer metrics.write
-$SHIPA_CLIENT role-permission-add ClusterNodeContainer app.update.log
-$SHIPA_CLIENT role-permission-add ClusterNodeContainer node.update.status
-
-$SHIPA_CLIENT role-add ClusterMetricsWriter cluster
-$SHIPA_CLIENT role-permission-add ClusterMetricsWriter metrics.write
-
-$SHIPA_CLIENT token-create --team=shipa-system-team --id=system-node-container
-$SHIPA_CLIENT role-assign NodeContainer system-node-container shipa-framework
-$SHIPA_CLIENT role-add PlatformImageAdmin global
-$SHIPA_CLIENT role-add PlatformImageReader global
-$SHIPA_CLIENT role-add AppImageAdmin app
-$SHIPA_CLIENT role-add AppImageReader app
-$SHIPA_CLIENT role-permission-add  PlatformImageAdmin platform.image.read
-$SHIPA_CLIENT role-permission-add  PlatformImageAdmin platform.image.write
-$SHIPA_CLIENT role-permission-add  PlatformImageReader platform.image.read
-$SHIPA_CLIENT role-permission-add  AppImageReader app.read.image
-$SHIPA_CLIENT role-permission-add  AppImageAdmin app.read.image
-$SHIPA_CLIENT role-permission-add  AppImageAdmin app.update.image
-
 $SHIPA_CLIENT node-container-add netdata \
         --enable=true \
         --privileged=true \
