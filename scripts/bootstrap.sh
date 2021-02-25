@@ -33,6 +33,11 @@ sed "s/SHIPA_API_CNAMES/$SHIPA_API_CNAMES/g" --in-place $CERTIFICATES_DIRECTORY/
 sed "s/SHIPA_API_CNAMES/$SHIPA_API_CNAMES/g" --in-place $CERTIFICATES_DIRECTORY/csr-etcd.json
 sed "s/SHIPA_API_CNAMES/$SHIPA_API_CNAMES/g" --in-place $CERTIFICATES_DIRECTORY/csr-api-server.json
 
+jq 'fromstream(tostream | select(length == 1 or .[1] != ""))' $CERTIFICATES_DIRECTORY/csr-docker-registry.json > file.tmp && mv file.tmp $CERTIFICATES_DIRECTORY/csr-docker-registry.json
+jq 'fromstream(tostream | select(length == 1 or .[1] != ""))' $CERTIFICATES_DIRECTORY/csr-docker-cluster.json > file.tmp && mv file.tmp $CERTIFICATES_DIRECTORY/csr-docker-cluster.json
+jq 'fromstream(tostream | select(length == 1 or .[1] != ""))' $CERTIFICATES_DIRECTORY/csr-etcd.json > file.tmp && mv file.tmp $CERTIFICATES_DIRECTORY/csr-etcd.json
+jq 'fromstream(tostream | select(length == 1 or .[1] != ""))' $CERTIFICATES_DIRECTORY/csr-api-server.json > file.tmp && mv file.tmp $CERTIFICATES_DIRECTORY/csr-api-server.json
+
 cp /scripts/csr-etcd-client.json $CERTIFICATES_DIRECTORY/csr-etcd-client.json
 cp /scripts/csr-client-ca.json $CERTIFICATES_DIRECTORY/csr-client-ca.json
 cp /scripts/csr-netdata-client.json $CERTIFICATES_DIRECTORY/csr-netdata-client.json
