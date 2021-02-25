@@ -4,6 +4,7 @@ metadata:
   name: "{{ template "shipa.fullname" . }}-init-job-{{ .Release.Revision }}"
   labels: {{- include "shipa.labels" . | nindent 4 }}
   annotations:
+    "helm.sh/hook": "post-install"
     sidecar.istio.io/inject: "false"
 spec:
   backoffLimit: 5
