@@ -43,4 +43,17 @@ if [ "x$EVENT_ID" != "x" ]; then
   fi
 fi
 
-$SHIPA_CLIENT app-deploy -a dashboard -i $DASHBOARD_IMAGE
+COUNTER=0
+until $SHIPA_CLIENT app-deploy -a dashboard -i $DASHBOARD_IMAGE
+do
+    echo "Deploy dashboard failed with $?, waiting 30 seconds then trying again"
+    sleep 30
+    let COUNTER=COUNTER+1
+    if [ $COUNTER -gt 3 ]
+    then
+	echo "Failed to deploy dashboard three times, giving up"
+	break
+    fi
+    
+done
+
