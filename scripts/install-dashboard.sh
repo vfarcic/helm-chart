@@ -49,10 +49,9 @@ do
     echo "Deploy dashboard failed with $?, waiting 30 seconds then trying again"
     sleep 30
     let COUNTER=COUNTER+1
-    if [ $COUNTER -gt 3 ]
-    then
+    if [ $COUNTER -gt 3 ]; then
 	echo "Failed to deploy dashboard three times, giving up"
-	break
+	exit 1
     fi
     
 done
