@@ -78,14 +78,6 @@ spec:
               secretKeyRef:
                 name: {{ template "shipa.fullname" . }}-api-init-secret
                 key: password
-          - name: NGINX_SERVICE
-            value: {{ template "shipa.fullname" . }}-ingress-nginx
-          - name: NGINX_SERVICE_TYPE
-            value: {{ .Values.service.nginx.serviceType }}
-          - name: POD_NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
       containers:
         - name: shipa
           securityContext:
@@ -113,6 +105,18 @@ spec:
                 secretKeyRef:
                   name: {{ template "shipa.fullname" . }}-secret
                   key: node-traefik-password
+            - name: DASHBOARD_IMAGE
+              value: {{ .Values.dashboard.image }}
+            - name: DASHBOARD_ENABLED
+              value: "{{ .Values.dashboard.enabled }}"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           ports:
             - name: shipa
               containerPort: {{ .Values.shipaApi.port }}
