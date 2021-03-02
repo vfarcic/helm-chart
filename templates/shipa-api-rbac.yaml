@@ -30,6 +30,18 @@ rules:
     resources: ["*"]
     verbs: ["*"]
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ template "shipa.fullname" . }}-role
+  labels: {{- include "shipa.labels" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs: ["*"]
+---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -43,4 +55,18 @@ subjects:
 - kind: ServiceAccount
   name: {{ template "shipa.fullname" . }}
   namespace: {{ .Release.Namespace }}
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ template "shipa.fullname" . }}
+  labels: {{- include "shipa.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ template "shipa.fullname" . }}-role
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "shipa.fullname" . }}
+    namespace: {{ .Release.Namespace }}
 {{- end }}

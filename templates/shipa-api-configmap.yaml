@@ -19,6 +19,9 @@ data:
     license: {{ .Values.license }}
     organization:
       id: SHIPA_ORGANIZATION_ID
+    dashboard:
+      enabled: $DASHBOARD_ENABLED
+      image: $DASHBOARD_IMAGE
     auth:
       admin-email: {{ .Values.auth.adminUser | quote }}
       dummy-domain: {{ .Values.auth.dummyDomain | quote }}
@@ -92,6 +95,9 @@ data:
       server: http://{{ template "shipa.fullname" . }}-clair:6060
       disabled: false
     kubernetes:
+      # pod name is used by a leader election thing as an identifier for the current shipa-api instance
+      pod-name: $POD_NAME
+      pod-namespace: $POD_NAMESPACE
       core-services-address: SHIPA_PUBLIC_IP
       use-pool-namespaces: true
       remote-cluster-ingress:
