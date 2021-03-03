@@ -61,7 +61,7 @@ service:
 
 dashboard:
   enabled: true
-  image: shipasoftware/dashboard:v1.2.1-rc-4
+  image: shipasoftware/dashboard:SHIPA-1143-hide-node-details
 
 etcd:
   debug: false
