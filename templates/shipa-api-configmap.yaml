@@ -16,10 +16,6 @@ data:
     database:
       use-external: {{ .Values.externalMongodb.enable }}
      {{- if .Values.externalMongodb.enable }}
-      {{- if .Values.externalMongodb.auth.enable }}
-      username: {{ .Values.externalMongodb.auth.username }}
-      password: {{ .Values.externalMongodb.auth.password }}
-      {{- end }}
       url: {{ .Release.Name }}-mongodb:{{ .Values.externalMongodb.port}}
       host-type: {{ .Values.externalMongodb.type | quote }}
      {{ else }}
