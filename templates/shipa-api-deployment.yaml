@@ -135,6 +135,16 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-db-auth-secret
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-db-auth-secret
+                  key: password
           ports:
             - name: shipa
               containerPort: {{ .Values.shipaApi.port }}
