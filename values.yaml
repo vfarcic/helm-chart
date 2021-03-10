@@ -152,6 +152,11 @@ externalMongodb:
     username: < username >
     password: < password >
 
+# tags are standard way to handle chart dependencies.
+tags:
+# Set defaultDB to 'false' when using external DB to not install default DB. 
+# It will also prevent creating Persistent Volumes.
+  defaultDB: true
 
 # Default DB config
 mongodb-replicaset:
