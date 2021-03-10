@@ -141,10 +141,8 @@ rbac:
 
 # Connect your own instance of mongodb
 externalMongodb:
-  enable: false
-  # host can be of type 'DNS' or 'IP'
-  type: DNS
-  host: < mongodb host >
+  enable: true
+  url: 
   port: 27017
   auth:
     enable: true
