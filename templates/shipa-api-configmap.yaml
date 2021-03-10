@@ -16,8 +16,7 @@ data:
     database:
       use-external: {{ .Values.externalMongodb.enable }}
      {{- if .Values.externalMongodb.enable }}
-      url: {{ .Values.externalMongodb.port}}:{{ .Values.externalMongodb.port}}
-      direct: true
+      url: {{ .Values.externalMongodb.url}}
      {{ else }}
       url: {{ .Release.Name }}-mongodb:27017
       host-type: "IP"
