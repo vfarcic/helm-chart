@@ -16,8 +16,7 @@ data:
     database:
       use-external: {{ .Values.externalMongodb.enable }}
      {{- if .Values.externalMongodb.enable }}
-      url: {{ .Release.Name }}-mongodb:{{ .Values.externalMongodb.port}}
-      host-type: {{ .Values.externalMongodb.type | quote }}
+      url: {{ .Values.externalMongodb.port}}:{{ .Values.externalMongodb.port}}
       direct: true
      {{ else }}
       url: {{ .Release.Name }}-mongodb:27017
