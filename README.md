@@ -6,6 +6,7 @@ Documentation for Shipa can be found at https://learn.shipa.io
 # Defaults 
 
 We create LoadBalancer service to expose Shipa to the internet:
+1. 2379 -> etcd 
 1. 5000 -> docker registry
 1. 8080 -> shipa api over http
 1. 8081 -> shipa api over https
@@ -17,45 +18,30 @@ By default we use dynamic public IP set by a cloud-provider but there is a param
 
 # Installation
 
-The installation creates an admin user, and you have to set its email and password:
+Users can install Shipa on any existing Kubernetes cluster (version 1.10.x and newer), and Shipa leverages Helm charts for the install.
+
+Below are the steps required to have Shipa installed in your existing Kubernetes cluster:
+
+Create a namespace where the Shipa services should be installed   
 ```bash
---set=auth.adminUser=....   
---set=auth.adminPassword=....    
-```
-
-
-## Configuring kubernetes cluster and helm chart
-```bash
-
 NAMESPACE=shipa-system
 kubectl create namespace $NAMESPACE
-
-helm version
-
-#  Version 2 of helm uses Tiller to create workloads and thus requires two additional steps: 
-# run this commond only if you use Helm 2
-helm init
-kubectl create clusterrolebinding kube-system-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default
-
-git clone https://github.com/shipa-corp/helm-chart
-cd helm-chart
-
-kubectl apply -f limits.yaml --namespace=$NAMESPACE
-
-helm dep up 
 ```
-
-## Installing shipa helm chart
-
-To easily manage upgrades you could keep all overridden values in values.override.yaml
-
+Create the values.override.yaml with the Admin user and password that will be used for Shipa
 ```bash
 cat > values.override.yaml << EOF
 auth:
   adminUser: <your email here>
   adminPassword: <your admin password> 
 EOF
-helm install . --name=shipa --timeout=1000 --namespace=$NAMESPACE -f values.override.yaml
+```
+Add Shipa helm repo
+```bash
+helm repo add shipa-charts https://shipa-charts.storage.googleapis.com
+```
+Install Shipa
+```bash
+helm install shipa shipa-charts/shipa -n $NAMESPACE  --timeout=1000s -f values.override.yaml
 ```
 
 ## Upgrading shipa helm chart
