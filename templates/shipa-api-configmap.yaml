@@ -19,7 +19,6 @@ data:
       url: {{ .Values.externalMongodb.url}}
      {{ else }}
       url: {{ .Release.Name }}-mongodb:27017
-      host-type: "IP"
      {{- end }}
       name: shipa
     license: {{ .Values.license }}
