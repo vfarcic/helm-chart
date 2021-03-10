@@ -141,9 +141,12 @@ rbac:
 
 # Connect your own instance of mongodb
 externalMongodb:
-  enable: true
-  url: 
-  port: 27017
+  enable: false
+  # url must follow Standard Connection String Format as described here: https://docs.mongodb.com/manual/reference/connection-string/#standard-connection-string-format
+  # For a sharded cluster it should be a comma separated list of hosts: 
+  # e.g. "mongos0.example.com:27017,mongos1.example.com:27017,mongos2.example.com:27017"
+  # Due to some limitations of the dependencies, we currently do not support url with 'DNS Seed List Connection Format'.
+  url: < database url >
   auth:
     enable: true
     username: < username >
