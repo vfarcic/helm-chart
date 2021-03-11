@@ -105,9 +105,6 @@ data:
         https-port: 443
         protected-port: 31567
         service-type: LoadBalancer
-
-      deploy-sidecar-image: shipasoftware/deploy-agent:v0.6.2
-      deploy-inspect-image: shipasoftware/deploy-agent:v0.6.2
     debug: {{ .Values.shipaApi.debug }}
     node-traefik:
       image: {{ .Values.shipaNodeTraefik.image }}
