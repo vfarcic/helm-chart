@@ -26,8 +26,6 @@ data:
 {{ .Files.Get "scripts/csr-shipa-ca.json" | indent 4 }}
   csr-client-ca.json: |
 {{ .Files.Get "scripts/csr-client-ca.json" | indent 4 }}
-  csr-netdata-client.json: |
-{{ .Files.Get "scripts/csr-netdata-client.json" | indent 4 }}
   csr-api-config.json: |
 {{ .Files.Get "scripts/csr-api-config.json" | indent 4 }}
   csr-api-server.json: |

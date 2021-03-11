@@ -40,7 +40,6 @@ jq 'fromstream(tostream | select(length == 1 or .[1] != ""))' $CERTIFICATES_DIRE
 
 cp /scripts/csr-etcd-client.json $CERTIFICATES_DIRECTORY/csr-etcd-client.json
 cp /scripts/csr-client-ca.json $CERTIFICATES_DIRECTORY/csr-client-ca.json
-cp /scripts/csr-netdata-client.json $CERTIFICATES_DIRECTORY/csr-netdata-client.json
 
 cfssl gencert -initca $CERTIFICATES_DIRECTORY/csr-shipa-ca.json | cfssljson -bare $CERTIFICATES_DIRECTORY/ca
 cfssl gencert -initca $CERTIFICATES_DIRECTORY/csr-client-ca.json | cfssljson -bare $CERTIFICATES_DIRECTORY/client-ca
@@ -75,12 +74,6 @@ cfssl gencert \
     -profile=server \
     $CERTIFICATES_DIRECTORY/csr-api-server.json | cfssljson -bare $CERTIFICATES_DIRECTORY/api-server
 
-cfssl gencert \
-    -ca=$CERTIFICATES_DIRECTORY/client-ca.pem \
-    -ca-key=$CERTIFICATES_DIRECTORY/client-ca-key.pem \
-    -profile=client \
-    $CERTIFICATES_DIRECTORY/csr-netdata-client.json | cfssljson -bare $CERTIFICATES_DIRECTORY/netdata-client
-
 rm -f $CERTIFICATES_DIRECTORY/*.csr
 rm -f $CERTIFICATES_DIRECTORY/*.json
 
@@ -89,9 +82,6 @@ CA_KEY=$(cat $CERTIFICATES_DIRECTORY/ca-key.pem | base64)
 
 CLIENT_CA_CERT=$(cat $CERTIFICATES_DIRECTORY/client-ca.pem | base64)
 CLIENT_CA_KEY=$(cat $CERTIFICATES_DIRECTORY/client-ca-key.pem | base64)
-
-NETDATA_CLIENT_CERT=$(cat $CERTIFICATES_DIRECTORY/netdata-client.pem | base64)
-NETDATA_CLIENT_KEY=$(cat $CERTIFICATES_DIRECTORY/netdata-client-key.pem | base64)
 
 DOCKER_CLUSTER_CERT=$(cat $CERTIFICATES_DIRECTORY/docker-cluster.pem | base64)
 DOCKER_CLUSTER_KEY=$(cat $CERTIFICATES_DIRECTORY/docker-cluster-key.pem | base64)
@@ -115,8 +105,6 @@ kubectl get secrets shipa-certificates -o json \
         | jq ".data[\"ca-key.pem\"] |= \"$CA_KEY\"" \
         | jq ".data[\"client-ca.crt\"] |= \"$CLIENT_CA_CERT\"" \
         | jq ".data[\"client-ca.key\"] |= \"$CLIENT_CA_KEY\"" \
-        | jq ".data[\"netdata-client.crt\"] |= \"$NETDATA_CLIENT_CERT\"" \
-        | jq ".data[\"netdata-client.key\"] |= \"$NETDATA_CLIENT_KEY\"" \
         | jq ".data[\"cert.pem\"] |= \"$DOCKER_CLUSTER_CERT\"" \
         | jq ".data[\"key.pem\"] |= \"$DOCKER_CLUSTER_KEY\"" \
         | jq ".data[\"tls.crt\"] |= \"$DOCKER_REGISTRY_CERT\"" \

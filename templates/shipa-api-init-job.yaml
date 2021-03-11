@@ -62,8 +62,6 @@ spec:
               value: "{{ .Values.dashboard.enabled }}"
             - name: PLATFORMS
               value: "{{ join " " .Values.platforms.toInstall }}"
-            - name: NETDATA_IMAGE
-              value: {{ .Values.netdata.image}}
             - name: POD_NAMESPACE
               valueFrom:
                 fieldRef:

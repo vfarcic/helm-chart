@@ -68,17 +68,6 @@ $SHIPA_CLIENT role-default-add --cluster-add ClusterAdmin
 $SHIPA_CLIENT role-default-add --service-add ServiceAdmin
 $SHIPA_CLIENT role-default-add --service-instance-add ServiceInstanceAdmin
 
-$SHIPA_CLIENT node-container-add netdata \
-        --enable=true \
-        --privileged=true \
-        --image=$NETDATA_IMAGE -p 19999:19999 \
-        -v /etc/passwd:/host/etc/passwd:ro \
-        -v /etc/group:/host/etc/group:ro \
-        -v /proc:/host/proc:ro \
-        -v /sys:/host/sys:ro
-
-$SHIPA_CLIENT node-container-upgrade netdata -y --framework=shipa-framework
-
 platforms=$(echo $PLATFORMS | tr " " "\n")
 
 echo "waiting busybody daemons..."

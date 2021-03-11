@@ -13,11 +13,6 @@ $SHIPA_CLIENT app-create dashboard static \
     --team=shipa-admin-team \
     -e SHIPA_ADMIN_USER=$USERNAME
 
-NETDATA_CLIENT_CERT=$(kubectl get secret/shipa-certificates -o json | jq ".data[\"netdata-client.crt\"]" | base64 -d)
-NETDATA_CLIENT_KEY=$(kubectl get secret/shipa-certificates -o json | jq ".data[\"netdata-client.key\"]" | base64 -d)
-
-$SHIPA_CLIENT env-set -a dashboard NETDATA_CLIENT_KEY="$NETDATA_CLIENT_KEY" NETDATA_CLIENT_CERT="$NETDATA_CLIENT_CERT"
-
 COUNTER=0
 until $SHIPA_CLIENT app-deploy -a dashboard -i $DASHBOARD_IMAGE
 do

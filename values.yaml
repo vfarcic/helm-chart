@@ -109,9 +109,6 @@ metrics:
 busybody:
   image: shipasoftware/bb:v0.0.7
 
-netdata:
-  image: shipasoftware/netdata:v0.0.5
-
 shipaNodeTraefik:
   user: admin
 
