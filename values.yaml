@@ -33,10 +33,6 @@ shipaCluster:
   
   # override istio ingress controller ip address
   # istioIp: 10.100.10.11
-  
-  # if set to true, shipa will deploy CertManager into cert-manager namespace
-  # use carefully as it could override your installation of cert-manager
-  installCertManager: false
 
 
 service:

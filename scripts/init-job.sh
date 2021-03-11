@@ -29,7 +29,6 @@ if [[ -z $ISTIO_INGRESS_IP ]]; then
     --ingress-service-type="traefik:$INGRESS_SERVICE_TYPE" \
     --ingress-ip="traefik:$INGRESS_IP" \
     --ingress-debug="traefik:$INGRESS_DEBUG" \
-    --install-cert-manager=$INSTALL_CERT_MANAGER \
     --token=$TOKEN
 else
     $SHIPA_CLIENT cluster-add shipa-cluster --framework=shipa-framework \
@@ -40,7 +39,6 @@ else
     --ingress-debug="traefik:$INGRESS_DEBUG" \
     --ingress-service-type="istio:$ISTIO_INGRESS_SERVICE_TYPE" \
     --ingress-ip="istio:$ISTIO_INGRESS_IP" \
-    --install-cert-manager=$INSTALL_CERT_MANAGER \
     --token=$TOKEN
 fi
 
