@@ -8,7 +8,7 @@ auth:
 shipaApi:
   port: 8080
   securePort: 8081
-  image: shipasoftware/api:v1.2.1.1
+  image: shipasoftware/api:470898c88da60c2ad818f38cb6b6cd0cb7ea59f5
   pullPolicy: Always
   debug: false
   cnames: []
@@ -18,19 +18,19 @@ license: ""
 shipaCluster:
   # use debug logs in traefik ingress controller
   debug: false
-  
+
   # kubernetes service type for traefik ingress controller (LoadBalancer/ClusterIP)
   serviceType: LoadBalancer
-  
+
   # override traefik ingress controller ip address
   # ip: 10.100.10.11
-  
+
   # use debug logs in istio ingress controller
   istioDebug: false
-  
+
   # kubernetes service type for istio ingress controller (LoadBalancer/ClusterIP)
   istioServiceType: LoadBalancer
-  
+
   # override istio ingress controller ip address
   # istioIp: 10.100.10.11
 
@@ -57,7 +57,7 @@ service:
 
 dashboard:
   enabled: true
-  image: shipasoftware/dashboard:v1.2.1
+  image: shipasoftware/dashboard:3fa8e36fd3a6667ff90c574f964ea0309d7355b1
 
 etcd:
   debug: false
@@ -85,7 +85,7 @@ postgres:
     size: 10Gi
 
 cli:
-  image: shipasoftware/cli:v1.2.1
+  image: shipasoftware/cli:7f494147a8c7a98700d24d759c7573aa0d6a861b
   pullPolicy: Always
 
 metrics:
@@ -132,34 +132,10 @@ serviceAccount:
 rbac:
   enabled: true
 
-
-mongodb-replicaset:
-  replicaSetName: rs0
-  replicas: 1
-  port: 27017
+mongodb:
   auth:
     enabled: false
-  installImage:
-    name: k8s.gcr.io/mongodb-install
-    tag: 0.6
-    pullPolicy: IfNotPresent
-  image:
-    name: mongo
-    tag: latest
-    pullPolicy: IfNotPresent
-  persistentVolume:
-    ## Persistent Volume Storage Class
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.
-    ##
-    ## storageClass: ""
-    enabled: true
-    size: 10Gi
-  tls:
-    enabled: false
-  configmap:
+  replicaCount: 1
 
 
 docker-registry:

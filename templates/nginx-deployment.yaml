@@ -23,7 +23,7 @@ spec:
       serviceAccountName: {{ template "shipa.fullname" . }}-nginx-ingress-serviceaccount
       containers:
         - name: nginx-ingress-controller
-          image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:master
+          image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller-arm64:0.32.0
           args:
             - /nginx-ingress-controller
             - --election-id={{ template "shipa.fullname" . }}-leader
