@@ -5,6 +5,7 @@ metadata:
   labels: {{- include "shipa.labels" . | nindent 4 }}
 data:
   shipa.conf: |-
+    shipaVersion: {{ .Chart.Version }}
     tls-listen: "0.0.0.0:{{ .Values.shipaApi.securePort }}"
     listen: "0.0.0.0:{{ .Values.shipaApi.port }}"
     host: https://SHIPA_PUBLIC_IP:{{ .Values.shipaApi.securePort }}
