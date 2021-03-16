@@ -78,6 +78,28 @@ spec:
               secretKeyRef:
                 name: {{ template "shipa.fullname" . }}-api-init-secret
                 key: password
+          {{- if not .Values.tags.defaultDB }}
+          {{- if and ( .Values.externalMongodb.auth.username ) ( .Values.externalMongodb.auth.password ) }}
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "shipa.fullname" . }}-db-auth-secret
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "shipa.fullname" . }}-db-auth-secret
+                key: password
+          {{- end }}
+          {{- end }}
+          - name: NGINX_SERVICE
+            value: {{ template "shipa.fullname" . }}-ingress-nginx
+          - name: NGINX_SERVICE_TYPE
+            value: {{ .Values.service.nginx.serviceType }}
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
       containers:
         - name: shipa
           securityContext:
@@ -117,6 +139,20 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+          {{- if not .Values.tags.defaultDB }}
+          {{- if and ( .Values.externalMongodb.auth.username ) ( .Values.externalMongodb.auth.password ) }}
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-db-auth-secret
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "shipa.fullname" . }}-db-auth-secret
+                  key: password
+          {{- end }}
+          {{- end }}
           ports:
             - name: shipa
               containerPort: {{ .Values.shipaApi.port }}

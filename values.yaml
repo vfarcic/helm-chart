@@ -132,7 +132,24 @@ serviceAccount:
 rbac:
   enabled: true
 
+# Connect your own instance of mongodb
+externalMongodb:
+  # url must follow Standard Connection String Format as described here: https://docs.mongodb.com/manual/reference/connection-string/#standard-connection-string-format
+  # For a sharded cluster it should be a comma separated list of hosts: 
+  # e.g. "mongos0.example.com:27017,mongos1.example.com:27017,mongos2.example.com:27017"
+  # Due to some limitations of the dependencies, we currently do not support url with 'DNS Seed List Connection Format'.
+  url: < database url >
+  auth:
+    username: < username >
+    password: < password >
 
+# tags are standard way to handle chart dependencies.
+tags:
+# Set defaultDB to 'false' when using external DB to not install default DB. 
+# It will also prevent creating Persistent Volumes.
+  defaultDB: true
+
+# Default DB config
 mongodb-replicaset:
   replicaSetName: rs0
   replicas: 1

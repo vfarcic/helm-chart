@@ -14,8 +14,15 @@ data:
       server-key: /certs/api-server.key
 
     database:
+      tls: {{ not .Values.tags.defaultDB }}
+     {{- if not .Values.tags.defaultDB }}
+      url: {{ .Values.externalMongodb.url}}
+     {{ else }}
       url: {{ .Release.Name }}-mongodb-replicaset:27017
+     {{- end }}
       name: shipa
+      username: $DB_USERNAME
+      password: $DB_PASSWORD
     license: {{ .Values.license }}
     organization:
       id: SHIPA_ORGANIZATION_ID
@@ -47,7 +54,6 @@ data:
         socket: /var/run/docker.sock
       cluster:
         storage: mongodb
-        mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
         mongo-database: cluster
       collection: docker
       registry: SHIPA_PUBLIC_IP:{{ ( index .Values "docker-registry" ).service.port }}
@@ -83,7 +89,6 @@ data:
       istio:
         type: istio
     queue:
-      mongo-url: {{ .Release.Name }}-mongodb-replicaset:27017
       mongo-database: queuedb
     quota:
       units-per-app: 4
