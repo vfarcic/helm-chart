@@ -220,3 +220,6 @@ docker-registry:
         service: shipa-registry
         issuer: shipa-token-issuer
         rootcertbundle: /etc/ssl/docker/ca.pem
+
+shipaCloud:
+  enabled: false

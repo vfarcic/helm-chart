@@ -58,6 +58,8 @@ spec:
               value: {{ .Values.dashboard.image }}
             - name: DASHBOARD_ENABLED
               value: "{{ .Values.dashboard.enabled }}"
+            - name: SHIPA_CLOUD
+              value: {{ .Values.shipaCloud.enabled | quote }}
             - name: PLATFORMS
               value: "{{ join " " .Values.platforms.toInstall }}"
             - name: POD_NAMESPACE
