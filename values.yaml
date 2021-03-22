@@ -8,7 +8,7 @@ auth:
 shipaApi:
   port: 8080
   securePort: 8081
-  image: shipasoftware/api:v1.2.1.1
+  image: shipasoftware/api:v1.3.0-rc-1
   pullPolicy: Always
   debug: false
   cnames: []
@@ -57,7 +57,7 @@ service:
 
 dashboard:
   enabled: true
-  image: shipasoftware/dashboard:v1.2.1
+  image: shipasoftware/dashboard:v1.3.0-rc-1
 
 etcd:
   debug: false
@@ -85,7 +85,7 @@ postgres:
     size: 10Gi
 
 cli:
-  image: shipasoftware/cli:v1.2.1
+  image: shipasoftware/cli:v1.3.0-rc-1
   pullPolicy: Always
 
 metrics:
@@ -223,3 +223,4 @@ docker-registry:
 
 shipaCloud:
   enabled: false
+  sandboxDurationHours: 0

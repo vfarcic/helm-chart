@@ -32,6 +32,7 @@ data:
       envs:
         SHIPA_CLOUD: {{ .Values.shipaCloud.enabled | quote }}
         SHIPA_ADMIN_USER: {{ .Values.auth.adminUser | quote }}
+        SANDBOX_DURATION_HOURS: {{ .Values.shipaCloud.sandboxDurationHours | quote }}
     auth:
       admin-email: {{ .Values.auth.adminUser | quote }}
       dummy-domain: {{ .Values.auth.dummyDomain | quote }}
