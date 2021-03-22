@@ -1,4 +1,6 @@
 
+**Note:** The master branch is the main development branch. Please use releases instead of the master branch in order to get stable versions.
+
 # Documentation
 
 Documentation for Shipa can be found at https://learn.shipa.io
