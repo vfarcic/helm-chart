@@ -12,8 +12,8 @@ $SHIPA_CLIENT app-create dashboard static \
     --framework=shipa-framework \
     --team=shipa-admin-team \
     -e SHIPA_ADMIN_USER=$USERNAME \
-    -e SHIPA_CLOUD=$SHIPA_CLOUD
-
+    -e SHIPA_CLOUD=$SHIPA_CLOUD \
+    -e SANDBOX_DURATION_HOURS=$SANDBOX_DURATION_HOURS
 COUNTER=0
 until $SHIPA_CLIENT app-deploy -a dashboard -i $DASHBOARD_IMAGE
 do

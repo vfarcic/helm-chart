@@ -60,6 +60,8 @@ spec:
               value: "{{ .Values.dashboard.enabled }}"
             - name: SHIPA_CLOUD
               value: {{ .Values.shipaCloud.enabled | quote }}
+            - name: SANDBOX_DURATION_HOURS
+              value: {{ .Values.shipaCloud.sandboxDurationHours | quote }}
             - name: PLATFORMS
               value: "{{ join " " .Values.platforms.toInstall }}"
             - name: POD_NAMESPACE

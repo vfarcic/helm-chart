@@ -8,7 +8,7 @@ auth:
 shipaApi:
   port: 8080
   securePort: 8081
-  image: shipasoftware/api:v1.3.0-rc-1
+  image: shipasoftware/api:b6f1954f3fac8147d8672f40a979571a0cb8e0dd
   pullPolicy: Always
   debug: false
   cnames: []
