@@ -18,6 +18,11 @@ By default we use dynamic public IP set by a cloud-provider but there is a param
 --set service.nginx.loadBalancerIP=35.192.15.168 
 ```
 
+# Installation Requirements
+
+1. Kubernetes 1.14+
+2. Helm v3
+
 # Installation
 
 Users can install Shipa on any existing Kubernetes cluster (version 1.10.x and newer), and Shipa leverages Helm charts for the install.
