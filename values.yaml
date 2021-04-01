@@ -57,7 +57,7 @@ service:
 
 dashboard:
   enabled: true
-  image: shipasoftware/dashboard:v1.3.0-rc-3
+  image: shipasoftware/dashboard:f6e0da1b66751de6a2dc71a5e55e53e57c96f9b9
 
 etcd:
   debug: false
