@@ -9,6 +9,8 @@ data:
     listen: "0.0.0.0:{{ .Values.shipaApi.port }}"
     host: https://SHIPA_PUBLIC_IP:{{ .Values.shipaApi.securePort }}
     use-tls: true
+    shipaCloud:
+      enabled: {{ .Values.shipaCloud.enabled }}
     tls:
       server-cert: /certs/api-server.crt
       server-key: /certs/api-server.key
