@@ -126,4 +126,7 @@ data:
       client-ca: client-ca.crt
       client-ca-key: client-ca.key
 
+    buildkit:
+      image: {{ .Values.buildkit.image }}
+
     signatures: single # multiple/single

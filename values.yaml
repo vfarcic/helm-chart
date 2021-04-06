@@ -105,6 +105,13 @@ metrics:
 busybody:
   image: shipasoftware/bb:v0.0.7
 
+buildkit:
+  # image specifies an image used to deploy a buildkit container.
+  # every connected cluster has its own buildkit container.
+  # if you update this value,
+  # please don't forget to execute "shipa cluster-update" command for each cluster, shipa will update a buildkit container.
+  image: moby/buildkit:v0.7.2
+
 shipaNodeTraefik:
   user: admin
 
