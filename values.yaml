@@ -103,7 +103,7 @@ metrics:
   prometheusArgs: "--storage.tsdb.retention.time=1d"
 
 busybody:
-  image: shipasoftware/bb:v0.0.7
+  image: shipasoftware/bb:v0.0.8
 
 buildkit:
   # image specifies an image used to deploy a buildkit container.
