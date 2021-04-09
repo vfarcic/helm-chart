@@ -31,19 +31,19 @@ data:
   csr-api-server.json: |
 {{ .Files.Get "scripts/csr-api-server.json" | indent 4 }}
   default-framework-template.yaml: |
-    ShipaFramework: shipa-framework
-    Resources:
-      General:
-        Setup:
-          Force: false
-          Default: true
-          Public: true
-          Provisioner: kubernetes
-          KubeNamespace: {{ .Release.Namespace }}
-        Security:
-          Disable-Scan: false
-          Scan-Platform-Layers: true
-        Access:
-          Append:
+    shipaFramework: shipa-framework
+    resources:
+      reneral:
+        setup:
+          force: false
+          default: true
+          public: true
+          provisioner: kubernetes
+          kubeNamespace: {{ .Release.Namespace }}
+        security:
+          disableScan: false
+          scanPlatformLayers: true
+        access:
+          append:
             - shipa-admin-team
             - shipa-system-team
