@@ -33,7 +33,7 @@ data:
   default-framework-template.yaml: |
     shipaFramework: shipa-framework
     resources:
-      reneral:
+      general:
         setup:
           force: false
           default: true
