@@ -116,6 +116,11 @@ data:
         https-port: 443
         protected-port: 31567
         service-type: LoadBalancer
+
+      cluster-update:
+       # it's a default value that specifies if cluster-update operations can restart ingress controllers
+        ingress-restart-is-allowed: {{ .Values.shipaApi.allowRestartIngressControllers }}
+
     debug: {{ .Values.shipaApi.debug }}
     node-traefik:
       image: {{ .Values.shipaNodeTraefik.image }}

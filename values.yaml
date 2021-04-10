@@ -12,6 +12,7 @@ shipaApi:
   pullPolicy: Always
   debug: false
   cnames: []
+  allowRestartIngressControllers: true
 
 license: ""
 
