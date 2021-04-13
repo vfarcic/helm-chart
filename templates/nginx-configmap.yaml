@@ -10,5 +10,9 @@ data:
   {{ $key }}: {{ $value }}
   {{- end }}
   {{- else }}
-  proxy-body-size: "256M"
+  proxy-body-size: "512M"
+  proxy-read-timeout: "300"
+  proxy-connect-timeout: "300"
+  proxy-send-timeout: "300"
+  upstream-keepalive-timeout: "300"
   {{- end }}

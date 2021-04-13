@@ -55,9 +55,6 @@ data:
         image: shipasoftware/prometheus-metrics-exporter:v0.0.3
 
     docker:
-      bb:
-        image: {{ .Values.busybody.image }}
-        socket: /var/run/docker.sock
       cluster:
         storage: mongodb
         mongo-database: cluster
@@ -135,5 +132,9 @@ data:
 
     buildkit:
       image: {{ .Values.buildkit.image }}
+
+    busybody:
+      image: {{ .Values.busybody.image }}
+      socket: /var/run/docker.sock
 
     signatures: single # multiple/single
