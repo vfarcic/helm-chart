@@ -62,6 +62,8 @@ spec:
               value: {{ .Values.shipaCloud.enabled | quote }}
             - name: SANDBOX_DURATION_HOURS
               value: {{ .Values.shipaCloud.sandboxDurationHours | quote }}
+            - name: SANDBOX_TRIAL_HOURS
+              value: {{ .Values.shipaCloud.sandboxTrialHours | quote }}
             - name: PLATFORMS
               value: "{{ join " " .Values.platforms.toInstall }}"
             - name: POD_NAMESPACE

@@ -232,3 +232,4 @@ docker-registry:
 shipaCloud:
   enabled: false
   sandboxDurationHours: 0
+  sandboxTrialHours: 0

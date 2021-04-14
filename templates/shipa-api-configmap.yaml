@@ -32,9 +32,10 @@ data:
       enabled: $DASHBOARD_ENABLED
       image: $DASHBOARD_IMAGE
       envs:
-        SHIPA_CLOUD: {{ .Values.shipaCloud.enabled | quote }}
         SHIPA_ADMIN_USER: {{ .Values.auth.adminUser | quote }}
+        SHIPA_CLOUD: {{ .Values.shipaCloud.enabled | quote }}
         SANDBOX_DURATION_HOURS: {{ .Values.shipaCloud.sandboxDurationHours | quote }}
+        SANDBOX_TRIAL_HOURS: {{ .Values.shipaCloud.sandboxTrialHours | quote }}
     auth:
       admin-email: {{ .Values.auth.adminUser | quote }}
       dummy-domain: {{ .Values.auth.dummyDomain | quote }}
