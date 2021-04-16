@@ -3,3 +3,4 @@ mydev
 charts/
 Chart.lock
 dist/
+published-index.yaml
